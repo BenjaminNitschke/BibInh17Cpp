@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+*.suo
+*.db
+*.opendb
+*.ipch
+Debug/
+bin/
+obj/
+Release/
