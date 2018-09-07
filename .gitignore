@@ -24,7 +24,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -38,3 +37,8 @@ Debug/
 bin/
 obj/
 Release/
+*.zip
+*.html
+*.txt
+docs/
+~$C++ Course Games Academy 2015-05-19 Day 1.pptx
