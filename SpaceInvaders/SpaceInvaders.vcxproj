@@ -23,7 +23,7 @@
     <ProjectGuid>{111B7DBF-4393-446C-A088-6D59E909AF87}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SpaceInvaders</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -106,7 +106,7 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy test.png $(OutputPath)
+      <Command>copy *.png $(OutputPath)
 copy libpng16.dll $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
