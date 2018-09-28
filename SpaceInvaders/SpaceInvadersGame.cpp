@@ -3,11 +3,9 @@
 #include "png.h"
 
 int x, y;
-
 int width, height;
 png_byte color_type;
 png_byte bit_depth;
-
 png_structp png_ptr;
 png_infop info_ptr;
 int number_of_passes;
@@ -15,19 +13,17 @@ png_bytep * row_pointers;
 
 void read_png_file(const char* file_name)
 {
-	char header[8];    // 8 is the maximum size that can be checked
-
-	/* open file and test for it being a png */
+	char header[8];
 	FILE *fp;
 	fopen_s(&fp, file_name, "rb");
 	if (!fp)
-		throw ("[read_png_file] File %s could not be opened for reading", file_name);
+		throw "[read_png_file] File %s could not be opened for reading";
 	fread(header, 1, 8, fp);
 	if (png_sig_cmp((png_bytep)header, 0, 8))
-		throw ("[read_png_file] File %s is not recognized as a PNG file", file_name);
+		throw "[read_png_file] File %s is not recognized as a PNG file";
 
 
-	/* initialize stuff */
+	// initialize stuff
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
 	if (!png_ptr)
@@ -54,19 +50,18 @@ void read_png_file(const char* file_name)
 	png_read_update_info(png_ptr, info_ptr);
 
 
-	/* read file */
+	// read file
 	if (setjmp(png_jmpbuf(png_ptr)))
-		abort_("[read_png_file] Error during read_image");
+		throw "[read_png_file] Error during read_image";
 
 	row_pointers = (png_bytep*)malloc(sizeof(png_bytep) * height);
-	for (y = 0; y < height; y++)
+	for (y = 0; y<height; y++)
 		row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png_ptr, info_ptr));
 
 	png_read_image(png_ptr, row_pointers);
 
 	fclose(fp);
 }
-
 
 SpaceInvadersGame::SpaceInvadersGame()
 {

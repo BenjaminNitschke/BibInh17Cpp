@@ -5,9 +5,9 @@
 class Game
 {
 private:
-	GLFWwindow *window;
+	GLFWwindow * window;
 public:
 	Game();
-	void Run(std::function<void()> renderFunction);
 	~Game();
+	void Run(std::function<void()> renderFunction);
 };
