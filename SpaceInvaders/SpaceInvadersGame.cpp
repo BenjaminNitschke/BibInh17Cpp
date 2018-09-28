@@ -67,6 +67,7 @@ SpaceInvadersGame::SpaceInvadersGame()
 {
 	//load textures..
 	read_png_file("test.png");
+
 }
 
 
