@@ -23,7 +23,7 @@ void read_png_file(const char* file_name)
 		throw "[read_png_file] File %s is not recognized as a PNG file";
 
 
-	/* initialize stuff */
+	// initialize stuff
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
 	if (!png_ptr)
@@ -50,7 +50,7 @@ void read_png_file(const char* file_name)
 	png_read_update_info(png_ptr, info_ptr);
 
 
-	/* read file */
+	// read file
 	if (setjmp(png_jmpbuf(png_ptr)))
 		throw "[read_png_file] Error during read_image";
 
