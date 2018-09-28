@@ -65,9 +65,8 @@ void read_png_file(const char* file_name)
 
 SpaceInvadersGame::SpaceInvadersGame()
 {
-	//load textures..
+	// Load textures ...
 	read_png_file("test.png");
-
 }
 
 

@@ -28,3 +28,8 @@ void Game::Run(std::function<void()> renderFunction)
 		glfwPollEvents();
 	}
 }
+
+Game::~Game()
+{
+	glfwTerminate();
+}
