@@ -1,10 +1,9 @@
-#pragma once
+﻿#pragma once
 #include "Game.h"
 
 class SpaceInvadersGame : public Game
 {
 public:
-	SpaceInvadersGame();
+	SpaceInvadersGame(int width, int height, const char* name);
 	~SpaceInvadersGame();
 };
-

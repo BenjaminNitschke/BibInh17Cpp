@@ -1,11 +1,12 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Game.h"
 
-Game::Game() 
+
+Game::Game(int width, int height, const char* name) 
 {
 	glfwInit();
-	window = glfwCreateWindow(1280, 720, "SpaceInvaders", NULL, NULL);
-	glfwMakeContextCurrent(window);
+	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
+	glfwMakeContextCurrent(pWindow);
 }
 
 Game::~Game() 
@@ -17,14 +18,14 @@ void Game::Run(std::function<void()> renderFunction)
 {
 	int viewportWidth;
 	int viewportHeight;
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(pWindow))
 	{
-		glfwGetWindowSize(window, &viewportWidth, &viewportHeight);
+		glfwGetWindowSize(pWindow, &viewportWidth, &viewportHeight);
 		glViewport(0, 0, viewportWidth, viewportHeight);
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 		renderFunction();
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(pWindow);
 		glfwPollEvents();
 	}
 }
