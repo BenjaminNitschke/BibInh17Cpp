@@ -5,10 +5,9 @@ class Texture
 {
 public:
 	GLuint handle;
-	Texture(const char* file_name);
+	Texture(const char* filename);
 	~Texture();
-	void Draw();
-private:
 	int width, height;
-	GLuint Load(const char* file_name, int* width, int* height);
+private:
+	GLuint Load(const char* filename, int* width, int* height);
 };

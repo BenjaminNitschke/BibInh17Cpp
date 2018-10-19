@@ -11,29 +11,6 @@ Texture::Texture(const char* file_name)
 
 Texture::~Texture() = default;
 
-void Texture::Draw()
-{
-	glBindTexture(GL_TEXTURE_2D, handle);
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBegin(GL_QUADS);
-
-	glTexCoord2f(1, 1);
-	glVertex2f(-1.0f, 1.0f);
-
-	glTexCoord2f(0, 1);
-	glVertex2f(1.0f, 1.0f);
-
-	glTexCoord2f(0, 0);
-	glVertex2f(1.0, -1.0f);
-
-	glTexCoord2f(1, 0);
-	glVertex2f(-1.0f, -1.0f);
-
-	glEnd();
-}
-
 GLuint Texture::Load(const char* file_name, int* width, int* height)
 {
 	// This function was originally written by David Grayson for
@@ -44,10 +21,7 @@ GLuint Texture::Load(const char* file_name, int* width, int* height)
 	FILE *fp;
 	fopen_s(&fp, file_name, "rb");
 	if (fp == 0)
-	{
-		perror(file_name);
-		return 0;
-	}
+		throw file_name;
 
 	// read the header
 	fread(header, 1, 8, fp);
