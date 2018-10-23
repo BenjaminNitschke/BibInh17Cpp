@@ -1,0 +1,11 @@
+﻿  stdafx.cpp
+  Game.cpp
+  SpaceInvaders.cpp
+  SpaceInvadersGame.cpp
+  Code wird generiert...
+LINK : warning LNK4098: Standardbibliothek "MSVCRT" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
+  SpaceInvaders.vcxproj -> D:\MIM\GitHub\BibInh17Cpp\SpaceInvaders\Debug\SpaceInvaders.exe
+  background.png
+  test.png
+          2 Datei(en) kopiert.
+          1 Datei(en) kopiert.
