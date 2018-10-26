@@ -1,11 +1,32 @@
-﻿  stdafx.cpp
-  Game.cpp
+﻿  Game.cpp
   SpaceInvaders.cpp
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvaders\spaceinvaders.cpp(28): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1801): warning C4244: "Argument": Konvertierung von "_Ty" in "int", möglicher Datenverlust
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1865): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Texture>,int,double>(std::shared_ptr<Texture> &&,int &&,double &&)".
+          with
+          [
+              _Ty=Sprite
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1866): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Texture>,int,double>(std::shared_ptr<Texture> &&,int &&,double &&)".
+          with
+          [
+              _Ty=Sprite
+          ]
+  d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvaders\spaceinvaders.cpp(14): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::shared_ptr<Sprite> std::make_shared<Sprite,std::shared_ptr<Texture>,int,double>(std::shared_ptr<Texture> &&,int &&,double &&)".
   SpaceInvadersGame.cpp
+  Sprite.cpp
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvaders\sprite.cpp(13): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvaders\sprite.cpp(17): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+  Texture.cpp
   Code wird generiert...
+  LINK : D:\MIM\GitHub\BibInh17Cpp\SpaceInvaders\Debug\SpaceInvaders.exe wurde nicht gefunden oder beim letzten inkrementellen Linkvorgang nicht erstellt; vollständiger Link wird durchgeführt.
 LINK : warning LNK4098: Standardbibliothek "MSVCRT" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
   SpaceInvaders.vcxproj -> D:\MIM\GitHub\BibInh17Cpp\SpaceInvaders\Debug\SpaceInvaders.exe
+  alien_ship.png
   background.png
-  test.png
-          2 Datei(en) kopiert.
-          1 Datei(en) kopiert.
+  ship.png
+          3 Datei(en) kopiert.
