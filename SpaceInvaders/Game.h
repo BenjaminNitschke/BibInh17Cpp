@@ -5,9 +5,12 @@
 class Game
 {
 public:
-	Game(int width, int height, const char* name);
+	Game();
 	~Game();
+	//void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods);
 	void Run(std::function<void()> renderFunc);
+	static bool leftPressed;
+	static bool rightPressed;
 private:
-	GLFWwindow* pWindow;
+	GLFWwindow* window;
 };
