@@ -38,3 +38,9 @@ void Sprite::Draw()
 
 	glEnd();
 }
+
+void Sprite::Move(int addX, int addY)
+{
+	x += addX;
+	y += addY;
+};
