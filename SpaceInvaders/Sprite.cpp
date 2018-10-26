@@ -1,20 +1,15 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
-float ShowMeTheValue(float value)
-{
-	return value;
-}
-
-#define SCREEN_WIDTH ShowMeTheValue(1280.0)
-#define SCREEN_HEIGHT ShowMeTheValue(720.0)
+#define SCREEN_WIDTH 1280.0f
+#define SCREEN_HEIGHT 720.0f
 
 float GetOpenGLX(int px){
-	int centerX = px-SCREEN_WIDTH/2;
+	int centerX = px - (int)SCREEN_WIDTH/2;
 	return (centerX/SCREEN_WIDTH)*2.0f;
 }
 float GetOpenGLY(int py){
-	int centerY = py-SCREEN_HEIGHT/2;
+	int centerY = py - (int)SCREEN_HEIGHT/2;
 	return (centerY/SCREEN_HEIGHT)*(-2.0f);
 }
 

@@ -4,7 +4,7 @@
 bool Game::leftPressed;
 bool Game::rightPressed;
 
-void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods) 
+void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_LEFT)
 		Game::leftPressed = action != GLFW_RELEASE;
