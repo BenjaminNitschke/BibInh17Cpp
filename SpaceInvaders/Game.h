@@ -10,4 +10,6 @@ public:
 	void Run(std::function<void()> renderFunction);
 	static bool leftPressed;
 	static bool rightPressed;
+private: 
+	GLFWwindow * window;
 };
