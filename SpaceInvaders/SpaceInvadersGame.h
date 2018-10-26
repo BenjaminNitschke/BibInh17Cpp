@@ -4,7 +4,7 @@
 class SpaceInvadersGame : public Game
 {
 public:
-	SpaceInvadersGame();
+	SpaceInvadersGame(int width, int height, const char* name);
 	~SpaceInvadersGame();
 };
 
