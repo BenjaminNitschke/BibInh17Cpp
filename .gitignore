@@ -14,7 +14,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -24,9 +23,21 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
+*.suo
+*.db
+*.opendb
+*.ipch
+Debug/
+bin/
+obj/
+Release/
+*.zip
+*.html
+*.txt
+docs/
+~$C++ Course Games Academy 2015-05-19 Day 1.pptx
