@@ -33,6 +33,12 @@
     <ClInclude Include="SpaceInvadersGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -47,6 +53,12 @@
     <ClCompile Include="SpaceInvadersGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SpaceInvaders.rc">
@@ -58,6 +70,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="SpaceInvaders.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ship.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="enemy.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -1,75 +1,35 @@
 #include "stdafx.h"
 #include "SpaceInvadersGame.h"
-#include "png.h"
+#include "Sprite.h"
+#include <memory>
+#include <vector>
 
-int x, y;
-int width, height;
-png_byte color_type;
-png_byte bit_depth;
-png_structp png_ptr;
-png_infop info_ptr;
-int number_of_passes;
-png_bytep * row_pointers;
-
-void read_png_file(const char* file_name)
+SpaceInvadersGame::SpaceInvadersGame(int width, int height, const char* name)
 {
-	char header[8];
-	FILE *fp;
-	fopen_s(&fp, file_name, "rb");
-	if (!fp)
-		throw "[read_png_file] File %s could not be opened for reading";
-	fread(header, 1, 8, fp);
-	if (png_sig_cmp((png_bytep)header, 0, 8))
-		throw "[read_png_file] File %s is not recognized as a PNG file";
-
-
-	/* initialize stuff */
-	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-
-	if (!png_ptr)
-		throw "[read_png_file] png_create_read_struct failed";
-
-	info_ptr = png_create_info_struct(png_ptr);
-	if (!info_ptr)
-		throw "[read_png_file] png_create_info_struct failed";
-
-	if (setjmp(png_jmpbuf(png_ptr)))
-		throw "[read_png_file] Error during init_io";
-
-	png_init_io(png_ptr, fp);
-	png_set_sig_bytes(png_ptr, 8);
-
-	png_read_info(png_ptr, info_ptr);
-
-	width = png_get_image_width(png_ptr, info_ptr);
-	height = png_get_image_height(png_ptr, info_ptr);
-	color_type = png_get_color_type(png_ptr, info_ptr);
-	bit_depth = png_get_bit_depth(png_ptr, info_ptr);
-
-	number_of_passes = png_set_interlace_handling(png_ptr);
-	png_read_update_info(png_ptr, info_ptr);
-
-
-	/* read file */
-	if (setjmp(png_jmpbuf(png_ptr)))
-		throw "[read_png_file] Error during read_image";
-
-	row_pointers = (png_bytep*)malloc(sizeof(png_bytep) * height);
-	for (y = 0; y<height; y++)
-		row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png_ptr, info_ptr));
-
-	png_read_image(png_ptr, row_pointers);
-
-	fclose(fp);
+	background = std::make_shared<Sprite>(std::make_shared<Texture>("background.png"), 1280/2, 720/2);
+	ship = std::make_shared<Sprite>(std::make_shared<Texture>("ship.png"), 1280/2, (int)(720*0.9));
+	auto enemyTexture = std::make_shared<Texture>("enemy.png");
+	enemies = std::vector<std::shared_ptr<Sprite>>();
+	enemies.push_back(std::make_shared<Sprite>(enemyTexture, 720, 83));
+	//TODO: enemyTexture and 20 * enemies in 2 rows
 }
-
-SpaceInvadersGame::SpaceInvadersGame()
-{
-	//load textures..
-	read_png_file("test.png");
-}
-
 
 SpaceInvadersGame::~SpaceInvadersGame()
 {
+}
+
+void SpaceInvadersGame::RunSpaceInvaders()
+{
+	Run([=]()
+	{
+		//TODO later: handle enemy ai, move enemies
+		background->Draw();
+		if (leftPressed)
+			ship->Move(-1, 0);
+		if (rightPressed)
+			ship->Move(1, 0);
+		ship->Draw();
+		//TODO: draw enemies
+		enemies[0]->Draw();
+	});
 }
