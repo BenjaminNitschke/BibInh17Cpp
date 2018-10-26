@@ -4,10 +4,10 @@
 class Texture
 {
 public:
-	GLuint handle;
-	Texture(const char* filename);
-	~Texture();
 	int width, height;
+	GLuint handle;
+	Texture(const char* name);
+	~Texture();
 private:
-	GLuint Load(const char* filename, int* width, int* height);
+	GLuint Load(const char* name, int* width, int* height);
 };

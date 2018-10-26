@@ -1,17 +1,20 @@
 ﻿#include "stdafx.h"
 #include "Texture.h"
 #include <GL/gl.h>
-#include <cstdio>
 #include <png.h>
 
-Texture::Texture(const char* file_name)
+Texture::Texture(const char* name)
 {
-	handle = Load(file_name, &width, &height);
+	handle = Load(name, &width, &height);
 }
 
-Texture::~Texture() = default;
+Texture::~Texture()
+{
+	glDeleteTextures(1, &handle);
+}
 
-GLuint Texture::Load(const char* file_name, int* width, int* height)
+// loads a png image into this class
+GLuint Texture::Load(const char* name, int* width, int* height)
 {
 	// This function was originally written by David Grayson for
 	// https://github.com/DavidEGrayson/ahrs-visualizer
@@ -19,16 +22,18 @@ GLuint Texture::Load(const char* file_name, int* width, int* height)
 	png_byte header[8];
 
 	FILE *fp;
-	fopen_s(&fp, file_name, "rb");
+	/*LPSTR buf = new char[512];
+	GetCurrentDirectoryA(512, buf);*/
+	fopen_s(&fp, name, "rb");
 	if (fp == 0)
-		throw file_name;
+		throw name;
 
 	// read the header
 	fread(header, 1, 8, fp);
 
 	if (png_sig_cmp(header, 0, 8))
 	{
-		fprintf(stderr, "error: %s is not a PNG.\n", file_name);
+		fprintf(stderr, "error: %s is not a PNG.\n", name);
 		fclose(fp);
 		return 0;
 	}
@@ -89,11 +94,11 @@ GLuint Texture::Load(const char* file_name, int* width, int* height)
 	if (width) { *width = temp_width; }
 	if (height) { *height = temp_height; }
 
-	//printf("%s: %lux%lu %d\n", file_name, temp_width, temp_height, color_type);
+	//printf("%s: %lux%lu %d\n", name, temp_width, temp_height, color_type);
 
 	if (bit_depth != 8)
 	{
-		fprintf(stderr, "%s: Unsupported bit depth %d.  Must be 8.\n", file_name, bit_depth);
+		fprintf(stderr, "%s: Unsupported bit depth %d.  Must be 8.\n", name, bit_depth);
 		return 0;
 	}
 
@@ -107,7 +112,7 @@ GLuint Texture::Load(const char* file_name, int* width, int* height)
 		format = GL_RGBA;
 		break;
 	default:
-		fprintf(stderr, "%s: Unknown libpng color type %d.\n", file_name, color_type);
+		fprintf(stderr, "%s: Unknown libpng color type %d.\n", name, color_type);
 		return 0;
 	}
 

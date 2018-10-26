@@ -98,7 +98,8 @@
       <AdditionalDependencies>..\..\glfw-3.2.1.bin.WIN32\lib-vc2015\glfw3.lib;opengl32.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy *.png $(OutputPath)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -155,7 +156,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SpaceInvaders.h" />
     <ClInclude Include="SpaceInvadersGame.h" />
@@ -165,7 +168,9 @@
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="SpaceInvaders.cpp" />
     <ClCompile Include="SpaceInvadersGame.cpp" />
     <ClCompile Include="Sprite.cpp" />

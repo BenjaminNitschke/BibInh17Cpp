@@ -8,6 +8,5 @@ public:
 	Game(int width, int height, const char* name);
 	~Game();
 	void Run(std::function<void()> renderFunc);
-private:
 	GLFWwindow* pWindow;
 };

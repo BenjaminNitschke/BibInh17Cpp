@@ -1,8 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
 
-
-Game::Game(int width, int height, const char* name) 
+Game::Game(int width, int height, const char* name)
 {
 	glfwInit();
 	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
