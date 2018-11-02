@@ -13,7 +13,7 @@ float GetOpenGLY(int py){
 	return (centerY/SCREEN_HEIGHT)*(-2.0f);
 }
 
-void Sprite::Draw()
+void Sprite::Draw(int offsetX)
 {
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
 	glEnable(GL_TEXTURE_2D);
@@ -23,18 +23,19 @@ void Sprite::Draw()
 
 	int halfWidth = texture->width / 2;
 	int halfHeight = texture->height / 2;
+	int currentX = x + offsetX;
 	
 	glTexCoord2f(1, 1);
-	glVertex2f(GetOpenGLX(x+halfWidth), GetOpenGLY(y-halfHeight));
+	glVertex2f(GetOpenGLX(currentX+halfWidth), GetOpenGLY(y-halfHeight));
 
 	glTexCoord2f(0, 1);
-	glVertex2f(GetOpenGLX(x-halfWidth), GetOpenGLY(y-halfHeight));
+	glVertex2f(GetOpenGLX(currentX-halfWidth), GetOpenGLY(y-halfHeight));
 
 	glTexCoord2f(0, 0);
-	glVertex2f(GetOpenGLX(x-halfWidth), GetOpenGLY(y+halfHeight));
+	glVertex2f(GetOpenGLX(currentX-halfWidth), GetOpenGLY(y+halfHeight));
 
 	glTexCoord2f(1, 0);
-	glVertex2f(GetOpenGLX(x+halfWidth), GetOpenGLY(y+halfHeight));
+	glVertex2f(GetOpenGLX(currentX+halfWidth), GetOpenGLY(y+halfHeight));
 
 	glEnd();
 }
