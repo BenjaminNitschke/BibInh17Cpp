@@ -90,7 +90,7 @@ bool Entity::CheckCollision(const std::shared_ptr<Entity> &entity)
 int Entity::OutOfBounds()
 {
 	if (x - tex->texture->width / 2 < 0) return NEG_X;
-	if (x + tex->texture->width / 2 > SCREEN_WIDTH) return POS_X;
+	if (x + tex->texture->width + 5 / 2 > SCREEN_WIDTH) return POS_X;
 	if (y - tex->texture->height / 2 < 0) return NEG_Y;
 	if (y + tex->texture->height / 2 > SCREEN_HEIGHT) return POS_Y;
 	return IN_BOUNDS;
