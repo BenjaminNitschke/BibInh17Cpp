@@ -63,7 +63,7 @@ void Entity::Draw()
 	glVertex2f(GetX(x + halfWidth), GetY(y - halfHeight));
 
 	glTexCoord2f(1, 1);
-	glVertex2f(GetX(x + halfWidth), GetY(y + halfWidth));
+	glVertex2f(GetX(x + halfWidth), GetY(y + halfHeight));
 
 	glTexCoord2f(0, 1);
 	glVertex2f(GetX(x - halfWidth), GetY(y + halfHeight));
@@ -89,9 +89,9 @@ bool Entity::CheckCollision(const std::shared_ptr<Entity> &entity)
 
 int Entity::OutOfBounds()
 {
-	if (x - tex->texture->width / 2 < 0) return NEG_X;
-	if (x + tex->texture->width / 2 > SCREEN_WIDTH) return POS_X;
-	if (y - tex->texture->height / 2 < 0) return NEG_Y;
-	if (y + tex->texture->height / 2 > SCREEN_HEIGHT) return POS_Y;
+	if (x - tex->texture->width / 2 <= 0) return NEG_X;
+	if (x + tex->texture->width / 2 >= SCREEN_WIDTH) return POS_X;
+	if (y - tex->texture->height / 2 <= 0) return NEG_Y;
+	if (y + tex->texture->height / 2 >= SCREEN_HEIGHT) return POS_Y;
 	return IN_BOUNDS;
 }
