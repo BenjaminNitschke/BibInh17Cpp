@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "SpaceInvadersGame.h"
 #include "Entity.h"
-#include <math.h>
 
 #define PLAYER_SPEED 10
 #define PROJ_SPEED 12
@@ -86,7 +85,7 @@ void SpaceInvadersGame::RunSpaceInvaders()
 			// draw enemies at new position
 			enemy->Draw();
 		}
-
+			
 		for (int i = 0; i < projectiles.size(); ++i)
 		{
 			// check if the projectile hit something
