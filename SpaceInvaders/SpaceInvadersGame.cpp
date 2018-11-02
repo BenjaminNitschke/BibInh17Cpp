@@ -22,14 +22,33 @@ void SpaceInvadersGame::RunSpaceInvaders()
 {
 	Run([=]()
 	{
-		//TODO later: handle enemy ai, move enemies
-		background->Draw();
-		if (leftPressed)
-			ship->Move(-1, 0);
-		if (rightPressed)
-			ship->Move(1, 0);
-		ship->Draw();
+		ControlShip();
+		MoveEnemies();
+		DrawAll();		
 		//TODO: draw enemies
-		enemies[0]->Draw();
 	});
+}
+
+void SpaceInvadersGame::ControlShip()
+{
+	if (leftPressed)
+		ship->Move(-1, 0);
+	if (rightPressed)
+		ship->Move(1, 0);
+}
+
+void SpaceInvadersGame::MoveEnemies()
+{
+	//TODO later: handle enemy ai, move enemies
+	foreach(int i in enemies)
+	{
+		enemies->Move(-1, 0);
+	}
+}
+
+void SpaceInvadersGame::DrawAll()
+{
+	background->Draw();
+	ship->Draw();
+	enemies[0]->Draw();
 }

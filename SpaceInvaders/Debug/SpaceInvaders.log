@@ -1,11 +1,34 @@
-﻿  Game.cpp
-  SpaceInvaders.cpp
-  SpaceInvadersGame.cpp
-  Code wird generiert...
-  SpaceInvaders.vcxproj -> D:\MIM\GitHub\BibInh17Cpp\SpaceInvaders\Debug\SpaceInvaders.exe
-  alien_ship.png
-  background.png
-  enemy.png
-  ship.png
-          4 Datei(en) kopiert.
-          1 Datei(en) kopiert.
+﻿  SpaceInvadersGame.cpp
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(43): error C2144: Syntaxfehler: "int" sollte auf ")" folgen
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(43): error C3861: "foreach": Bezeichner wurde nicht gefunden.
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(43): error C2144: Syntaxfehler: "int" sollte auf ";" folgen
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(43): error C2146: Syntaxfehler: Fehlendes ";" vor Bezeichner "in"
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(43): error C2065: "in": nichtdeklarierter Bezeichner
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(43): error C2146: Syntaxfehler: Fehlendes ";" vor Bezeichner "enemies"
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(43): error C2059: Syntaxfehler: ")"
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(45): error C2819: Der Typ "std::vector<std::shared_ptr<Sprite>,std::allocator<_Ty>>" hat keinen überladenen Elementoperator "->"
+          with
+          [
+              _Ty=std::shared_ptr<Sprite>
+          ]
+  d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.h(18): note: Siehe Deklaration von "std::vector<std::shared_ptr<Sprite>,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=std::shared_ptr<Sprite>
+          ]
+  d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(45): note: Wollten Sie stattdessen "." verwenden?
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(45): error C2039: "Move": Ist kein Element von "std::vector<std::shared_ptr<Sprite>,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=std::shared_ptr<Sprite>
+          ]
+  d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.h(18): note: Siehe Deklaration von "std::vector<std::shared_ptr<Sprite>,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=std::shared_ptr<Sprite>
+          ]
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(45): error C2059: Syntaxfehler: ";"
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(47): error C2059: Syntaxfehler: "}"
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(47): error C2143: Syntaxfehler: Es fehlt ";" vor "}"
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(50): error C2143: Syntaxfehler: Es fehlt ";" vor "{"
+d:\mim\github\bibinh17cpp\spaceinvaders\spaceinvadersgame.cpp(50): error C2447: "{": Funktionsheader fehlt - Parameterliste im alten Stil?
