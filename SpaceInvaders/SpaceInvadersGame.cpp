@@ -10,8 +10,21 @@ SpaceInvadersGame::SpaceInvadersGame(int width, int height, const char* name)
 	ship = std::make_shared<Sprite>(std::make_shared<Texture>("ship.png"), 1280/2, (int)(720*0.9));
 	auto enemyTexture = std::make_shared<Texture>("enemy.png");
 	enemies = std::vector<std::shared_ptr<Sprite>>();
-	enemies.push_back(std::make_shared<Sprite>(enemyTexture, 720, 83));
-	//TODO: enemyTexture and 20 * enemies in 2 rows
+	
+	//amout of enemies and there position
+	int x = 120;
+	int y = 83;
+	for (int j = 0; j < 16; j++)
+	{
+		enemies.push_back(std::make_shared<Sprite>(enemyTexture, x, y));
+		x += 150;
+
+		if (x >= 1200)
+		{
+			x = 120;
+			y += 100;
+		}
+	}
 }
 
 SpaceInvadersGame::~SpaceInvadersGame()
@@ -22,10 +35,9 @@ void SpaceInvadersGame::RunSpaceInvaders()
 {
 	Run([=]()
 	{
+		DrawAll();
 		ControlShip();
 		MoveEnemies();
-		DrawAll();		
-		//TODO: draw enemies
 	});
 }
 
@@ -39,10 +51,29 @@ void SpaceInvadersGame::ControlShip()
 
 void SpaceInvadersGame::MoveEnemies()
 {
+	int speed = 0;
+	int counter = 0;
 	//TODO later: handle enemy ai, move enemies
-	foreach(int i in enemies)
+	for (int i = 0; i < enemies.size(); i++)
 	{
-		enemies->Move(-1, 0);
+		//FIX IT!!!
+		if (counter <= 3)
+		{
+			speed = 1;
+			counter ++;
+		}
+		else if (counter > 3)
+		{
+			speed = -1;
+			counter ++;
+			if (counter >= 6)
+			{
+				counter = 0;
+			}
+		}
+
+		enemies[i]->Move(speed, 0);
+		/*enemies[i]->Move(1, 0);*/
 	}
 }
 
@@ -50,5 +81,8 @@ void SpaceInvadersGame::DrawAll()
 {
 	background->Draw();
 	ship->Draw();
-	enemies[0]->Draw();
+	for (int i = 0; i < 16; i++)
+	{
+		enemies[i]->Draw();
+	}	
 }

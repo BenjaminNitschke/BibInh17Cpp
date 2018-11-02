@@ -16,4 +16,5 @@ private:
 	std::shared_ptr<Sprite> background;
 	std::shared_ptr<Sprite> ship;
 	std::vector<std::shared_ptr<Sprite>> enemies;
+	std::shared_ptr<Texture> enemyTexture;
 };

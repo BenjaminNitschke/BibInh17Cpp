@@ -10,7 +10,14 @@ public:
 	void Draw();
 	void Move(int addX, int addY)
 	{
-		x += addX;
+		if (x + addX < 100 || x + addX > 1180)
+		{
+			x = x;
+		}
+		else
+		{
+			x += addX;
+		}
 		y += addY;
 	}
 private:
