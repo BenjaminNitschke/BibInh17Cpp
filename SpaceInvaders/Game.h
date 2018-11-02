@@ -10,4 +10,7 @@ public:
 	Game();
 	~Game();
 	void Run(std::function<void()> renderFunction);
+	static bool leftPressed;
+	static bool rightPressed;
+	static bool spacePressed;
 };
