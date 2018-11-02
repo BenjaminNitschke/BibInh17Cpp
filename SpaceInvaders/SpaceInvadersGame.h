@@ -23,7 +23,6 @@ private:
 	std::shared_ptr<Sprite> lose;
 	int enemycount;
 	float timeBetweenShots;
-	float enemyMoveTime;
 	float direction;
 	bool lost;
 };

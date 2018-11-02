@@ -15,7 +15,6 @@ SpaceInvadersGame::SpaceInvadersGame(int width, int height, const char* name)
 	auto windowHeight = background->texture->height;
 	enemycount = 20;
 	timeBetweenShots = 0;
-	enemyMoveTime = 4;
 	direction = 1;
 	lost = false;
 
@@ -67,29 +66,26 @@ void SpaceInvadersGame::DrawAll()
 void SpaceInvadersGame::ControlShip()
 {
 	if (leftPressed)
-		ship->Move(-5, 0);
+		ship->Move(-8, 0);
 	if (rightPressed)
-		ship->Move(5, 0);
+		ship->Move(8, 0);
 }
 
 void SpaceInvadersGame::MoveEnemies()
 {
-	enemyMoveTime += .25f;
 	for (auto enemy : enemies)
 	{
-		enemy->Move(direction, 0);
-		if (enemyMoveTime > 8)
+		if (enemy->x + direction + enemy->texture->width * .5f > 1280 || enemy->x + direction - enemy->texture->width * .5f < 0)
 		{
 			direction *= -1;
-			enemyMoveTime = 0;
-
 			for (auto enemy : enemies)
 			{
-				enemy->y += 5;
+				enemy->y += 10;
 				if (enemy->y > 600)
 					lost = true;
 			}
 		}
+		enemy->Move(direction, 0);
 	}
 }
 
@@ -128,7 +124,7 @@ bool SpaceInvadersGame::CollidingWithAnEnemyAndKilledIt(std::shared_ptr<Sprite> 
 	{
 		if (enemy->DistanceTo(enemy, missile) < 40)
 		{
-			enemy->y -= 1000000;
+			enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
 			return true;
 		}
 	}
