@@ -106,6 +106,11 @@ void SpaceInvadersGame::Shoot()
 	for (auto missile : missiles)
 	{
 		missile->Move(0, -10);
+		if (missile->y < -10)
+		{
+			missiles.erase(std::remove(missiles.begin(), missiles.end(), missile), missiles.end());
+			break;
+		}
 		missile->Draw();
 
 		if (CollidingWithAnEnemyAndKilledIt(missile))
