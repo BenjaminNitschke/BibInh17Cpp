@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
+
 #define SCREEN_WIDTH 1280.0f
 #define SCREEN_HEIGHT 720.0f
 
@@ -43,4 +44,15 @@ void Sprite::Move(int addX, int addY)
 {
 	x += addX;
 	y += addY;
-};
+}
+int Sprite::getPos(int index)
+{
+	if (index == 0) return this->x;
+	if (index == 1) return this->y;
+	return -1;
+}
+void Sprite::setPos(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}

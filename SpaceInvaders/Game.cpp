@@ -3,13 +3,16 @@
 
 bool Game::leftPressed = false;
 bool Game::rightPressed = false;
+bool Game::spacePressed = false;
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A)
+	if (key == GLFW_KEY_LEFT)
 		Game::leftPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D)
+	if (key == GLFW_KEY_RIGHT)
 		Game::rightPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_SPACE)
+		Game::spacePressed = action != GLFW_RELEASE;
 }
 
 Game::Game() 
@@ -30,6 +33,7 @@ void Game::Run(std::function<void()> renderFunction)
 {
 	int viewportWidth;
 	int viewportHeight;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwGetWindowSize(window, &viewportWidth, &viewportHeight);
