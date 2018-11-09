@@ -18,10 +18,16 @@
     <ClInclude Include="stdafx.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="FirstPersonShooter.h">
+    <ClInclude Include="targetver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="FirstPersonShooterGame.h">
+    <ClInclude Include="Game.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,10 +35,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="FirstPersonShooter.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="FirstPersonShooterGame.cpp">
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
