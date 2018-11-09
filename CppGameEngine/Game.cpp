@@ -27,7 +27,7 @@ Game::Game()
 	glfwSetKeyCallback(glwWindow, OnKeyboard);
 }
 
-Game::~Game() 
+Game::~Game()
 {
 	glfwTerminate();
 }
