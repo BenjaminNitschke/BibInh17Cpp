@@ -41,3 +41,5 @@ Release/
 *.txt
 docs/
 ~$C++ Course Games Academy 2015-05-19 Day 1.pptx
+*.user
+*.filters
