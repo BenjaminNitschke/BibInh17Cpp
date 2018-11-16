@@ -57,7 +57,7 @@ void Sprite::Draw()
 	glTexCoord2f(0, 1);
 	glVertex2f(GetX(x - halfWidth), GetY(y + halfHeight));
 
-	// tell openGL there wont be any more commands
+	// tell openGL there won't be any more commands
 	glEnd();
 }
 
