@@ -6,7 +6,7 @@ class Game
 private:
 	void* window;
 public:
-	Game();
+	Game(const char* title);
 	~Game();
 	void Run(std::function<void()> renderFunction);
 	void RunTriangle();
