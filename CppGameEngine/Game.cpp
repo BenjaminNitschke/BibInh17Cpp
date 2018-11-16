@@ -18,7 +18,7 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		glfwSetWindowShouldClose(window, true);
 }
 
-Game::Game() 
+Game::Game(const char* title)
 {
 	glfwInit();
 	window = glfwCreateWindow(1280, 720, "SpaceInvaders", NULL, NULL);

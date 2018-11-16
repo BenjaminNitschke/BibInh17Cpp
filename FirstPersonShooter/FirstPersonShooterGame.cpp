@@ -2,9 +2,7 @@
 #include "FirstPersonShooterGame.h"
 
 
-FirstPersonShooterGame::FirstPersonShooterGame()
-{
-}
+//FirstPersonShooterGame::FirstPersonShooterGame(){}
 
 
 FirstPersonShooterGame::~FirstPersonShooterGame()
