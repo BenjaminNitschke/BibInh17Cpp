@@ -93,7 +93,7 @@
       <AdditionalIncludeDirectories>..\CppGameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>..\CppGameEngine\libpng16.lib;..\FirstPersonShooter\Debug\CppGameEngine.lib;..\glfw-3.2.1.bin.WIN32\lib-vc2015\glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

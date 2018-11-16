@@ -17,9 +17,9 @@ public:
 	{
 		return Vector3(x - other.x, y - other.y, z - other.z);
 	}
-	Vector3 operator-(Vector3 a)
+	Vector3 operator-()
 	{
-		return Vector3(a);
+		return Vector3(-x, -y, -z);
 	}
 	Vector3 operator*(const float scalar)
 	{
@@ -36,11 +36,15 @@ public:
 			z * other.x - x * other.z,
 			x * other.y - y * other.x);
 	}
+	float Length()
+	{
+		return(x*x, y*y, z*z);
+	}
 
 	std::string ToString()
 	{
 		std::ostringstream result;
-		result << "(" << (x == 0 ? 0: x) << ", " << "(" << (y == 0 ? 0: y) << ", " << "(" << (z == 0 ? 0: z) << ")";
+		result << "(" << (x == 0 ? 0: x) << ", " << (y == 0 ? 0: y) << ", " << (z == 0 ? 0: z) << ")";
 		return result.str();
 	}
 	
