@@ -19,7 +19,7 @@ Game::~Game()
 }
 
 // game loop
-void Game::Run(std::function<void()> renderFunction)
+void Game::Run(std::function<void()> renderFunc) const
 {
 	// width and height of the window
 	int viewportWidth;
@@ -36,7 +36,7 @@ void Game::Run(std::function<void()> renderFunction)
 		// clear the buffer
 		glClear(GL_COLOR_BUFFER_BIT);
 		// execute rendering
-		renderFunction();
+		renderFunc();
 		// bring rendered things on the screen
 		glfwSwapBuffers(pWindow);
 		// check if something happened to the window

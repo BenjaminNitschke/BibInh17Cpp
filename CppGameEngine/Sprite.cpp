@@ -17,12 +17,11 @@ float GetX(int x)
 float GetY(int y)
 {
 	float centerY = y - SCREEN_HEIGHT / 2;
-	return centerY / SCREEN_HEIGHT * 2;
+	return centerY / SCREEN_HEIGHT * -2;
 }
 
 Sprite::Sprite(const char* source, float x, float y) : x(x), y(y)
 {
-
 	texture = std::make_shared<Texture>(source);
 }
 
@@ -45,17 +44,17 @@ void Sprite::Draw()
 	int halfHeight = texture->height / 2;
 
 	// bind the texture to the quad
-	glTexCoord2f(0, 0);
-	glVertex2f(GetX(x - halfWidth), GetY(y - halfHeight));
-
-	glTexCoord2f(1, 0);
+	glTexCoord2f(1, 1);
 	glVertex2f(GetX(x + halfWidth), GetY(y - halfHeight));
 
-	glTexCoord2f(1, 1);
-	glVertex2f(GetX(x + halfWidth), GetY(y + halfWidth));
-
 	glTexCoord2f(0, 1);
+	glVertex2f(GetX(x - halfWidth), GetY(y - halfHeight));
+
+	glTexCoord2f(0, 0);
 	glVertex2f(GetX(x - halfWidth), GetY(y + halfHeight));
+
+	glTexCoord2f(1, 0);
+	glVertex2f(GetX(x + halfWidth), GetY(y + halfHeight));
 
 	// tell openGL there won't be any more commands
 	glEnd();

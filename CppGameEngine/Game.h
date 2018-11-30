@@ -7,6 +7,7 @@ class Game
 public:
 	Game(int width, int height, const char* name);
 	~Game();
-	void Run(std::function<void()> renderFunc);
 	GLFWwindow* pWindow;
+protected:
+	void Run(std::function<void()> renderFunc) const;
 };

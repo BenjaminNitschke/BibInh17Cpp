@@ -21,12 +21,18 @@
     <ClInclude Include="FPS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FpsGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FPS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
