@@ -34,8 +34,6 @@ Game::~Game()
 
 void Game::Run(std::function<void()> renderFunction)
 {
-	int viewportWidth;
-	int viewportHeight;
 	auto glwWindow = (GLFWwindow*)window;
 	while (!glfwWindowShouldClose(glwWindow))
 	{

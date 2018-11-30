@@ -10,6 +10,8 @@ public:
 	~Game();
 	void Run(std::function<void()> renderFunction);
 	void RunTriangle();
+	int viewportWidth;
+	int viewportHeight;
 	static bool leftPressed;
 	static bool rightPressed;
 	static bool spacePressed;
