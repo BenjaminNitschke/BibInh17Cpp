@@ -21,7 +21,7 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 Game::Game(const char* title)
 {
 	glfwInit();
-	window = glfwCreateWindow(1280, 720, "SpaceInvaders", NULL, NULL);
+	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
 	auto glfwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glfwWindow);
 	glfwSetKeyCallback(glfwWindow, OnKeyboard);
