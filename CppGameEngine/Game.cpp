@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include <GLFW/glfw3.h>
+#include "Sprite.h"
 
 bool Game::leftPressed;
 bool Game::rightPressed;
@@ -18,10 +19,10 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		glfwSetWindowShouldClose(window, true);
 }
 
-Game::Game() 
+Game::Game(const char* title)
 {
 	glfwInit();
-	window = glfwCreateWindow(1280, 720, "SpaceInvaders", NULL, NULL);
+	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
 	auto glwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glwWindow);
 	glfwSetKeyCallback(glwWindow, OnKeyboard);
@@ -34,8 +35,6 @@ Game::~Game()
 
 void Game::Run(std::function<void()> renderFunction)
 {
-	int viewportWidth;
-	int viewportHeight;
 	auto glwWindow = (GLFWwindow*)window;
 	while (!glfwWindowShouldClose(glwWindow))
 	{
@@ -50,19 +49,4 @@ void Game::Run(std::function<void()> renderFunction)
 		glfwSwapBuffers(glwWindow);
 		glfwPollEvents();
 	}
-}
-
-void Game::RunTriangle()
-{
-	Run([=]()
-	{
-		glBegin(GL_TRIANGLES);
-		glColor3f(1.f, 0.f, 0.f);
-		glVertex3f(-0.6f, -0.4f, 0.f);
-		glColor3f(0.f, 1.f, 0.f);
-		glVertex3f(0.6f, -0.4f, 0.f);
-		glColor3f(0.f, 0.f, 1.f);
-		glVertex3f(0.f, 0.6f, 0.f);
-		glEnd();
-	});
 }

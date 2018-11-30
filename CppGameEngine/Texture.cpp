@@ -160,8 +160,10 @@ GLuint Texture::Load(const char* file_name, int* width, int* height)
 	const auto error = glGetError();
 	printf("error %d", error);
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	/*nice to have
+	glGenerateMipmap(GL_TEXTURE_2D);*/
 
 	// clean up
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);

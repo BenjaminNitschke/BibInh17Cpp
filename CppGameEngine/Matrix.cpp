@@ -1,6 +1,5 @@
 #include "Matrix.h"
 
-
 Matrix::Matrix()
 {
 }
@@ -41,7 +40,7 @@ Matrix Matrix::Scale(const Vector3& v)
 				  value[3][0], value[3][1], value[3][2], value[3][3]);
 }
 
-Vector3 Matrix::MultiplyWithVector3(const Vector3 & v)
+Vector3 Matrix::MultiplyWithVector3(const Vector3& v)
 {
 	//TODO:
 	return Vector3(0,0,0);
