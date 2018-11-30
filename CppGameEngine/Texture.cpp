@@ -165,8 +165,11 @@ GLuint Texture::Load(const char* name, int* width, int* height)
 	const auto error = glGetError();
 	printf("error %d", error);
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	//TODO: Load glew Extension, until then only nide to have
+	// glGenerateMipMap(GL_TEXTURE_2D);
 
 	// clean up
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);

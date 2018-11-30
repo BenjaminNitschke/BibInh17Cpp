@@ -10,6 +10,5 @@ public:
 	void Draw();
 	void Move(float x, float y);
 	~Sprite();
-private:
 	std::shared_ptr<Texture> texture;
 };
