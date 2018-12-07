@@ -20,8 +20,8 @@ double lastMouseY = 0;
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	Game::mouseX = (xpos - lastMouseX) / 1280;
-	Game::mouseY = (ypos - lastMouseY) / 1280;
+	Game::mouseX = xpos - lastMouseX;
+	Game::mouseY = ypos - lastMouseY;
 
 	lastMouseX = xpos;
 	lastMouseY = ypos;
@@ -60,6 +60,7 @@ Game::Game(const char* title)
 	glfwMakeContextCurrent(glfwWindow);
 	glfwSetKeyCallback(glfwWindow, OnKeyboard);
 	glfwSetCursorPosCallback(glfwWindow, cursor_position_callback);
+	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 Game::~Game()
