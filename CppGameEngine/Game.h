@@ -8,6 +8,8 @@ public:
 	Game(int width, int height, const char* name);
 	~Game();
 	GLFWwindow* pWindow;
+	int viewportWidth;
+	int viewportHeight;
 	static bool leftPressed;
 	static bool upPressed;
 	static bool rightPressed;
@@ -16,6 +18,10 @@ public:
 
 	static float xDelta;
 	static float yDelta;
+	double time = 0;
+	double lastTime = 0;
+	double timeThisTick = 0.001;
+	float GetTimeDelta() { return static_cast<float>(timeThisTick); }
 protected:
-	void Run(std::function<void()> renderFunc) const; 
+	void Run(std::function<void()> renderFunc); 
 };

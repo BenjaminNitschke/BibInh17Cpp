@@ -43,6 +43,7 @@ void OnMouse(GLFWwindow* window, double posX, double posY)
 
 	oldPosX = posX;
 	oldPosY = posY;
+	//glfwSetCursorPos(window, 1280/2, 720/2);
 }
 
 // Create a new Game-instance
@@ -54,8 +55,10 @@ Game::Game(int width, int height, const char* name)
 	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
 	// tell glfw it should use the created window
 	glfwMakeContextCurrent(pWindow);
+	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetKeyCallback(pWindow, OnKeyboard);
 	glfwSetCursorPosCallback(pWindow, OnMouse);
+	glEnable(GL_DEPTH_TEST);
 }
 
 Game::~Game()
@@ -65,11 +68,9 @@ Game::~Game()
 }
 
 // game loop
-void Game::Run(std::function<void()> renderFunc) const
+void Game::Run(std::function<void()> renderFunc)
 {
 	// width and height of the window
-	int viewportWidth;
-	int viewportHeight;
 	// while the window is open
 	while (!glfwWindowShouldClose(pWindow))
 	{
@@ -80,7 +81,10 @@ void Game::Run(std::function<void()> renderFunc) const
 		// clear the screen
 		glClearColor(0, 0, 0, 1);
 		// clear the buffer
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		time = glfwGetTime();
+		timeThisTick = time - lastTime;
+		lastTime = time;
 		// execute rendering
 		renderFunc();
 		// bring rendered things on the screen

@@ -17,6 +17,10 @@ Vector3::~Vector3()
 
 }
 
+Vector3 Vector3::operator+=(const Vector3& v2) const
+{
+	return Vector3(x + v2.x, y + v2.y, z + v2.z);
+}
 
 Vector3 Vector3::operator+(Vector3& v2) const
 {
