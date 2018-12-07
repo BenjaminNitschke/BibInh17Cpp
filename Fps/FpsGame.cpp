@@ -34,7 +34,7 @@ void Fps::FpsGame::UpdateCamera()
 	
 	if (shiftPressed)
 	{
-		movementSpeed = 0.3f;
+		movementSpeed = 0.25f;
 	}
 	else
 	{
