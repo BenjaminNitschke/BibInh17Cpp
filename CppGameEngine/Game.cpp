@@ -1,6 +1,44 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
 
+bool Game::leftPressed;
+bool Game::upPressed;
+bool Game::rightPressed;
+bool Game::downPressed;
+bool Game::spacePressed;
+
+float Game::xDelta;
+float Game::yDelta;
+
+
+float oldPosX, oldPosY;
+
+void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_LEFT)
+		Game::leftPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_UP)
+		Game::upPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_RIGHT)
+		Game::rightPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_DOWN)
+		Game::downPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_SPACE)
+		Game::spacePressed = action != GLFW_RELEASE;
+
+	if (key == GLFW_KEY_ESCAPE)
+		glfwSetWindowShouldClose(window, true);
+}
+
+void OnMouse(GLFWwindow* window, double posX, double posY)
+{
+	Game::xDelta = oldPosX - posX;
+	Game::yDelta = oldPosY - posY;
+
+	oldPosX = posX;
+	oldPosY = posY;
+}
+
 // Create a new Game-instance
 Game::Game(int width, int height, const char* name)
 {
@@ -10,9 +48,11 @@ Game::Game(int width, int height, const char* name)
 	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
 	// tell glfw it should use the created window
 	glfwMakeContextCurrent(pWindow);
+	glfwSetKeyCallback(pWindow, OnKeyboard);
+	glfwSetCursorPosCallback(pWindow, OnMouse);
 }
 
-Game::~Game() 
+Game::~Game()
 {
 	// stop glfw
 	glfwTerminate();
