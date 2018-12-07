@@ -24,10 +24,10 @@ void Fps::FpsGame::UpdateCamera()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glRotatef(rotationY += (mouseY * 0.2f), 1, 0, 0);
+	glRotatef(rotationY += (mouseY * 0.05f), 1, 0, 0);
 	mouseY = 0;
 
-	glRotatef(rotationX += (mouseX * 0.4f), 0, 0, 1);
+	glRotatef(rotationX += (mouseX * 0.1f), 0, 0, 1);
 	mouseX = 0;
 
 	//glRotatef(-90, 1, 0, 0);
