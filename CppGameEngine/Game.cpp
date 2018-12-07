@@ -16,13 +16,13 @@ float oldPosX, oldPosY;
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_LEFT)
+	if (key == GLFW_KEY_A)
 		Game::leftPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_UP)
+	if (key == GLFW_KEY_W)
 		Game::upPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_RIGHT)
+	if (key == GLFW_KEY_D)
 		Game::rightPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_DOWN)
+	if (key == GLFW_KEY_S)
 		Game::downPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_SPACE)
 		Game::spacePressed = action != GLFW_RELEASE;

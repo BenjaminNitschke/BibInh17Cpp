@@ -16,7 +16,7 @@ void FpsGame::RunGame()
 	Run([=]()
 	{
 		Input();
-		
+
 		UpdateCamera();
 
 		// tell openGL it will work with a texture
@@ -62,22 +62,40 @@ void FpsGame::UpdateCamera() const
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//glRotatef(-90, 1, 0, 0);
-	glRotatef(-90 + Yrotation, 1 + Xrotation, 0, 0);
+	// Set up, down rotation
+	glRotatef(Yrotation, 1, 0, 0);
+	// Set lef, right rotation
+	glRotatef(Xrotation, 0, 1, 0);
+	// Set default viewport
+	glRotatef(-90, 1, 0, 0);
+	xDelta = 0;
+	yDelta = 0;
 	glTranslatef(movement.x, movement.y, -2);
 }
 
 void FpsGame::Input()
 {
 	if (leftPressed)
-		movement.x += MovementSpeed;
+	{
+		movement.x += -sin((Xrotation - 90) * DegreeToRadians) * MovementSpeed;
+		movement.y += -cos((Xrotation - 90) * DegreeToRadians) * MovementSpeed;
+	}
 	else if (rightPressed)
-		movement.x -= MovementSpeed;
+	{
+		movement.x += -sin((Xrotation + 90) * DegreeToRadians) * MovementSpeed;
+		movement.y += -cos((Xrotation + 90) * DegreeToRadians) * MovementSpeed;
+	}
 	else if (upPressed)
-		movement.y -= MovementSpeed;
+	{
+		movement.x += -sin(Xrotation * DegreeToRadians) * MovementSpeed;
+		movement.y += -cos(Xrotation * DegreeToRadians) * MovementSpeed;
+	}
 	else if (downPressed)
-		movement.y += MovementSpeed;
+	{
+		movement.x += -sin((Xrotation - 180) * DegreeToRadians) * MovementSpeed;
+		movement.y += -cos((Xrotation - 180) * DegreeToRadians) * MovementSpeed;
+	}
 
-	Xrotation += xDelta * 0.2;
-	Yrotation += yDelta * 0.2;
+	Xrotation -= xDelta * 0.2;
+	Yrotation -= yDelta * 0.2;
 }
