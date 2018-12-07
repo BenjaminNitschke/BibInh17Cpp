@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
+#include <iostream>
 
 bool Game::leftPressed;
 bool Game::upPressed;
@@ -34,6 +35,11 @@ void OnMouse(GLFWwindow* window, double posX, double posY)
 {
 	Game::xDelta = oldPosX - posX;
 	Game::yDelta = oldPosY - posY;
+
+	//std::cout << "x: " << Game::xDelta << "\n";
+	//std::cout << "y: " << Game::yDelta << "\n";
+
+	//system("cls");
 
 	oldPosX = posX;
 	oldPosY = posY;

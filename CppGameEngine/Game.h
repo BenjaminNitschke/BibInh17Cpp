@@ -17,5 +17,5 @@ public:
 	static float xDelta;
 	static float yDelta;
 protected:
-	void Run(std::function<void()> renderFunc) const;
+	void Run(std::function<void()> renderFunc) const; 
 };
