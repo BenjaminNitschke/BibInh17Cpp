@@ -23,39 +23,48 @@ void Fps::FpsGame::UpdateCamera()
 	//GL_MODELVIEW
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glRotatef(-90, 1, 0, 0);
-	/*if (leftPressed)
+
+	glRotatef(rotationY += (mouseY * 180), 1, 0, 0);
+	mouseY = 0;
+
+	glRotatef(rotationX += (mouseX * 360), 0, 0, 1);
+	mouseX = 0;
+
+	//glRotatef(-90, 1, 0, 0);
+	
+	if (shiftPressed)
 	{
-		rotation -= 0.8f;
+		movementSpeed = 0.3f;
 	}
-	else if (rightPressed)
+	else
 	{
-		rotation += 0.8f;
-	}*/
-	glRotatef(rotation, 0, 0, 1);
+		movementSpeed = 0.1f;
+	}
 
 	if (wPressed)
 	{
-		movement.x += movementSpeed;
+		//movement.x += movementSpeed;
+		movement.x += -sin(rotationX*degreeToRadian) * movementSpeed;
+		movement.y += -cos(rotationX*degreeToRadian) * movementSpeed;
 	}
 	if (aPressed)
 	{
-		movement.y += movementSpeed;
+		//movement.y += movementSpeed;
+		movement.x += -sin((rotationX - 90)*degreeToRadian) * movementSpeed;
+		movement.y += -cos((rotationX - 90)*degreeToRadian) * movementSpeed;
 	}
 	if (sPressed)
 	{
-		movement.x -= movementSpeed;
+		//movement.x -= movementSpeed;
+		movement.x += -sin((rotationX - 180)*degreeToRadian) * movementSpeed;
+		movement.y += -cos((rotationX - 180)*degreeToRadian) * movementSpeed;
 	}
 	if (dPressed)
 	{
-		movement.y -= movementSpeed;
+		//movement.y -= movementSpeed;
+		movement.x += -sin((rotationX + 90)*degreeToRadian) * movementSpeed;
+		movement.y += -cos((rotationX + 90)*degreeToRadian) * movementSpeed;
 	}
-	/*if (spacePressed)
-	{
-		float speed = 0.15f;
-		movement.x += -sin(rotation*degreeToRadian) * speed;
-		movement.y += -cos(rotation*degreeToRadian) * speed;
-	}*/
 	glTranslatef(movement.x, movement.y, -2);
 }
 

@@ -15,7 +15,9 @@ public:
 	static bool aPressed;
 	static bool sPressed;
 	static bool dPressed;
-	static bool spacePressed;
+	static bool shiftPressed;
+	static double mouseX;
+	static double mouseY;
 	int viewportWidth;
 	int viewportHeight;
 	double time = 0;

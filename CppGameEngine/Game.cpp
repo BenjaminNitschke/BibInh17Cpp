@@ -2,17 +2,34 @@
 #include "Game.h"
 #include <GLFW/glfw3.h>
 #include "Sprite.h"
+#include <sstream>
+#include <iostream>
 
 bool Game::leftPressed;
 bool Game::rightPressed;
-bool Game::spacePressed;
+bool Game::shiftPressed;
 bool Game::wPressed;
 bool Game::aPressed;
 bool Game::sPressed;
 bool Game::dPressed;
+double Game::mouseX;
+double Game::mouseY;
+
+double lastMouseX = 0;
+double lastMouseY = 0;
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
+	Game::mouseX = (xpos - lastMouseX) / 1280;
+	Game::mouseY = (ypos - lastMouseY) / 1280;
+
+	lastMouseX = xpos;
+	lastMouseY = ypos;
+
+	/*std::ostringstream strs;
+	strs << Game::mouseX << " : " << Game::mouseY;
+	std::string str = strs.str();
+	std::cout << str << std::endl;*/
 }
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -21,8 +38,8 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		Game::leftPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_RIGHT)
 		Game::rightPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_SPACE)
-		Game::spacePressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_LEFT_SHIFT)
+		Game::shiftPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_W)
 		Game::wPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_A)
