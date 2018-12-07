@@ -10,9 +10,12 @@ public:
 	~Game();
 	void Run(std::function<void()> renderFunction);
 	void RunTriangle();
-	static bool leftPressed;
-	static bool rightPressed;
-	static bool spacePressed;
+	static bool aPressed;
+	static bool dPressed;
+	static bool wPressed;
+	static bool sPressed;
+	int viewportWidth;
+	int viewportHeight;
 	double time = 0;
 	double lastTime = 0;
 	double timeThisTick = 0.001;

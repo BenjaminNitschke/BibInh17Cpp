@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\zlib_1_2_8_msvc2015_64\msvc2015_64\include\zlib;..\libpng-1.2.37-lib\include\libpng12;..\glfw-3.2.1.bin.WIN32\include;%(AdditionalDependencies);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\zlib_1_2_8_msvc2015_64\msvc2015_64\include\zlib;..\lpng1617;..\glfw-3.2.1.bin.WIN32\include;%(AdditionalDependencies);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
