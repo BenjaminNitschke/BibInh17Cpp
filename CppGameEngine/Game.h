@@ -11,6 +11,10 @@ public:
 	void Run(std::function<void()> renderFunction);
 	static bool leftPressed;
 	static bool rightPressed;
+	static bool wPressed;
+	static bool aPressed;
+	static bool sPressed;
+	static bool dPressed;
 	static bool spacePressed;
 	int viewportWidth;
 	int viewportHeight;

@@ -6,6 +6,14 @@
 bool Game::leftPressed;
 bool Game::rightPressed;
 bool Game::spacePressed;
+bool Game::wPressed;
+bool Game::aPressed;
+bool Game::sPressed;
+bool Game::dPressed;
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+}
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -15,6 +23,14 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		Game::rightPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_SPACE)
 		Game::spacePressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_W)
+		Game::wPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_A)
+		Game::aPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_S)
+		Game::sPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_D)
+		Game::dPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_ESCAPE)
 		glfwSetWindowShouldClose(window, true);
 }
@@ -23,9 +39,10 @@ Game::Game(const char* title)
 {
 	glfwInit();
 	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
-	auto glwWindow = (GLFWwindow*)window;
-	glfwMakeContextCurrent(glwWindow);
-	glfwSetKeyCallback(glwWindow, OnKeyboard);
+	auto glfwWindow = (GLFWwindow*)window;
+	glfwMakeContextCurrent(glfwWindow);
+	glfwSetKeyCallback(glfwWindow, OnKeyboard);
+	glfwSetCursorPosCallback(glfwWindow, cursor_position_callback);
 }
 
 Game::~Game()
