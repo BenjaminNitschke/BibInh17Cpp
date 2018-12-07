@@ -25,6 +25,7 @@ Game::Game(const char* title)
 	auto glwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glwWindow);
 	glfwSetKeyCallback(glwWindow, OnKeyboard);
+		glfwGetWindowSize(glwWindow, &viewportWidth, &viewportHeight);
 }
 
 Game::~Game() 

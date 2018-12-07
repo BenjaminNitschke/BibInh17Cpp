@@ -10,7 +10,7 @@ void FpsGame::SetupProjection()
 	float zFar = 100.0f;
 	GLfloat aspect = viewportWidth / (float)viewportHeight;
 	float fov = 60.0f;
-	float fovH = tan(float(fov * DegreeToRadians)) * zNear;
+	float fovH = tan(float(fov * DegreeToRadians / 2.0f)) * zNear;
 	float fovW = fovH * aspect;
 	glFrustum(-fovW, fovW, -fovH, fovH, zNear, zFar);
 }
