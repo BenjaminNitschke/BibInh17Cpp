@@ -65,8 +65,6 @@ void FirstPersonShooterGame::RunGame()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glBegin(GL_QUADS);
-
-
 		
 
 		glTexCoord2f(25, 25);
@@ -80,6 +78,26 @@ void FirstPersonShooterGame::RunGame()
 
 		glTexCoord2f(25, 0);
 		glVertex3f(50, -50, 0);
+
+		glEnd();
+
+
+		
+		glBindTexture(GL_TEXTURE_2D, wallTexture->handle);
+		glBegin(GL_QUADS);
+		glRotatef(90, 1, 0, 0);
+
+		glTexCoord2f(1, 1);
+		glVertex3f(2, 0, 4);
+
+		glTexCoord2f(0, 1);
+		glVertex3f(-2, 0, 4);
+
+		glTexCoord2f(0, 0);
+		glVertex3f(-2, 0, 0);
+
+		glTexCoord2f(1, 0);
+		glVertex3f(2, 0, 0);
 
 		glEnd();
 	});

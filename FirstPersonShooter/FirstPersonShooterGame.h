@@ -7,6 +7,7 @@
 class FirstPersonShooterGame : public Game
 {
 	std::shared_ptr<Texture> groundTexture;
+	std::shared_ptr<Texture> wallTexture;
 	float rotation = 0;
 	Vector3 movement = Vector3(0, 0, 0);
 	float DegreeToRadians = (1.0f / 180.0f) * 3.14159f;
@@ -18,6 +19,7 @@ public:
 	{
 		//Load textures
 		groundTexture = std::make_shared<Texture>("ground.png");
+		wallTexture = std::make_shared<Texture>("wall.png");
 		SetupProjection();
 		//glfwGetCursorPos();
 		UpdateCamera();
