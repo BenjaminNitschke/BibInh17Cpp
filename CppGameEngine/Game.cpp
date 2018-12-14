@@ -3,29 +3,49 @@
 #include <GLFW/glfw3.h>
 
 bool Game::leftPressed;
+bool Game::upPressed;
 bool Game::rightPressed;
+bool Game::downPressed;
 bool Game::spacePressed;
+float Game::xDelta;
+float Game::yDelta;
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_LEFT)
+	if (key == GLFW_KEY_A)
 		Game::leftPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_RIGHT)
+	if (key == GLFW_KEY_W)
+		Game::upPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_D)
 		Game::rightPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_S)
+		Game::downPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_SPACE)
 		Game::spacePressed = action != GLFW_RELEASE;
+
 	if (key == GLFW_KEY_ESCAPE)
 		glfwSetWindowShouldClose(window, true);
+}
+
+float oldPosX, oldPosY;
+void OnMouse(GLFWwindow* window, double posX, double posY)
+{
+	Game::xDelta = oldPosX - posX;
+	Game::yDelta = oldPosY - posY;
+	oldPosX = posX;
+	oldPosY = posY;
 }
 
 Game::Game(const char* title)
 {
 	glfwInit();
 	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
-	auto glwWindow = (GLFWwindow*)window;
-	glfwMakeContextCurrent(glwWindow);
-	glfwSetKeyCallback(glwWindow, OnKeyboard);
-	glfwGetWindowSize(glwWindow, &viewportWidth, &viewportHeight);
+	auto glfwWindow = (GLFWwindow*)window;
+	glfwMakeContextCurrent(glfwWindow);
+	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetKeyCallback(glfwWindow, OnKeyboard);
+	glfwSetCursorPosCallback(glfwWindow, OnMouse);
+	glfwGetWindowSize(glfwWindow, &viewportWidth, &viewportHeight);
 	glEnable(GL_DEPTH_TEST);
 }
 
