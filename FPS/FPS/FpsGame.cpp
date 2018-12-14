@@ -1,12 +1,44 @@
 #include "stdafx.h"
 #include "FpsGame.h"
+#include "VertexPositionUV.h"
+#include <vector>
 
 FpsGame::FpsGame(int width, int height, const char * name) : Game(width, height, name)
 {
+	int levelWidth = 10;
+	int levelHeight = 10;
+	groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0, levelWidth / 2, levelHeight / 2));
+	groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0, 0, levelHeight / 2));
+	groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0, 0, 0));
+	groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0, levelWidth / 2, 0));
+	//TODO: make function for this
+	wallVertices.push_back(VertexPositionUV(2, 0, 4, 1, 1));
+	wallVertices.push_back(VertexPositionUV(-2, 0, 4, 0, 1));
+	wallVertices.push_back(VertexPositionUV(-2, 0, 0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(2, 0, 0, 1, 0));
+	//TODO: add 2 more walls and rotate (X, Y)
+	wallVertices.push_back(VertexPositionUV(2, 1, 4, 1, 1));
+	wallVertices.push_back(VertexPositionUV(-2, 1, 4, 0, 1));
+	wallVertices.push_back(VertexPositionUV(-2, 1, 0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(2, 1, 0, 1, 0));
+	wallVertices.push_back(VertexPositionUV(2, 2, 4, 1, 1));
+	wallVertices.push_back(VertexPositionUV(-2, 2, 4, 0, 1));
+	wallVertices.push_back(VertexPositionUV(-2, 2, 0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(2, 2, 0, 1, 0));
+	glEnable(GL_TEXTURE_2D);
 }
 
 FpsGame::~FpsGame()
 {
+}
+
+void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
+{
+	glBindTexture(GL_TEXTURE_2D, texture->handle);
+	glBegin(GL_QUADS);
+	for (auto vertex : vertices)
+		vertex.Draw();
+	glEnd();
 }
 
 void FpsGame::RunGame()
@@ -20,50 +52,14 @@ void FpsGame::RunGame()
 		UpdateCamera();
 
 		// tell openGL it will work with a texture
-		glBindTexture(GL_TEXTURE_2D, ground->texture->handle);
-		// start using texture mode
-		glEnable(GL_TEXTURE_2D);
-		glBegin(GL_QUADS);
-
-		// bind the texture to the quad
-		glTexCoord2f(1, 1);
-		glVertex3f(5, 5, 1);
-
-		glTexCoord2f(0, 1);
-		glVertex3f(-5, 5, 1);
-
-		glTexCoord2f(0, 0);
-		glVertex3f(-5, -5, 1);
-
-		glTexCoord2f(1, 0);
-		glVertex3f(5, -5, 1);
-		glEnd();
-
-
-		// tell openGL there will be a quad
-		glBegin(GL_QUADS);
-
-		// bind the texture to the quad
-		glTexCoord2f(25, 25);
-		glVertex3f(10, 10, 0);
-
-		glTexCoord2f(0, 25);
-		glVertex3f(-10, 10, 0);
-
-		glTexCoord2f(0, 0);
-		glVertex3f(-10, -10, 0);
-
-		glTexCoord2f(25, 0);
-		glVertex3f(10, -10, 0);
-
-		// tell openGL there won't be any more commands
-		glEnd();
+		DrawVertices(ground->texture, groundVertices);
+		DrawVertices(wall->texture, wallVertices);
 
 		// put camera back into 2d
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 		glDisable(GL_TEXTURE_2D);
 		glBegin(GL_LINES);
 		glColor3f(1, 1, 1);
@@ -72,6 +68,7 @@ void FpsGame::RunGame()
 		glVertex3f(0, -0.033f, 0);
 		glVertex3f(0, 0.031f, 0);
 		glEnd();
+		glEnable(GL_TEXTURE_2D);
 	});
 }
 
