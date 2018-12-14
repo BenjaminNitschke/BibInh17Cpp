@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FpsGame.h"
 #include "Sprite.h"
+#include "VertexPositionUV.h"
 
 void FpsGame::SetupProjection()
 {
@@ -33,29 +34,21 @@ void FpsGame::UpdateCamera()
 	glTranslatef(movement.x, movement.y, -2);
 }
 
+void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
+{
+	glBindTexture(GL_TEXTURE_2D, texture->handle);
+	glBegin(GL_QUADS);
+	for (auto vertex : vertices)
+		vertex.Draw();
+	glEnd();
+}
+
 void FpsGame::RunGame()
 {
 	Run([=]()
 	{
 		UpdateCamera();
-
-		glBindTexture(GL_TEXTURE_2D, groundTexture->handle);
-		glEnable(GL_TEXTURE_2D);
-		glBegin(GL_QUADS);
-
-
-		glTexCoord2f(25, 25);
-		glVertex3f(50, 50, 0);
-
-		glTexCoord2f(0, 25);
-		glVertex3f(-50, 50, 0);
-
-		glTexCoord2f(0, 0);
-		glVertex3f(-50, -50, 0);
-
-		glTexCoord2f(25, 0);
-		glVertex3f(50, -50, 0);
-
-		glEnd();
+		DrawVertices(groundTexture, groundVertices);
+		DrawVertices(wallTexture, wallVertices);
 	});
 }

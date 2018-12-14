@@ -25,7 +25,8 @@ Game::Game(const char* title)
 	auto glwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glwWindow);
 	glfwSetKeyCallback(glwWindow, OnKeyboard);
-		glfwGetWindowSize(glwWindow, &viewportWidth, &viewportHeight);
+	glfwGetWindowSize(glwWindow, &viewportWidth, &viewportHeight);
+	glEnable(GL_DEPTH_TEST);
 }
 
 Game::~Game() 
@@ -41,7 +42,7 @@ void Game::Run(std::function<void()> renderFunction)
 		glfwGetWindowSize(glwWindow, &viewportWidth, &viewportHeight);
 		glViewport(0, 0, viewportWidth, viewportHeight);
 		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		time = glfwGetTime();
 		timeThisTick = time - lastTime;
 		lastTime = time;
