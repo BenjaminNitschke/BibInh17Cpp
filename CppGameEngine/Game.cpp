@@ -16,9 +16,9 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		Game::leftPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_W)
 		Game::upPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_D)
+	if (key == GLFW_KEY_D || key == GLFW_KEY_E)
 		Game::rightPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_S)
+	if (key == GLFW_KEY_S || key == GLFW_KEY_O)
 		Game::downPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_SPACE)
 		Game::spacePressed = action != GLFW_RELEASE;

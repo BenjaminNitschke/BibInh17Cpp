@@ -60,14 +60,17 @@ public:
 		wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0, 1));
 		wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0, 0));
 		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0));
+
 		wallVertices.push_back(VertexPositionUV(x0, y0, z1, 1, 1));
 		wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1));
 		wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 0));
 		wallVertices.push_back(VertexPositionUV(x0, y0, z0, 1, 0));
+
 		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1, 1));
 		wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1));
 		wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 0));
 		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1, 0));
+
 		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 1));
 		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0, 1));
 		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0, 0));
