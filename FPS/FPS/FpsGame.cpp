@@ -7,10 +7,13 @@ FpsGame::FpsGame(int width, int height, const char * name) : Game(width, height,
 {
 	int levelWidth = 10;
 	int levelHeight = 10;
-	groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0, levelWidth / 2, levelHeight / 2));
+
+	AddQuad(&groundVertices, 0, 0, 0, levelWidth, levelHeight);
+
+	/*groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0, levelWidth / 2, levelHeight / 2));
 	groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0, 0, levelHeight / 2));
 	groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0, 0, 0));
-	groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0, levelWidth / 2, 0));
+	groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0, levelWidth / 2, 0));*/
 	//TODO: make function for this
 	wallVertices.push_back(VertexPositionUV(2, 0, 4, 1, 1));
 	wallVertices.push_back(VertexPositionUV(-2, 0, 4, 0, 1));
@@ -26,6 +29,14 @@ FpsGame::FpsGame(int width, int height, const char * name) : Game(width, height,
 	wallVertices.push_back(VertexPositionUV(-2, 2, 0, 0, 0));
 	wallVertices.push_back(VertexPositionUV(2, 2, 0, 1, 0));
 	glEnable(GL_TEXTURE_2D);
+}
+
+void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth)
+{
+	cache->push_back(VertexPositionUV(x + width, y + depth, z, width / 2, depth / 2));
+	cache->push_back(VertexPositionUV(x, y + depth, 0, 0, depth / 2));
+	cache->push_back(VertexPositionUV(x, y, 0, 0, 0));
+	cache->push_back(VertexPositionUV(x + width, y, 0, width / 2, 0));
 }
 
 FpsGame::~FpsGame()

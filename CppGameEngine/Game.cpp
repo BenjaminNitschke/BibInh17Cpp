@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
-#include <iostream>
 
 bool Game::leftPressed;
 bool Game::upPressed;
