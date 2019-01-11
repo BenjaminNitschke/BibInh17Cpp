@@ -20,9 +20,9 @@ float GetY(int y)
 	return centerY / SCREEN_HEIGHT * -2;
 }
 
-Sprite::Sprite(const char* source, float x, float y) : x(x), y(y)
+Sprite::Sprite(std::string source, float x, float y) : x(x), y(y)
 {
-	texture = std::make_shared<Texture>(source);
+	texture = std::make_shared<Texture>(source.c_str());
 }
 
 // Draw the entity

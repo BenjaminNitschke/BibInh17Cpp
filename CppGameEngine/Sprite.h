@@ -1,12 +1,13 @@
 ﻿#pragma once
 #include <memory>
 #include "Texture.h"
+#include <string>
 
 class Sprite
 {
 public:
 	float x, y;
-	Sprite(const char* source, float x, float y);
+	Sprite(std::string source, float x, float y);
 	void Draw();
 	void Move(float x, float y);
 	~Sprite();
