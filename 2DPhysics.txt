@@ -2,3 +2,17 @@
 2.Gravity
 3.Collider
 4.Rotation
+
+
+
+classes
+
+World
+Object
+Collider
+gravity??
+
+
+Vector2D extends(Distance,Direction)
+
+use cppgame Project for sprite
