@@ -27,12 +27,18 @@
     <ClInclude Include="Canasta.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="CanastaGame.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Canasta.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CanastaGame.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
