@@ -36,6 +36,9 @@ Debug/
 bin/
 obj/
 Release/
+Library/
+Temp/
+ProjectSettings/
 *.zip
 *.html
 *.txt
@@ -47,3 +50,5 @@ Fps/.vs/Fps/v15/Solution.VC.db-shm
 *.db-wal
 *.db-shm
 Fps/UpgradeLog.htm
+ShaderExperiments/Assets/screwheads.jpg
+ShaderExperiments/Assets/screwheads.jpg.meta
