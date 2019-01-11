@@ -28,6 +28,8 @@ Game::Game(const char* title)
 	auto glfwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glfwWindow);
 	glfwSetKeyCallback(glfwWindow, OnKeyboard);
+	glfwGetWindowSize(glfwWindow, &viewportWidth, &viewportHeight);
+	glEnable(GL_DEPTH_TEST);
 }
 
 Game::~Game() 

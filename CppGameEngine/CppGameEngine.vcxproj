@@ -155,6 +155,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="VertexPositionUV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
