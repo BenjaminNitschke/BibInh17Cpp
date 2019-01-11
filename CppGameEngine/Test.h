@@ -1,5 +1,6 @@
 #pragma once
-int test(int a, int b)
+
+inline int test()
 {
-	return a + b;
+	return 5;
 }
