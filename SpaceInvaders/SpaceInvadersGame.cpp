@@ -54,9 +54,9 @@ void SpaceInvadersGame::ControlMissles()
 			if (DistanceTo(&missile, &enemie) < 0.05f)
 			{
 				(&missile)->setPos(0, -1000);
-				missiles.erase(&missile);
+				//missiles.erase(&missile);
 				(&enemie)->setPos(0, -1000);
-				enemies.erase(&enemie);
+				//enemies.erase(&enemie);
 			}
 		}
 	}
