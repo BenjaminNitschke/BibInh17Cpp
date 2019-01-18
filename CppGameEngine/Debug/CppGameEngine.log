@@ -1,0 +1,16 @@
+﻿  stdafx.cpp
+  Game.cpp
+e:\zbib_zeug\mim_nietschke\cppgameengine\game.cpp(36): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+e:\zbib_zeug\mim_nietschke\cppgameengine\game.cpp(37): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+e:\zbib_zeug\mim_nietschke\cppgameengine\game.cpp(44): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+e:\zbib_zeug\mim_nietschke\cppgameengine\game.cpp(45): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+  Matrix.cpp
+  Sprite.cpp
+e:\zbib_zeug\mim_nietschke\cppgameengine\sprite.cpp(48): warning C4244: "Argument": Konvertierung von "float" in "int", möglicher Datenverlust
+e:\zbib_zeug\mim_nietschke\cppgameengine\sprite.cpp(51): warning C4244: "Argument": Konvertierung von "float" in "int", möglicher Datenverlust
+e:\zbib_zeug\mim_nietschke\cppgameengine\sprite.cpp(54): warning C4244: "Argument": Konvertierung von "float" in "int", möglicher Datenverlust
+e:\zbib_zeug\mim_nietschke\cppgameengine\sprite.cpp(57): warning C4244: "Argument": Konvertierung von "float" in "int", möglicher Datenverlust
+  Texture.cpp
+  Vector3.cpp
+  Code wird generiert...
+  CppGameEngine.vcxproj -> E:\zBIB_Zeug\MIM_nietschke\FPS\Debug\CppGameEngine.lib

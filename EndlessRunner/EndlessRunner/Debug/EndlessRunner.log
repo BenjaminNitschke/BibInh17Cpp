@@ -1,0 +1,2 @@
+﻿MSVCRTD.lib(initializers.obj) : warning LNK4098: Standardbibliothek "msvcrt.lib" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
+  EndlessRunner.vcxproj -> C:\Users\TEMP.A213-012.001\Desktop\BibInh17Cpp\EndlessRunner\Debug\EndlessRunner.exe
