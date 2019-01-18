@@ -12,5 +12,6 @@ public:
 
 private:
 	std::shared_ptr<Sprite> road;
+	std::shared_ptr<Sprite> playerCar;
 };
 

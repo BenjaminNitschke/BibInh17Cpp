@@ -3,9 +3,9 @@
 #include "GLFW/glfw3.h"
 
 // width of the screen
-#define SCREEN_WIDTH (float)1280.0f
+#define SCREEN_WIDTH (float)1920.0f
 // height of the screen
-#define SCREEN_HEIGHT (float)720.0f
+#define SCREEN_HEIGHT (float)1080.0f
 
 // convert custom screen-space to openGL screen-space
 float GetX(int x)

@@ -1,2 +1,19 @@
-﻿MSVCRTD.lib(initializers.obj) : warning LNK4098: Standardbibliothek "msvcrt.lib" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
+﻿  EndlessRunnerGame.cpp
+c:\users\temp.a213-012.001\desktop\bibinh17cpp\cppgameengine\sprite.h(10): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+d:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1801): warning C4244: "Argument": Konvertierung von "_Ty" in "int", möglicher Datenverlust
+          with
+          [
+              _Ty=float
+          ]
+  d:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1865): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Texture>,int,float>(std::shared_ptr<Texture> &&,int &&,float &&)".
+          with
+          [
+              _Ty=Sprite
+          ]
+  d:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1866): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Texture>,int,float>(std::shared_ptr<Texture> &&,int &&,float &&)".
+          with
+          [
+              _Ty=Sprite
+          ]
+  c:\users\temp.a213-012.001\desktop\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(13): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::shared_ptr<Sprite> std::make_shared<Sprite,std::shared_ptr<Texture>,int,float>(std::shared_ptr<Texture> &&,int &&,float &&)".
   EndlessRunner.vcxproj -> C:\Users\TEMP.A213-012.001\Desktop\BibInh17Cpp\EndlessRunner\Debug\EndlessRunner.exe

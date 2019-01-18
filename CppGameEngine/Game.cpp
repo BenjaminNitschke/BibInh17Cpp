@@ -55,10 +55,11 @@ Game::Game(int width, int height, const char* name)
 	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
 	// tell glfw it should use the created window
 	glfwMakeContextCurrent(pWindow);
-	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwSetKeyCallback(pWindow, OnKeyboard);
 	glfwSetCursorPosCallback(pWindow, OnMouse);
 	glEnable(GL_DEPTH_TEST);
+	//glfwSetWindowMonitor(pWindow, glfwGetPrimaryMonitor(), 0, 0, width, height, 60);
 }
 
 Game::~Game()
