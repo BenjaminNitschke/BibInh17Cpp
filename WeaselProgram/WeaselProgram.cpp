@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// richard dawkins
+
 //string goal = "MUSIC WAS MY FIRST LOVE AND IT WILL BE MY LAST";
 string goal = "METHINKS IT IS LIKE A WEASEL";
 
