@@ -1,10 +1,9 @@
 ﻿#include "stdafx.h"
 #include "Deck.h"
 #include "Card.h"
-#include <algorithm>
 #include <iostream>
-#include <ctime>
 #include <random>
+#include <ctime>
 
 Deck::Deck()
 {
@@ -15,7 +14,7 @@ Deck::Deck()
 
 void Deck::Shuffle()
 {
-	std::shuffle(deck.begin(), deck.end(), std::default_random_engine(std::time(nullptr)));
+	std::shuffle(deck.begin(), deck.end(), std::default_random_engine(time(nullptr)));
 }
 
 void Deck::PrintDeck()

@@ -12,8 +12,8 @@ public:
 	std::shared_ptr<Sprite> sprite;
 	std::string ToString() const
 	{
-		std::string val = Utility::names.at(value);
-		std::string col = Utility::names.at(color);
+		std::string val = names.at(value);
+		std::string col = names.at(color);
 		std::string tmp = ("Card: " + val + " of " + col);
 		return tmp;
 	}

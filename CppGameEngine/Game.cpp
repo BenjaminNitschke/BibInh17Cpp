@@ -54,7 +54,7 @@ Game::Game(int width, int height, const char* name)
 	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
 	// tell glfw it should use the created window
 	glfwMakeContextCurrent(pWindow);
-	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetKeyCallback(pWindow, OnKeyboard);
 	glfwSetCursorPosCallback(pWindow, OnMouse);
 	glEnable(GL_DEPTH_TEST);
