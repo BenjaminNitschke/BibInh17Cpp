@@ -2,9 +2,11 @@
 #include <iostream>
 #include <string>
 #include <random>
-#include <array>
 
 using namespace std;
+
+//string goal = "MUSIC WAS MY FIRST LOVE AND IT WILL BE MY LAST";
+string goal = "METHINKS IT IS LIKE A WEASEL ";
 
 int randInRange(int min, int max)
 {
@@ -62,7 +64,7 @@ string nextGeneration(string current, int amountOfChildren, int mutationRate)
 	int bestIndex = 0;
 	for (int i = 0; i < amountOfChildren; i++)
 	{
-		int tmp = calGoal("METHINKS IT IS LIKE A WEASEL", children[i]);
+		int tmp = calGoal(goal, children[i]);
 		if (tmp > best)
 		{
 			best = tmp;
@@ -75,9 +77,7 @@ string nextGeneration(string current, int amountOfChildren, int mutationRate)
 
 int main()
 {
-	string goal = "METHINKS IT IS LIKE A WEASEL";
-
-	string seed = randomString(28);
+	string seed = randomString(goal.length());
 
 	string tmp = seed;
 
@@ -89,11 +89,20 @@ int main()
 
 	while (score < goal.length())
 	{
-		tmp = nextGeneration(tmp, amountOfChildren, mutationChance);
+		string tmpNew = nextGeneration(tmp, amountOfChildren, mutationChance);
+		int score1 = calGoal(goal, tmp);
+		int score2 = calGoal(goal, tmpNew);
+		if (score1 >= score2)
+		{
+			score = score1;
+		}
+		else
+		{
+			score = score2;
+			tmp = tmpNew;
+		}
 		generation++;
-		score = calGoal(goal, tmp);
 		cout << generation << ": " << tmp << " -- " << score << endl;
 	}
-
-    return 0;
+	return 0;
 }
