@@ -9,28 +9,6 @@ void InitializeDeck();
 
 int main()
 {
-	Deck deck = Deck();
-	deck.Shuffle();
-
-	Player north = Player();
-	Player east = Player();
-	Player south = Player();
-	Player west = Player();
-
-	while (!deck.deck.empty())
-	{
-		north.hand.push_back(deck.deck.back());
-		deck.deck.pop_back();
-		east.hand.push_back(deck.deck.back());
-		deck.deck.pop_back();
-		south.hand.push_back(deck.deck.back());
-		deck.deck.pop_back();
-		west.hand.push_back(deck.deck.back());
-		deck.deck.pop_back();
-	}
-
-	south.SortHand();
-
 	wWinMain(0, 0, 0, 0);
 }
 

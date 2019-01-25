@@ -7,8 +7,8 @@
 
 Deck::Deck()
 {
-	for (auto i = 100; i < 104; ++i)
-		for (auto j = 0; j < 13; ++j)
+	for (auto i = hearts; i <= diamonds; ++i)
+		for (auto j = two; j <= ace; ++j)
 			deck.push_back(std::make_shared<Card>(i, j));
 }
 
