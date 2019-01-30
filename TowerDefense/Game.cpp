@@ -4,6 +4,14 @@
 bool Game::leftPressed = false;
 bool Game::rightPressed = false;
 bool Game::spacePressed = false;
+double Game::mouseX = 0;
+double Game::mouseY = 0;
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	Game::mouseX = xpos;
+	Game::mouseY = ypos;
+}
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -19,9 +27,11 @@ Game::Game()
 {
 	glfwInit();
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	window = glfwCreateWindow(1280, 720, "SpaceInvaders", NULL, NULL);
-	glfwMakeContextCurrent(window);
-	glfwSetKeyCallback(window, OnKeyboard);
+	window = glfwCreateWindow(1280, 720, "TowerDefense", NULL, NULL);
+	auto glfwWindow = (GLFWwindow*)window;
+	glfwMakeContextCurrent(glfwWindow);
+	glfwSetKeyCallback(glfwWindow, OnKeyboard);
+	glfwSetCursorPosCallback(glfwWindow, cursor_position_callback);
 }
 
 Game::~Game() 

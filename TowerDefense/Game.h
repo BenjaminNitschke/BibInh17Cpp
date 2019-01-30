@@ -14,4 +14,6 @@ public:
 	static bool leftPressed;
 	static bool rightPressed;
 	static bool spacePressed;
+	static double mouseX;
+	static double mouseY;
 };

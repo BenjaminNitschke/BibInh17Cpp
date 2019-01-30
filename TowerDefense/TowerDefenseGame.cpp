@@ -8,21 +8,28 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 {
 	background = std::make_shared<Sprite>(std::make_shared<Texture>("background.png"), 1280 / 2, 720 / 2);
 	slot = std::make_shared<Texture>("slot.png");
+	slot_way = std::make_shared<Texture>("slot_way.png");
+	slot_grass = std::make_shared<Texture>("slot_grass.png");
+	slot_selected = std::make_shared<Sprite>(std::make_shared<Texture>("slot_selected.png"), 1280 / 2, 720 / 2);
+
 	for (int x = 0; x < 16; x++)
 	{
 		for (int y = 0; y < 9; y++)
 		{
-			slots.push_back(*(new Sprite(slot, x * 80 + 40, y * 80 + 40)));
+			if(map[y][x] == 0) slots.push_back(*(new Sprite(slot, x * 80 + 40, y * 80 + 40)));
+			else if(map[y][x] == 1) slots.push_back(*(new Sprite(slot_way, x * 80 + 40, y * 80 + 40)));
+			else if (map[y][x] == 2) slots.push_back(*(new Sprite(slot_grass, x * 80 + 40, y * 80 + 40)));
 		}
 	}
+
 	//ship = std::make_shared<Sprite>(std::make_shared<Texture>("ship.png"), 1280 / 2, (int)(720 * 0.9));
 	//std::shared_ptr<Texture> enemyTexture = std::make_shared<Texture>("enemy.png");
 	//missile = std::make_shared<Texture>("missle.png");
 
 	frames = 0;
-	enemyDir = 1;
-	enemySpeed = 1;
-	enemyH = 0;
+	//enemyDir = 1;
+	//enemySpeed = 1;
+	//enemyH = 0;
 
 	//TODO: enemyTexture and 20 * enemies in 2 rows
 	/*for (int i = 0; i < 20; i++)
@@ -42,9 +49,17 @@ void TowerDefenseGame::RunSpaceInvaders()
 		//ControlMissles();
 		//ControlShip();
 		//MoveEnemies();
+		ControlSelectedSlot();
 		DrawAll();
 		frames++;
 	});
+}
+
+void TowerDefenseGame::ControlSelectedSlot()
+{
+	// px = ((i / 2) * width) + width /2
+	float px = ((mouseX / 2) * 1280) * 1280 / 2;
+	slot_selected->setPos(80 * ((int)px % 16) + 40, 80 * 0 + 40);
 }
 
 void TowerDefenseGame::ControlMissles()
@@ -107,6 +122,8 @@ void TowerDefenseGame::DrawAll()
 		Sprite *tmp = &slots.at(i);
 		tmp->Draw();
 	}
+	slot_selected->Draw();
+
 	/*ship->Draw();
 	for (int i = 0; i < 20; i++)
 	{
