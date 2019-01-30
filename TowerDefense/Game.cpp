@@ -26,7 +26,7 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 Game::Game() 
 {
 	glfwInit();
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	window = glfwCreateWindow(1280, 720, "TowerDefense", NULL, NULL);
 	auto glfwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glfwWindow);

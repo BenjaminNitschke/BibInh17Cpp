@@ -166,6 +166,7 @@ copy libpng16.dll $(OutputPath)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="TowerDefense.h" />
     <ClInclude Include="TowerDefenseGame.h" />
