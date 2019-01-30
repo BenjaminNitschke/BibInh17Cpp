@@ -58,8 +58,20 @@ void TowerDefenseGame::RunSpaceInvaders()
 void TowerDefenseGame::ControlSelectedSlot()
 {
 	// px = ((i / 2) * width) + width /2
-	float px = ((mouseX / 2) * 1280) * 1280 / 2;
-	slot_selected->setPos(80 * ((int)px % 16) + 40, 80 * 0 + 40);
+	if (mouseX < 10 && mouseX < 30)
+	{
+		slot_selected->setPos(80 * 3 + 40, 80 * 0 + 40);
+	}
+	else if(mouseX < 60 && mouseX < 90)
+	{
+		slot_selected->setPos(80 * 5 + 40, 80 * 0 + 40);
+	}
+	else
+	{
+		slot_selected->setPos(80 * 1 + 40, 80 * 0 + 40);
+	}
+	/*float px = ((mouseX / 2) * 1280) * 1280 / 2;
+	slot_selected->setPos(80 * ((int)px % 16) + 40, 80 * 0 + 40);*/
 }
 
 void TowerDefenseGame::ControlMissles()
