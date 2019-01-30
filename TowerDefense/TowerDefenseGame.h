@@ -10,9 +10,6 @@ public:
 	~TowerDefenseGame();
 	void RunSpaceInvaders();
 	void ControlSelectedSlot();
-	void ControlMissles();
-	void ControlShip();
-	void MoveEnemies();
 	void DrawAll();
 	double DistanceTo(Sprite * missile, Sprite * enemie);
 private:
@@ -22,15 +19,7 @@ private:
 	std::shared_ptr<Texture> slot_grass;
 	std::shared_ptr<Sprite> slot_selected;
 	std::vector<Sprite> slots;
-	std::shared_ptr<Sprite> ship;
-	std::vector<Sprite> enemies;
-	std::shared_ptr<Texture> missile;
-	std::vector<Sprite> missiles;
 	int frames;
-	int enemyDir;
-	int enemySpeed;
-	int enemyH;
-	double lastTimeShoot;
 	int map[9][16] = {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
