@@ -48,6 +48,7 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	enemyWay.push_back(*(new Point(13, 4)));
 	enemyWay.push_back(*(new Point(14, 4)));
 	enemyWay.push_back(*(new Point(15, 4)));
+	enemyWay.push_back(*(new Point(16, 4)));
 }
 
 TowerDefenseGame::~TowerDefenseGame()
@@ -71,24 +72,40 @@ void TowerDefenseGame::CalculateSelectedSlot()
 	slot_selected_y = ((int)mouseY) / 80;
 	slot_selected->setPos(slot_selected_x * 80 + 40, slot_selected_y * 80 + 40);
 }
-
+double delta = 0;
+int index = 0;
+int dirInX = 0;
+int dirInY = 0;
 void TowerDefenseGame::CalculateEnemyMovement()
 {
-	int index = 0;
+	int currentX = std::floor((enemies[0].getPos(0)-40) / 80);
+	int yOffset = dirInY >= 0 ? -40 : 40;
+	int currentY = std::floor((enemies[0].getPos(1)+yOffset) / 80);
 
-	float currentX = enemies[0].getPos(0) / 80;
-	float currentY = enemies[0].getPos(1) / 80;
+	if(enemyWay[index + 1].x - currentX > 0) dirInX = 1;
+	else if (enemyWay[index + 1].x - currentX < 0) dirInX = -1;
+	else dirInX = 0;
+
+	if (enemyWay[index + 1].y - currentY > 0) dirInY = 1;
+	else if (enemyWay[index + 1].y - currentY < 0) dirInY = -1;
+	else dirInY = 0;
 
 	double now = glfwGetTime();
-	double delta = now - lastTime;
+	delta += (now - lastTime) * enemy1_speed;
 	lastTime = now;
 
-	if (std::abs(enemies[0].getPos(0) - enemyWay[index].x) < 5 && std::abs(enemies[0].getPos(1) - enemyWay[index].y) < 5)
+	if (delta >= 1)
 	{
+		delta--;
 		index++;
 	}
 
-	enemies[0].setPos(enemyWay[index].x * 80 + 40 + delta, enemyWay[index].y * 80 + 40 + delta);
+	enemies[0].setPos(enemyWay[index].x * 80 + 40 + (delta * 80 * dirInX), enemyWay[index].y * 80 + 40 + (delta * 80 * dirInY));
+
+	if (index == 21)
+	{
+		index = 0;
+	}
 }
 
 void TowerDefenseGame::DrawAll()

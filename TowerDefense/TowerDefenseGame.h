@@ -23,7 +23,7 @@ private:
 	std::vector<Sprite> slots;
 	std::vector<Point> enemyWay;
 	std::shared_ptr<Texture> enemy1;
-	float enemy1_speed = 1;
+	float enemy1_speed = 3;
 	std::shared_ptr<Texture> enemy2;
 	std::shared_ptr<Texture> enemy3;
 	std::vector<Sprite> enemies;
