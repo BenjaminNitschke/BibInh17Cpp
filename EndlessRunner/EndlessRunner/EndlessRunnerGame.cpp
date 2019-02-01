@@ -13,11 +13,6 @@ EndlessRunnerGame::EndlessRunnerGame(int width, int height, const char* name) : 
 	backgroundSpeed = 3;
 
 	playerCar = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/playerCar.png"), width / 2, height * 0.85f);
-	//car01 = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/car01.png"), width / 2, height * 0.8f);
-	//car02 = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/car02.png"), width / 2, height * 0.8f);
-	//car03 = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/car03.png"), width / 2, height * 0.8f);
-	//car04 = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/car04.png"), width / 2, height * 0.8f);
-	//car05 = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/car05.png"), width / 2, height * 0.8f);
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -70,10 +65,36 @@ void EndlessRunnerGame::CreateCars(int width, int height)
 	}
 }
 
+void EndlessRunnerGame::CreateTrees(int width, int height)
+{
+	for (int i = 1; i <= 2; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			std::string s;
+			s.append("../Pics/tree0");
+			s.append(std::to_string(i));
+			s.append(".png");
+			auto tree = std::make_shared<Sprite>(std::make_shared<Texture>(s), 0, 0);
+			trees.push_back(tree);
+		}
+	}
+
+	for (int i = 0; i < trees.size(); i++)
+	{
+		this->SpawnTree();
+	}
+}
+
 void EndlessRunnerGame::SpawnCar(int index)
 {
 	cars[index].sprite->x = rand() % (1600 - 2 * cars[index].sprite->GetWidth()) + 160 + cars[index].sprite->GetWidth();
 	cars[index].sprite->y = rand() % 2000 - 3080;
+}
+
+void EndlessRunnerGame::SpawnTree() 
+{
+
 }
 
 void EndlessRunnerGame::MoveBackground()
@@ -110,7 +131,7 @@ void EndlessRunnerGame::RunEndlessRunner()
 		MoveBackground();
 		MoveCars();
 		DrawAll();
-		backgroundSpeed += 0.5;
+		backgroundSpeed += 0.002;
 	});
 }
 

@@ -14,7 +14,9 @@ public:
 	void DrawAll();
 	void ControlCar();
 	void CreateCars(int width, int height);
+	void CreateTrees(int width, int height);
 	void SpawnCar(int index);
+	void SpawnTree();
 	void MoveBackground();
 	void MoveCars();
 	float backgroundSpeed;
@@ -23,5 +25,6 @@ private:
 	std::shared_ptr<Sprite> playerCar;
 	std::vector<std::shared_ptr<Sprite>> roads;
 	std::vector<Car> cars;
+	std::vector<std::shared_ptr<Sprite>> trees;
 };
 
