@@ -153,6 +153,7 @@
     <ClInclude Include="Canasta.h" />
     <ClInclude Include="CanastaGame.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Canasta.cpp" />
     <ClCompile Include="CanastaGame.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

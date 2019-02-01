@@ -11,7 +11,6 @@ void CanastaGame::RunGame()
 {
 	Run([=]()
 	{			
-		//StartTurn();
 		player.hand[0]->cardGraphic->Draw();
 	});
 }
@@ -34,6 +33,7 @@ CanastaGame::CanastaGame() : Game("Canasta")
 
 	//Shuffle deck
 	std::shuffle(deck.begin(), deck.end(), std::default_random_engine(std::time(nullptr)));
+	Init();
 }
 
 void CanastaGame::DealCards(std::vector<std::shared_ptr<Card>>* hand, int amount)
@@ -55,24 +55,23 @@ void CanastaGame::DealCards(std::vector<std::shared_ptr<Card>>* hand, int amount
 void CanastaGame::StartTurn()
 {
 	bool ended = false;
-	if (roundNumber == 0)
-		DealCards(&player.hand, 10);
-
-	else DealCards(&player.hand, 2);
-	std::cout << player.hand.size();
+	
+	//if(!buying)
+	DealCards(&player.hand, 2);
 	
 	while (!ended)
 	{
 		
+		ended = true;
 	}
 }
 
 void CanastaGame::DrawCards()
 {
-	player.hand[0]->cardGraphic->Draw();
+	
 }
 
-void Init()
+void CanastaGame::Init()
 {
-
+	DealCards(&player.hand, 15);
 }
