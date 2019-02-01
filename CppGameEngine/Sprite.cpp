@@ -21,8 +21,8 @@ void Sprite::Draw(int offsetX)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBegin(GL_QUADS);
 
-	int halfWidth = texture->width / 2;
-	int halfHeight = texture->height / 2;
+	int halfWidth = texture->width / 8;
+	int halfHeight = texture->height / 8;
 	int currentX = x + offsetX;
 	
 	glTexCoord2f(1, 1);

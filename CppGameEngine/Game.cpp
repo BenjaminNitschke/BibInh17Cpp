@@ -42,7 +42,7 @@ Game::Game(const char* title)
 	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
 	auto glfwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glfwWindow);
-	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetKeyCallback(glfwWindow, OnKeyboard);
 	glfwSetCursorPosCallback(glfwWindow, OnMouse);
 	glfwGetWindowSize(glfwWindow, &viewportWidth, &viewportHeight);
