@@ -5,8 +5,8 @@
 class Sprite
 {
 public:
-	Sprite(std::shared_ptr<Texture> texture, int x, int y)
-		: texture(texture), x(x), y(y) {}
+	Sprite(std::shared_ptr<Texture> texture, int x, int y, int scale)
+		: texture(texture), x(x), y(y), scale(scale) {}
 	void Draw(int offsetX = 0);
 	void Move(int addX, int addY)
 	{
@@ -25,4 +25,5 @@ public:
 	}
 private:
 	std::shared_ptr<Texture> texture;
+	int scale;
 };
