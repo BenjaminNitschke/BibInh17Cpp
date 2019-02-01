@@ -7,7 +7,7 @@ class Game
 public:
 	Game(int width, int height, const char* name);
 	~Game();
-	GLFWwindow* pWindow;
+	static GLFWwindow* pWindow;
 	int viewportWidth;
 	int viewportHeight;
 	static bool leftPressed;

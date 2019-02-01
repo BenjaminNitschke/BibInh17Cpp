@@ -10,6 +10,7 @@ bool Game::spacePressed;
 float Game::xDelta;
 float Game::yDelta;
 
+GLFWwindow* Game::pWindow;
 
 float oldPosX, oldPosY;
 

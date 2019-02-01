@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Sprite.h"
 #include "GLFW/glfw3.h"
-#include <iostream>
 
 // width of the screen
 #define SCREEN_WIDTH (float)1280.0f

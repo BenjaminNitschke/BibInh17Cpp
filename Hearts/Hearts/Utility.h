@@ -22,6 +22,9 @@ const int queen    =  10;
 const int king     =  11;
 const int ace      =  12;
 
+const int idle = 0;
+const int selected = 1;
+
 const float scaling = 0.25f;
 
 const std::map<int, std::string> names = std::map<int, std::string>
