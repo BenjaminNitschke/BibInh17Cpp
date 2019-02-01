@@ -16,4 +16,5 @@ public:
 	static bool spacePressed;
 	static double mouseX;
 	static double mouseY;
+	static bool leftMousePressed;
 };

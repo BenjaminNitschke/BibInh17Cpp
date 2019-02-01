@@ -10,6 +10,7 @@ public:
 	TowerDefenseGame(int width, int height, const char* name);
 	~TowerDefenseGame();
 	void RunSpaceInvaders();
+	void CalculateMouseInput();
 	void CalculateSelectedSlot();
 	void CalculateEnemyMovement();
 	void DrawAll();
@@ -19,6 +20,13 @@ private:
 	std::shared_ptr<Texture> slot;
 	std::shared_ptr<Texture> slot_way;
 	std::shared_ptr<Texture> slot_grass;
+	std::shared_ptr<Texture> slot_towerSelection;
+	std::shared_ptr<Texture> tower1;
+	std::shared_ptr<Texture> tower2;
+	std::shared_ptr<Texture> tower3;
+	std::vector<std::shared_ptr<Texture>> numbers;
+	std::vector<Sprite> numbersDrawn;
+	std::vector<Sprite> towers;
 	std::shared_ptr<Sprite> slot_selected;
 	std::vector<Sprite> slots;
 	std::vector<Point> enemyWay;
@@ -31,8 +39,8 @@ private:
 	int slot_selected_x;
 	int slot_selected_y;
 	int map[9][16] = {
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0 },
+		{ 0, 2, 2, 2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0 },
 		{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },
 		{ 0, 0, 0, 2, 1, 0, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1 },
@@ -43,4 +51,3 @@ private:
 	};
 
 };
-
