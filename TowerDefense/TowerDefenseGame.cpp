@@ -6,6 +6,17 @@
 
 TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 {
+	numbers.push_back(std::make_shared<Texture>("numbers/0.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/1.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/2.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/3.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/4.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/5.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/6.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/7.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/8.png"));
+	numbers.push_back(std::make_shared<Texture>("numbers/9.png"));
+
 	background = std::make_shared<Sprite>(std::make_shared<Texture>("background.png"), 1280 / 2, 720 / 2);
 	slot = std::make_shared<Texture>("slot.png");
 	slot_way = std::make_shared<Texture>("slot_way.png");
@@ -18,17 +29,6 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	tower1 = std::make_shared<Texture>("tower1.png");
 	tower2 = std::make_shared<Texture>("tower2.png");
 	tower3 = std::make_shared<Texture>("tower3.png");
-	numbers.push_back(std::make_shared<Texture>("numbers/0.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/1.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/2.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/3.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/4.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/5.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/6.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/7.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/8.png"));
-	numbers.push_back(std::make_shared<Texture>("numbers/9.png"));
-
 
 	towers.push_back(*(new Sprite(tower1, 7 * 80 + 40, 0 * 80 + 40)));
 	towers.push_back(*(new Sprite(tower2, 8 * 80 + 40, 0 * 80 + 40)));
@@ -41,6 +41,32 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	numbersDrawn.push_back(*(new Sprite(numbers.at(0), 9 * 80 + 67 - 8 * 0, 0 * 80 + 68)));
 
 	enemies.push_back(*(new Sprite(enemy1, 80 * -1 + 40, 80 * 2 + 40)));
+
+	goldNumberPart1 = 0;
+	goldNumberPart2 = 0;
+	goldNumberPart3 = 0;
+
+	xGold = 10 * 80 + 50;
+	yGold = 0 * 80 + 68;
+
+	for (int i = 0; i < 10; i++)
+	{
+		goldNumber1.push_back(*(new Sprite(numbers.at(i), -8, -8)));
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		goldNumber2.push_back(*(new Sprite(numbers.at(i), -8, -8)));
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		goldNumber3.push_back(*(new Sprite(numbers.at(i), -8, -8)));
+	}
+
+	goldNumber1[goldNumberPart1].setPos(xGold + 16, yGold);
+	goldNumber2[goldNumberPart2].setPos(xGold + 8, yGold);
+	goldNumber3[goldNumberPart3].setPos(xGold, yGold);
 
 	for (int x = 0; x < 16; x++)
 	{
@@ -92,6 +118,21 @@ void TowerDefenseGame::RunSpaceInvaders()
 		CalculateEnemyMovement();
 		DrawAll();
 	});
+}
+
+void TowerDefenseGame::ChangeGoldAmount(int number)
+{
+	goldNumber1[goldNumberPart1].setPos(-8, -8);
+	goldNumber2[goldNumberPart2].setPos(-8, -8);
+	goldNumber3[goldNumberPart3].setPos(-8, -8);
+
+	goldNumberPart1 = number % 1000 / 100;
+	goldNumberPart2 = number % 100 / 10;
+	goldNumberPart3 = number % 10;
+
+	goldNumber1[goldNumberPart1].setPos(xGold, yGold);
+	goldNumber2[goldNumberPart2].setPos(xGold + 8, yGold);
+	goldNumber3[goldNumberPart3].setPos(xGold + 16, yGold);
 }
 
 int seletedTowerIndex = -1;
@@ -151,6 +192,7 @@ double delta = 0;
 int index = 0;
 int dirInX = 0;
 int dirInY = 0;
+int gold = 0;
 void TowerDefenseGame::CalculateEnemyMovement()
 {
 	int currentX = std::floor((enemies[0].getPos(0)-40) / 80);
@@ -181,6 +223,7 @@ void TowerDefenseGame::CalculateEnemyMovement()
 	{
 		index = 0;
 	}
+	ChangeGoldAmount(gold++);
 }
 
 void TowerDefenseGame::DrawAll()
@@ -207,9 +250,12 @@ void TowerDefenseGame::DrawAll()
 
 	for (int i = 0; i < numbersDrawn.size(); i++)
 	{
-		Sprite *tmp = &numbersDrawn.at(i);
-		tmp->Draw();
+		numbersDrawn[i].Draw();
 	}
+
+	goldNumber1[goldNumberPart1].Draw();
+	goldNumber2[goldNumberPart2].Draw();
+	goldNumber3[goldNumberPart3].Draw();
 }
 
 double TowerDefenseGame::DistanceTo(Sprite* missile, Sprite* enemie)

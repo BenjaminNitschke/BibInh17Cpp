@@ -10,6 +10,7 @@ public:
 	TowerDefenseGame(int width, int height, const char* name);
 	~TowerDefenseGame();
 	void RunSpaceInvaders();
+	void ChangeGoldAmount(int number);
 	void CalculateMouseInput();
 	void CalculateSelectedSlot();
 	void CalculateEnemyMovement();
@@ -39,8 +40,8 @@ private:
 	int slot_selected_x;
 	int slot_selected_y;
 	int map[9][16] = {
-		{ 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0 },
-		{ 0, 2, 2, 2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0 },
+		{ 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },
 		{ 0, 0, 0, 2, 1, 0, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1 },
@@ -50,4 +51,12 @@ private:
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 	};
 
+	std::vector<Sprite> goldNumber1;
+	std::vector<Sprite> goldNumber2;
+	std::vector<Sprite> goldNumber3;
+	int xGold;
+	int yGold;
+	int goldNumberPart1;
+	int goldNumberPart2;
+	int goldNumberPart3;
 };
