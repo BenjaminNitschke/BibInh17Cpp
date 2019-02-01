@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Car.h" />
     <ClInclude Include="EndlessRunner.h" />
     <ClInclude Include="EndlessRunnerGame.h" />
     <ClInclude Include="Resource.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="EndlessRunner.cpp" />
     <ClCompile Include="EndlessRunnerGame.cpp" />
     <ClCompile Include="stdafx.cpp">

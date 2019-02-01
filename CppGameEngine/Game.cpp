@@ -58,7 +58,7 @@ Game::Game(int width, int height, const char* name)
 	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwSetKeyCallback(pWindow, OnKeyboard);
 	glfwSetCursorPosCallback(pWindow, OnMouse);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	//glfwSetWindowMonitor(pWindow, glfwGetPrimaryMonitor(), 0, 0, width, height, 60);
 }
 
