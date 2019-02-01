@@ -84,7 +84,7 @@ void EndlessRunnerGame::MoveBackground()
 
 		if (roads[i]->y >= 1620)
 		{
-			roads[i]->y = -540;
+			roads[i]->y = -540 + roads[i]->y - 1620;
 		}
 	}
 }
@@ -110,7 +110,7 @@ void EndlessRunnerGame::RunEndlessRunner()
 		MoveBackground();
 		MoveCars();
 		DrawAll();
-		backgroundSpeed += 0.1;
+		backgroundSpeed += 0.5;
 	});
 }
 
