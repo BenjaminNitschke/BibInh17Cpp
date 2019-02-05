@@ -37,12 +37,12 @@ void Player::SortHand()
 
 void Player::RepositionHand() const
 {
-	const auto cardWidth = hand[0]->width;
+	const auto cardWidth = hand[0]->width / 3;
 	const auto cardCount = hand.size();
-	const auto init = cardWidth / 3 * floor(cardCount / 2) + 640;
+	const auto init = cardWidth * floor(cardCount / 2) + 640 - (cardCount % 2 == 0 ? cardWidth / 2 : 0);
 
 	for (int i = 0; i < cardCount; i++)
-		hand[i]->sprite->MoveTo(init - cardWidth / 3 * i, 720);
+		hand[i]->sprite->MoveTo(init - cardWidth * i, 720);
 }
 
 void Player::DrawHand() const
