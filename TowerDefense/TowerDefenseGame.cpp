@@ -106,6 +106,9 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	enemies.push_back(*(new Enemy(0, 0, 100, 1, *(new Sprite(enemy3, 0, 0)), enemyWay, 0)));
 	enemies.push_back(*(new Enemy(0, 0, 100, 1, *(new Sprite(enemy2, 0, 0)), enemyWay, 1)));
 	enemies.push_back(*(new Enemy(0, 0, 100, 5, *(new Sprite(enemy1, 0, 0)), enemyWay, 3)));
+
+
+	lines.push_back(*(new Line(Point(0, 0), Point(100, 100))));
 }
 
 TowerDefenseGame::~TowerDefenseGame()
@@ -179,7 +182,6 @@ void TowerDefenseGame::CalculateMouseInput()
 				if (towerIndex == 0) towers.push_back(*(new Sprite(tower1, slot_selected_x * 80 + 40, slot_selected_y * 80 + 40)));
 				if (towerIndex == 1) towers.push_back(*(new Sprite(tower2, slot_selected_x * 80 + 40, slot_selected_y * 80 + 40)));
 				if (towerIndex == 2) towers.push_back(*(new Sprite(tower3, slot_selected_x * 80 + 40, slot_selected_y * 80 + 40)));
-				lines.push_back(*(new Line(Point(slot_selected_x * 80 + 40, slot_selected_y * 80 + 40), Point(slot_selected_x * 80 + 40, slot_selected_y * 80 + 40))));
 				towerSelected = false;
 				seletedTowerIndex = -1;
 			}

@@ -68,4 +68,3 @@ void Line::MovePoint(int point, int x, int y)
 		end.y += y;
 	}
 }
-

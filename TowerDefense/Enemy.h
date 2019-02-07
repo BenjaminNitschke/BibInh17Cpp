@@ -11,6 +11,8 @@ public:
 	~Enemy();
 	void Move();
 	void Draw();
+	Point GetPos();
+	bool operator==(Enemy& comp) const { return this->x == comp.x; }
 private:
 	Sprite sprite;
 	int x;

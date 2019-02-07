@@ -55,3 +55,8 @@ void Enemy::Draw()
 {
 	sprite.Draw();
 }
+
+Point Enemy::GetPos()
+{
+	return Point(x, y);
+}

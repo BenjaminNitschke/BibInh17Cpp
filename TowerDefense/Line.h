@@ -16,4 +16,3 @@ private:
 	float GetOpenGLX(int px);
 	float GetOpenGLY(int py);
 };
-
