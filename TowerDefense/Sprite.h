@@ -16,5 +16,7 @@ private:
 	std::shared_ptr<Texture> texture;
 	int x;
 	int y;
+	float GetOpenGLX(int px);
+	float GetOpenGLY(int py);
 };
 

@@ -2,7 +2,11 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "Point.h"
+#include "Line.h"
 #include <vector>
+
+#define SCREEN_WIDTH 1280.0f
+#define SCREEN_HEIGHT 720.0f
 
 class TowerDefenseGame : public Game
 {
@@ -10,6 +14,7 @@ public:
 	TowerDefenseGame(int width, int height, const char* name);
 	~TowerDefenseGame();
 	void RunSpaceInvaders();
+	void CalculateLines();
 	void ChangeGoldAmount(int number);
 	void CalculateMouseInput();
 	void CalculateSelectedSlot();
@@ -17,6 +22,7 @@ public:
 	void DrawAll();
 	double DistanceTo(Sprite * missile, Sprite * enemie);
 private:
+	std::vector<Line> lines;
 	std::shared_ptr<Sprite> background;
 	std::shared_ptr<Texture> slot;
 	std::shared_ptr<Texture> slot_way;

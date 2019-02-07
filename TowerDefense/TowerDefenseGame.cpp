@@ -102,6 +102,8 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	enemyWay.push_back(*(new Point(14, 4)));
 	enemyWay.push_back(*(new Point(15, 4)));
 	enemyWay.push_back(*(new Point(16, 4)));
+
+	lines.push_back(*(new Line(Point(0, 0), Point(SCREEN_WIDTH, SCREEN_HEIGHT))));
 }
 
 TowerDefenseGame::~TowerDefenseGame()
@@ -116,8 +118,17 @@ void TowerDefenseGame::RunSpaceInvaders()
 		CalculateSelectedSlot();
 		CalculateMouseInput();
 		CalculateEnemyMovement();
+		CalculateLines();
 		DrawAll();
 	});
+}
+
+void TowerDefenseGame::CalculateLines()
+{
+	for (int i = 0; i < lines.size(); i++)
+	{
+		lines[0].SetPoint(1, enemies[0].getPos(0), enemies[0].getPos(1));
+	}
 }
 
 void TowerDefenseGame::ChangeGoldAmount(int number)
@@ -226,6 +237,15 @@ void TowerDefenseGame::CalculateEnemyMovement()
 	ChangeGoldAmount(gold++);
 }
 
+float GetOpenGLX(int px) {
+	int centerX = px - (int)SCREEN_WIDTH / 2;
+	return (centerX / SCREEN_WIDTH)*2.0f;
+}
+float GetOpenGLY(int py) {
+	int centerY = py - (int)SCREEN_HEIGHT / 2;
+	return (centerY / SCREEN_HEIGHT)*(-2.0f);
+}
+
 void TowerDefenseGame::DrawAll()
 {
 	background->Draw();
@@ -235,6 +255,11 @@ void TowerDefenseGame::DrawAll()
 		tmp->Draw();
 	}
 	slot_selected->Draw();
+	
+	for (int i = 0; i < lines.size(); i++)
+	{
+		lines.at(i).Draw();
+	}
 
 	for (int i = 0; i < enemies.size(); i++)
 	{

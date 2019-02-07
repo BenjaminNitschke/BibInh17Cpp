@@ -5,11 +5,11 @@
 #define SCREEN_WIDTH 1280.0f
 #define SCREEN_HEIGHT 720.0f
 
-float GetOpenGLX(int px){
+float Sprite::GetOpenGLX(int px){
 	int centerX = px - (int)SCREEN_WIDTH/2;
 	return (centerX/SCREEN_WIDTH)*2.0f;
 }
-float GetOpenGLY(int py){
+float Sprite::GetOpenGLY(int py){
 	int centerY = py - (int)SCREEN_HEIGHT/2;
 	return (centerY/SCREEN_HEIGHT)*(-2.0f);
 }
