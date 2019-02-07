@@ -93,7 +93,7 @@
       <AdditionalIncludeDirectories>..\..\CppGameEngine;..\..\glfw-3.2.1.bin.WIN32\include;..\..\lpng1617;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>..\..\glfw-3.2.1.bin.WIN32\lib-vc2015\glfw3.lib;opengl32.lib;libpng16.lib;..\Debug\CppGameEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -149,7 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Car.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="EndlessRunner.h" />
     <ClInclude Include="EndlessRunnerGame.h" />
     <ClInclude Include="Resource.h" />
@@ -157,7 +157,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EndlessRunner.cpp" />
     <ClCompile Include="EndlessRunnerGame.cpp" />
     <ClCompile Include="stdafx.cpp">

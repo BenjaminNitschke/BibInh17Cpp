@@ -3,28 +3,29 @@
 #include <Sprite.h>
 #include <time.h>
 #include <vector>
-#include "Car.h"
+#include "Entity.h"
 
 class EndlessRunnerGame : public Game
 {
 public:
 	EndlessRunnerGame(int width, int height, const char* name);
 	~EndlessRunnerGame();
+	void CreateEntities(std::string path, int differentEntities, int amountPerEntity, int with, int height, int minSpeed, int maxSpeed, std::vector<Entity>* v);
+	void SpawnEntity(std::vector<Entity> entity, int index, int xPos, int yPos);
+	void SpawnAllEntities();
 	void RunEndlessRunner();
+	void DetectCollision();
 	void DrawAll();
 	void ControlCar();
-	void CreateCars(int width, int height);
-	void CreateTrees(int width, int height);
-	void SpawnCar(int index);
-	void SpawnTree();
 	void MoveBackground();
-	void MoveCars();
+	void MoveEntity();
 	float backgroundSpeed;
+	float playerSpeed;
 
 private:
 	std::shared_ptr<Sprite> playerCar;
 	std::vector<std::shared_ptr<Sprite>> roads;
-	std::vector<Car> cars;
-	std::vector<std::shared_ptr<Sprite>> trees;
+	std::vector<Entity> cars;
+	std::vector<Entity> trees;
 };
 

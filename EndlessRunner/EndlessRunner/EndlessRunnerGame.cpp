@@ -5,12 +5,14 @@
 #include <algorithm>
 #include <ctime>
 #include <string>
+#include <iostream>
 
-const int lanes[] = { 270, 525, 764, 1014 };
-
+int penis = 0;
+const int collisionTolerance = 12;
 EndlessRunnerGame::EndlessRunnerGame(int width, int height, const char* name) : Game(width, height, name)
 {
 	backgroundSpeed = 3;
+	playerSpeed = 10;
 
 	playerCar = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/playerCar.png"), width / 2, height * 0.85f);
 
@@ -21,7 +23,10 @@ EndlessRunnerGame::EndlessRunnerGame(int width, int height, const char* name) : 
 	}
 	roads[1]->y = -540;
 
-	this->CreateCars(width, height);
+	CreateEntities("../Pics/car0", 5, 3, width, height, 1, 2, &cars);
+	CreateEntities("../Pics/tree0", 2, 2, width, height, 0, 0, &trees);
+
+	SpawnAllEntities();
 }
 
 EndlessRunnerGame::~EndlessRunnerGame()
@@ -33,68 +38,54 @@ void EndlessRunnerGame::ControlCar()
 	if (leftPressed)
 	{
 		if (playerCar->x > 160 + playerCar->GetWidth())
-			playerCar->Move(-10, 0);
+			playerCar->Move(-playerSpeed, 0);
 	}
 	if (rightPressed)
 	{
 		if (playerCar->x < 1760 - playerCar->GetWidth())
-			playerCar->Move(10, 0);
+			playerCar->Move(playerSpeed, 0);
 	}
 }
 
-void EndlessRunnerGame::CreateCars(int width, int height)
+void EndlessRunnerGame::CreateEntities(std::string path, int differentEntities, int amountPerEntity, int width, int height, int minSpeed, int maxSpeed, std::vector<Entity>* v) 
 {
 	int index = 0;
-	for (int i = 1; i <= 5; i++)
+	for (int i = 1; i <= differentEntities; i++)
 	{
-		for (int j = 0; j < 2; j++)
+		for (int j = 0; j < amountPerEntity; j++)
 		{
+			auto speed = maxSpeed == 0 ? 0 : minSpeed + rand() % maxSpeed;
 			std::string s;
-			s.append("../Pics/car0");
+			s.append(path);
 			s.append(std::to_string(i));
 			s.append(".png");
-			auto car = Car(std::make_shared<Sprite>(std::make_shared<Texture>(s.c_str()), width / 2, height * 0.8f), index, rand() % 5 + 1);
-			cars.push_back(car);
+			auto entity = Entity(std::make_shared<Sprite>(std::make_shared<Texture>(s.c_str()), width, height), index, speed);
+			v->push_back(entity);
 			index++;
 		}
 	}
-
-	for (int i = 0; i < cars.size(); i++)
-	{
-		this->SpawnCar(cars[i].index);
-	}
 }
 
-void EndlessRunnerGame::CreateTrees(int width, int height)
+void EndlessRunnerGame::SpawnEntity(std::vector<Entity> entity, int index, int xPos, int yPos)
 {
-	for (int i = 1; i <= 2; i++)
+	entity[index].sprite->x = xPos;
+	entity[index].sprite->y = yPos;
+}
+
+void EndlessRunnerGame::SpawnAllEntities()
+{
+	for (int i = 0; i < cars.size(); i++)
 	{
-		for (int j = 0; j < 2; j++)
-		{
-			std::string s;
-			s.append("../Pics/tree0");
-			s.append(std::to_string(i));
-			s.append(".png");
-			auto tree = std::make_shared<Sprite>(std::make_shared<Texture>(s), 0, 0);
-			trees.push_back(tree);
-		}
+		SpawnEntity(cars, i, rand() % (1600 - 2 * cars[i].sprite->GetWidth()) + 160 + cars[i].sprite->GetWidth(), rand() % 2000 - 3080);
 	}
 
 	for (int i = 0; i < trees.size(); i++)
-	{
-		this->SpawnTree();
+	{		
+		if (i < trees.size() * 0.5f)
+			SpawnEntity(trees, i, 100, i * -900 - 200);
+		else
+			SpawnEntity(trees, i, 1820, (i - 2) * -400 - 200);
 	}
-}
-
-void EndlessRunnerGame::SpawnCar(int index)
-{
-	cars[index].sprite->x = rand() % (1600 - 2 * cars[index].sprite->GetWidth()) + 160 + cars[index].sprite->GetWidth();
-	cars[index].sprite->y = rand() % 2000 - 3080;
-}
-
-void EndlessRunnerGame::SpawnTree() 
-{
-
 }
 
 void EndlessRunnerGame::MoveBackground()
@@ -110,15 +101,25 @@ void EndlessRunnerGame::MoveBackground()
 	}
 }
 
-void EndlessRunnerGame::MoveCars()
+void EndlessRunnerGame::MoveEntity()
 {
-	for (Car car : cars)
+	for (Entity car : cars)
 	{
 		car.sprite->Move(0, car.speed + backgroundSpeed);
 
 		if (car.sprite->y > 1080 + car.sprite->GetHeight())
 		{
-			SpawnCar(car.index);
+			SpawnEntity(cars, car.index, rand() % (1600 - 2 * car.sprite->GetWidth()) + 160 + car.sprite->GetWidth(), rand() % 2000 - 3080);
+		}
+	}
+
+	for (Entity tree : trees)
+	{
+		tree.sprite->Move(0, tree.speed + backgroundSpeed);
+
+		if (tree.sprite->y > 1080 + tree.sprite->GetHeight())
+		{
+			SpawnEntity(trees, tree.index, tree.sprite->x, rand() % 400 - 1080);
 		}
 	}
 }
@@ -129,10 +130,26 @@ void EndlessRunnerGame::RunEndlessRunner()
 	{
 		ControlCar();
 		MoveBackground();
-		MoveCars();
+		MoveEntity();
 		DrawAll();
+		DetectCollision();
 		backgroundSpeed += 0.002;
+		playerSpeed += 0.001;
 	});
+}
+
+void EndlessRunnerGame::DetectCollision()
+{
+	for (Entity enemy : cars)
+	{
+		if (playerCar->x < enemy.sprite->x + enemy.sprite->GetWidth() - collisionTolerance &&
+			playerCar->x + playerCar->GetWidth() - collisionTolerance > enemy.sprite->x &&
+			playerCar->y < enemy.sprite->y + enemy.sprite->GetHeight() - collisionTolerance &&
+			playerCar->y + playerCar->GetHeight() - 2 * collisionTolerance > enemy.sprite->y)
+		{
+			std::cout << std::endl << penis++ << std::endl;
+		}
+	}
 }
 
 void EndlessRunnerGame::DrawAll()
@@ -141,9 +158,13 @@ void EndlessRunnerGame::DrawAll()
 	{
 		roads[i]->Draw();
 	}
-	for (Car car : cars)
+	for (Entity car : cars)
 	{
 		car.sprite->Draw();
+	}
+	for (Entity tree : trees)
+	{
+		tree.sprite->Draw();
 	}
 
 	playerCar->Draw();

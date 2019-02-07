@@ -30,7 +30,7 @@
     <ClInclude Include="EndlessRunnerGame.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Car.h">
+    <ClInclude Include="Entity.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClCompile Include="EndlessRunnerGame.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Car.cpp">
+    <ClCompile Include="Entity.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

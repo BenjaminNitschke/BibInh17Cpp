@@ -1,6 +1,0 @@
-﻿  stdafx.cpp
-  EndlessRunner.cpp
-c:\users\temp.a213-012.001\desktop\bibinh17cpp\endlessrunner\endlessrunner\endlessrunner.cpp(6): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "GLFW/glfw3.h": No such file or directory
-  EndlessRunnerGame.cpp
-c:\users\temp.a213-012.001\desktop\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.h(2): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "Game.h": No such file or directory
-  Code wird generiert...
