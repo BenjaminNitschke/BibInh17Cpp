@@ -7,6 +7,7 @@ bool Game::spacePressed = false;
 double Game::mouseX = 0;
 double Game::mouseY = 0;
 bool Game::leftMousePressed = false;
+bool Game::iPressed = true;
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -22,6 +23,8 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		Game::rightPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_SPACE)
 		Game::spacePressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_I)
+		Game::iPressed = action != GLFW_RELEASE;
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)

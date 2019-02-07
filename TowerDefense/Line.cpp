@@ -33,7 +33,7 @@ Line::~Line()
 void Line::Draw()
 {
 	glColor3f(0, 0, 0);
-	glLineWidth(3);
+	glLineWidth(5);
 	glBegin(GL_LINES);
 	glVertex2f(GetOpenGLX(start.x), GetOpenGLY(start.y));
 	glVertex2f(GetOpenGLX(end.x), GetOpenGLY(end.y));

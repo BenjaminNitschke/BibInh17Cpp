@@ -17,4 +17,5 @@ public:
 	static double mouseX;
 	static double mouseY;
 	static bool leftMousePressed;
+	static bool iPressed;
 };

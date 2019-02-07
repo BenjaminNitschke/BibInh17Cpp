@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Point.h"
 #include "Line.h"
+#include "Enemy.h"
 #include <vector>
 
 #define SCREEN_WIDTH 1280.0f
@@ -65,4 +66,6 @@ private:
 	int goldNumberPart1;
 	int goldNumberPart2;
 	int goldNumberPart3;
+
+	Enemy enemy;
 };

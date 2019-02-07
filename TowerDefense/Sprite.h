@@ -5,6 +5,7 @@
 class Sprite
 {
 public:
+	Sprite() {};
 	Sprite(std::shared_ptr<Texture> texture, int x, int y)
 		: texture(texture), x(x), y(y) {}
 	void Draw();
