@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Enemy.h"
 
-Enemy::Enemy(int x, int y, int health, int speed, Sprite sprite, std::vector<Point> way)
+Enemy::Enemy(int x, int y, int health, float speed, Sprite sprite, std::vector<Point> way, int startIndex)
 {
 	this->x = x;
 	this->y = y;
@@ -9,6 +9,7 @@ Enemy::Enemy(int x, int y, int health, int speed, Sprite sprite, std::vector<Poi
 	this->speed = speed;
 	this->sprite = sprite;
 	this->way = way;
+	this->index = startIndex;
 }
 
 Enemy::~Enemy()

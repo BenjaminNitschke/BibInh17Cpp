@@ -40,8 +40,6 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	numbersDrawn.push_back(*(new Sprite(numbers.at(2), 9 * 80 + 67 - 8 * 1, 0 * 80 + 68)));
 	numbersDrawn.push_back(*(new Sprite(numbers.at(0), 9 * 80 + 67 - 8 * 0, 0 * 80 + 68)));
 
-	enemies.push_back(*(new Sprite(enemy1, 80 * -1 + 40, 80 * 2 + 40)));
-
 	goldNumberPart1 = 0;
 	goldNumberPart2 = 0;
 	goldNumberPart3 = 0;
@@ -103,7 +101,11 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	enemyWay.push_back(*(new Point(15, 4)));
 	enemyWay.push_back(*(new Point(16, 4)));
 
-	enemy = Enemy(0, 0, 100, 2, Sprite(enemy1, 0, 0), enemyWay);
+	enemies.push_back(*(new Enemy(0, 0, 100, 0.5f, *(new Sprite(enemy1, 0, 0)), enemyWay, 4)));
+	enemies.push_back(*(new Enemy(0, 0, 100, 2, *(new Sprite(enemy2, 0, 0)), enemyWay, 2)));
+	enemies.push_back(*(new Enemy(0, 0, 100, 1, *(new Sprite(enemy3, 0, 0)), enemyWay, 0)));
+	enemies.push_back(*(new Enemy(0, 0, 100, 1, *(new Sprite(enemy2, 0, 0)), enemyWay, 1)));
+	enemies.push_back(*(new Enemy(0, 0, 100, 5, *(new Sprite(enemy1, 0, 0)), enemyWay, 3)));
 }
 
 TowerDefenseGame::~TowerDefenseGame()
@@ -128,11 +130,7 @@ void TowerDefenseGame::RunSpaceInvaders()
 
 void TowerDefenseGame::CalculateLines()
 {
-	for (int i = 0; i < lines.size(); i++)
-	{
-		lines[i].SetPoint(1, enemies[0].getPos(0), enemies[0].getPos(1));
-
-	}
+	
 }
 
 void TowerDefenseGame::ChangeGoldAmount(int number)
@@ -204,43 +202,17 @@ void TowerDefenseGame::CalculateSelectedSlot()
 	slot_selected_x = ((int)mouseX) / 80;
 	slot_selected_y = ((int)mouseY) / 80;
 }
-//double delta = 0;
-//int index = 0;
-//int dirInX = 0;
-//int dirInY = 0;
-//int gold = 0;
+
+int gold = 0;
+
 void TowerDefenseGame::CalculateEnemyMovement()
 {
-	enemy.Move();
-//	int currentX = std::floor((enemies[0].getPos(0)-40) / 80);
-//	int yOffset = dirInY >= 0 ? -40 : 40;
-//	int currentY = std::floor((enemies[0].getPos(1)+yOffset) / 80);
-//
-//	if(enemyWay[index + 1].x - currentX > 0) dirInX = 1;
-//	else if (enemyWay[index + 1].x - currentX < 0) dirInX = -1;
-//	else dirInX = 0;
-//
-//	if (enemyWay[index + 1].y - currentY > 0) dirInY = 1;
-//	else if (enemyWay[index + 1].y - currentY < 0) dirInY = -1;
-//	else dirInY = 0;
-//
-//	double now = glfwGetTime();
-//	delta += (now - lastTime) * enemy1_speed;
-//	lastTime = now;
-//
-//	if (delta >= 1)
-//	{
-//		delta--;
-//		index++;
-//	}
-//
-//	enemies[0].setPos(enemyWay[index].x * 80 + 40 + (delta * 80 * dirInX), enemyWay[index].y * 80 + 40 + (delta * 80 * dirInY));
-//
-//	if (index == 21)
-//	{
-//		index = 0;
-//	}
-//	ChangeGoldAmount(gold++);
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies[i].Move();
+	}
+	gold = towers.size()-3;
+	ChangeGoldAmount(gold);
 }
 
 float GetOpenGLX(int px) {
@@ -272,8 +244,7 @@ void TowerDefenseGame::DrawAll()
 
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		Sprite *tmp = &enemies.at(i);
-		tmp->Draw();
+		enemies[i].Draw();
 	}
 	
 	for (int i = 0; i < towers.size(); i++)
@@ -290,8 +261,6 @@ void TowerDefenseGame::DrawAll()
 	goldNumber1[goldNumberPart1].Draw();
 	goldNumber2[goldNumberPart2].Draw();
 	goldNumber3[goldNumberPart3].Draw();
-
-	enemy.Draw();
 }
 
 double TowerDefenseGame::DistanceTo(Sprite* missile, Sprite* enemie)

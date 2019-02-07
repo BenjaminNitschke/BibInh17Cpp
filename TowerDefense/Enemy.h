@@ -7,7 +7,7 @@ class Enemy
 {
 public:
 	Enemy() {};
-	Enemy(int x, int y, int health, int speed, Sprite sprite, std::vector<Point> way);
+	Enemy(int x, int y, int health, float speed, Sprite sprite, std::vector<Point> way, int startIndex);
 	~Enemy();
 	void Move();
 	void Draw();
@@ -16,7 +16,7 @@ private:
 	int x;
 	int y;
 	int health;
-	int speed;
+	float speed;
 	std::vector<Point> way;
 	int currentX;
 	int currentY;

@@ -39,10 +39,9 @@ private:
 	std::vector<Sprite> slots;
 	std::vector<Point> enemyWay;
 	std::shared_ptr<Texture> enemy1;
-	float enemy1_speed = 3;
 	std::shared_ptr<Texture> enemy2;
 	std::shared_ptr<Texture> enemy3;
-	std::vector<Sprite> enemies;
+	//std::vector<Sprite> enemies;
 	double lastTime;
 	int slot_selected_x;
 	int slot_selected_y;
@@ -68,4 +67,5 @@ private:
 	int goldNumberPart3;
 
 	Enemy enemy;
+	std::vector<Enemy> enemies;
 };
