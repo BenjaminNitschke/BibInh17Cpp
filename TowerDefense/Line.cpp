@@ -30,9 +30,9 @@ Line::~Line()
 {
 }
 
-void Line::Draw()
+void Line::Draw(float r, float g, float b, float a)
 {
-	glColor4f(0, 0, 0, 0.5f);
+	glColor4f(r, g, b, a);
 	glLineWidth(3);
 	glBegin(GL_LINES);
 	glVertex2f(GetOpenGLX(start.x), GetOpenGLY(start.y));

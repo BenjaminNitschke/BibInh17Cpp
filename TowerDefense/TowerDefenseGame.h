@@ -21,6 +21,7 @@ public:
 	void CalculateMouseInput();
 	void CalculateSelectedSlot();
 	void CalculateEnemyMovement();
+	void TowerAttack();
 	void DrawAll();
 	double DistanceTo(Sprite * missile, Sprite * enemie);
 private:
@@ -69,5 +70,4 @@ private:
 
 	std::vector<Enemy> enemies;
 	std::vector<Tower> towers;
-	Line testline;
 };

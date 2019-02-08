@@ -9,7 +9,7 @@ public:
 	~Line();
 	Point start;
 	Point end;
-	void Draw();
+	void Draw(float r, float g, float b, float a);
 	void SetPoint(int point, int x, int y);
 	void MovePoint(int point, int x, int y);
 private:
