@@ -21,7 +21,7 @@ void Circle::DrawCircle()
 	glBegin(GL_LINE_LOOP);
 	for (int ii = 0; ii < 50; ii++)
 	{
-		glVertex2f(x + cx, y + cx);
+		glVertex2f(x + cx, y + cy);
 
 
 		t = x;
