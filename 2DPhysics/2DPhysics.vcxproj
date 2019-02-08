@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2DPhysics.cpp" />
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
