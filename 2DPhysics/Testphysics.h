@@ -8,6 +8,7 @@ public:
 	Testphysics();
 	~Testphysics();
 	void RunTestphysics();
+	void DrawScene();
 	std::shared_ptr<GameObject> gameobject;
 	
 };
