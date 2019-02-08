@@ -55,7 +55,7 @@ void EndlessRunnerGame::CreateEntities(std::string path, int differentEntities, 
 	{
 		for (int j = 0; j < amountPerEntity; j++)
 		{
-			auto speed = maxSpeed == 0 ? 0 : minSpeed + rand() % maxSpeed;
+			const auto speed = maxSpeed == 0 ? 0 : minSpeed + rand() % maxSpeed;
 			std::string s;
 			s.append(path);
 			s.append(std::to_string(i));
