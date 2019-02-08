@@ -7,14 +7,15 @@
 #include <string>
 #include <iostream>
 
-int penis = 0;
 const int collisionTolerance = 12;
+
 EndlessRunnerGame::EndlessRunnerGame(int width, int height, const char* name) : Game(width, height, name)
 {
 	backgroundSpeed = 3;
 	playerSpeed = 10;
 
 	playerCar = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/playerCar.png"), width / 2, height * 0.85f);
+	gameOver = std::make_shared<Sprite>(std::make_shared<Texture>("../Pics/GameOver2.png"), width / 2, height / 2);
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -23,7 +24,7 @@ EndlessRunnerGame::EndlessRunnerGame(int width, int height, const char* name) : 
 	}
 	roads[1]->y = -540;
 
-	CreateEntities("../Pics/car0", 5, 3, width, height, 1, 2, &cars);
+	CreateEntities("../Pics/car0", 5, 3, width, height, 1, 5, &cars);
 	CreateEntities("../Pics/tree0", 2, 2, width, height, 0, 0, &trees);
 
 	SpawnAllEntities();
@@ -68,6 +69,8 @@ void EndlessRunnerGame::CreateEntities(std::string path, int differentEntities, 
 
 void EndlessRunnerGame::SpawnEntity(std::vector<Entity> entity, int index, int xPos, int yPos)
 {
+	if (entity[index].speed > 0)
+		cars[index].speed = 1 + rand() % 5;
 	entity[index].sprite->x = xPos;
 	entity[index].sprite->y = yPos;
 }
@@ -81,7 +84,7 @@ void EndlessRunnerGame::SpawnAllEntities()
 
 	for (int i = 0; i < trees.size(); i++)
 	{		
-		if (i < trees.size() * 0.5f)
+		if (i % 2)
 			SpawnEntity(trees, i, 100, i * -900 - 200);
 		else
 			SpawnEntity(trees, i, 1820, (i - 2) * -400 - 200);
@@ -124,21 +127,7 @@ void EndlessRunnerGame::MoveEntity()
 	}
 }
 
-void EndlessRunnerGame::RunEndlessRunner()
-{
-	Run([=]()
-	{
-		ControlCar();
-		MoveBackground();
-		MoveEntity();
-		DrawAll();
-		DetectCollision();
-		backgroundSpeed += 0.002;
-		playerSpeed += 0.001;
-	});
-}
-
-void EndlessRunnerGame::DetectCollision()
+void EndlessRunnerGame::DetectPlayerCollision()
 {
 	for (Entity enemy : cars)
 	{
@@ -147,9 +136,61 @@ void EndlessRunnerGame::DetectCollision()
 			playerCar->y < enemy.sprite->y + enemy.sprite->GetHeight() - collisionTolerance &&
 			playerCar->y + playerCar->GetHeight() - 2 * collisionTolerance > enemy.sprite->y)
 		{
-			std::cout << std::endl << penis++ << std::endl;
+			dead = true;
 		}
 	}
+}
+
+void EndlessRunnerGame::DetectNpcCollision()
+{
+	for (auto i = 0; i < cars.size(); i++)
+	{
+		for (auto j = 0; j < cars.size(); j++)
+		{
+			if (i == j) continue;
+			if (DetectCollision(cars[i], cars[j]))
+			{
+				if (cars[i].sprite->y > cars[j].sprite->y)
+				{
+					cars[j].speed = cars[i].speed;
+					cars[j].sprite->y -= 5;
+				}
+				else
+				{
+					cars[i].speed = cars[j].speed;
+					cars[i].sprite->y -= 5;
+				}
+			}
+		}
+	}
+}
+
+bool EndlessRunnerGame::DetectCollision(Entity e1, Entity e2)
+{
+	return e1.sprite->x < e2.sprite->x + e2.sprite->GetWidth() &&
+		e1.sprite->x + e1.sprite->GetWidth() > e2.sprite->x &&
+		e1.sprite->y < e2.sprite->y + e2.sprite->GetHeight() &&
+		e1.sprite->y + e1.sprite->GetHeight() > e2.sprite->y;
+}
+
+void EndlessRunnerGame::RunEndlessRunner()
+{
+	Run([=]()
+	{
+		if (dead)
+		{
+			gameOver->Draw();
+			return;
+		}
+		ControlCar();
+		MoveBackground();
+		MoveEntity();
+		DrawAll();
+		DetectPlayerCollision();
+		DetectNpcCollision();
+		backgroundSpeed += 0.002;
+		playerSpeed += 0.001;
+	});
 }
 
 void EndlessRunnerGame::DrawAll()

@@ -1,6 +1,6 @@
 ﻿  Game.cpp
-c:\users\temp.a213-012.001\desktop\bibinh17cpp\cppgameengine\game.cpp(36): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-c:\users\temp.a213-012.001\desktop\bibinh17cpp\cppgameengine\game.cpp(37): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-c:\users\temp.a213-012.001\desktop\bibinh17cpp\cppgameengine\game.cpp(44): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-c:\users\temp.a213-012.001\desktop\bibinh17cpp\cppgameengine\game.cpp(45): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-  CppGameEngine.vcxproj -> C:\Users\TEMP.A213-012.001\Desktop\BibInh17Cpp\EndlessRunner\Debug\CppGameEngine.lib
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(36): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(37): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(44): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(45): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+  CppGameEngine.vcxproj -> C:\Users\TEMP.A213-012.001\Documents\GitHub\BibInh17Cpp\EndlessRunner\Debug\CppGameEngine.lib

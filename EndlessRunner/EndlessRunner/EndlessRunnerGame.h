@@ -14,7 +14,9 @@ public:
 	void SpawnEntity(std::vector<Entity> entity, int index, int xPos, int yPos);
 	void SpawnAllEntities();
 	void RunEndlessRunner();
-	void DetectCollision();
+	void DetectPlayerCollision();
+	void DetectNpcCollision();
+	bool DetectCollision(Entity e1, Entity e2);
 	void DrawAll();
 	void ControlCar();
 	void MoveBackground();
@@ -27,5 +29,7 @@ private:
 	std::vector<std::shared_ptr<Sprite>> roads;
 	std::vector<Entity> cars;
 	std::vector<Entity> trees;
+	std::shared_ptr<Sprite> gameOver;
+	bool dead = false;
 };
 
