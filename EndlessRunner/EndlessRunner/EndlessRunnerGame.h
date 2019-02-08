@@ -3,7 +3,6 @@
 #include <Sprite.h>
 #include <vector>
 #include "Entity.h"
-#include "EndlessRunner.h"
 
 class EndlessRunnerGame : public Game
 {

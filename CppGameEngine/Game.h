@@ -10,11 +10,16 @@ public:
 	GLFWwindow* pWindow;
 	int viewportWidth;
 	int viewportHeight;
+	static bool aPressed;
+	static bool wPressed;
+	static bool dPressed;
+	static bool sPressed;
 	static bool leftPressed;
 	static bool upPressed;
 	static bool rightPressed;
 	static bool downPressed;
 	static bool spacePressed;
+	static bool hPressed;
 
 	static float xDelta;
 	static float yDelta;

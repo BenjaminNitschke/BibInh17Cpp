@@ -6,7 +6,6 @@
 #include <string>
 #include <windows.h>
 #include <mmsystem.h>
-#include <mciapi.h>
 
 const int collisionTolerance = 12;
 
@@ -37,16 +36,21 @@ EndlessRunnerGame::~EndlessRunnerGame()
 
 void EndlessRunnerGame::ControlCar()
 {
-	if (leftPressed)
+	if (leftPressed || aPressed)
 	{
 		if (playerCar->x > 160 + playerCar->GetWidth())
 			playerCar->Move(-playerSpeed, 0);
 	}
-	if (rightPressed)
+	if (rightPressed || dPressed)
 	{
 		if (playerCar->x < 1760 - playerCar->GetWidth())
 			playerCar->Move(playerSpeed, 0);
 	}
+	if (hPressed)
+	{
+		PlaySound(TEXT("../Pics/honk.wav"), nullptr, SND_FILENAME | SND_ASYNC);
+		hPressed = false;
+	}		
 }
 
 void EndlessRunnerGame::CreateEntities(std::string path, int differentEntities, int amountPerEntity, int width, int height, int minSpeed, int maxSpeed, std::vector<Entity>* v) 
