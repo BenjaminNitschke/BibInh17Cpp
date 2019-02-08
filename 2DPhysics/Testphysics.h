@@ -9,6 +9,7 @@ public:
 	~Testphysics();
 	void RunTestphysics();
 	std::shared_ptr<GameObject> gameobject;
-	std::shared_ptr<Circle> bodyy;
-	void DrawAll();
+	
+	
+	Circle cir;
 };
