@@ -32,13 +32,13 @@ Line::~Line()
 
 void Line::Draw()
 {
-	glColor3f(0, 0, 0);
-	glLineWidth(5);
+	glColor4f(0, 0, 0, 0.5f);
+	glLineWidth(3);
 	glBegin(GL_LINES);
 	glVertex2f(GetOpenGLX(start.x), GetOpenGLY(start.y));
 	glVertex2f(GetOpenGLX(end.x), GetOpenGLY(end.y));
 	glEnd();
-	glColor3f(1, 1, 1);
+	glColor4f(1, 1, 1, 1);
 }
 
 void Line::SetPoint(int point, int x, int y)

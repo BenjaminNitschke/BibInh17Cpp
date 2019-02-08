@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "Tower.h"
 
+Tower::~Tower()
+{
+}
+
 Tower::Tower(int xIndex, int yIndex, float attacksPerSec, float damage, Sprite sprite)
 {
 	this->xIndex = xIndex;
@@ -11,55 +15,44 @@ Tower::Tower(int xIndex, int yIndex, float attacksPerSec, float damage, Sprite s
 	this->sprite.setPos(xIndex * 80 + 40, yIndex * 80 + 40);
 }
 
-Tower::~Tower()
-{
-}
-
-void Tower::AddEnemy(Enemy enemy)
+void Tower::AddEnemy(Enemy* enemy)
 {
 	enemies.push_back(enemy);
-	lines.push_back(*(new Line(Point(xIndex * 80 + 40, yIndex * 80 + 40), enemy.GetPos())));
+	lines.push_back(Line(Point(xIndex * 80 + 40, yIndex * 80 + 40), enemy->GetPos()));
 }
 
-void Tower::RemoveEnemy(Enemy enemy)
+void Tower::RemoveEnemy(Enemy* enemy)
 {
-	int index = findInVector(enemies, enemy).second;
-	lines.erase(lines.begin() + index);
-	enemies.erase(enemies.begin() + index);
+	std::vector<Enemy*>::iterator pos = std::find(enemies.begin(), enemies.end(), enemy);
+	if (pos != enemies.end())
+		enemies.erase(pos);
+
 }
 
 void Tower::CalculateLines()
 {
+
+	for (int i = 0; i < lines.size(); i++)
+	{
+		lines[i].SetPoint(1, enemies[i]->GetPos().x, enemies[i]->GetPos().y);
+	}
 }
 
 void Tower::Draw()
 {
-	sprite.Draw();
+	DrawSprite();
+	DrawLine();
+}
 
+void Tower::DrawSprite()
+{
+	sprite.Draw();
+}
+
+void Tower::DrawLine()
+{
 	for (int i = 0; i < lines.size(); i++)
 	{
 		lines[i].Draw();
 	}
-}
-
-template < typename T>
-std::pair<bool, int > Tower::findInVector(const std::vector<T>  & vecOfElements, const T  & element)
-{
-	std::pair<bool, int > result;
-
-	// Find given element in vector
-	auto it = std::find(vecOfElements.begin(), vecOfElements.end(), element);
-
-	if (it != vecOfElements.end())
-	{
-		result.second = distance(vecOfElements.begin(), it);
-		result.first = true;
-	}
-	else
-	{
-		result.first = false;
-		result.second = -1;
-	}
-
-	return result;
 }

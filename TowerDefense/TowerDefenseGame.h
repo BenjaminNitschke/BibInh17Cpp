@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "Line.h"
 #include "Enemy.h"
+#include "Tower.h"
 #include <vector>
 
 #define SCREEN_WIDTH 1280.0f
@@ -34,7 +35,7 @@ private:
 	std::shared_ptr<Texture> tower3;
 	std::vector<std::shared_ptr<Texture>> numbers;
 	std::vector<Sprite> numbersDrawn;
-	std::vector<Sprite> towers;
+	//std::vector<Sprite> towers;
 	std::shared_ptr<Sprite> slot_selected;
 	std::vector<Sprite> slots;
 	std::vector<Point> enemyWay;
@@ -66,6 +67,7 @@ private:
 	int goldNumberPart2;
 	int goldNumberPart3;
 
-	Enemy enemy;
 	std::vector<Enemy> enemies;
+	std::vector<Tower> towers;
+	Line testline;
 };

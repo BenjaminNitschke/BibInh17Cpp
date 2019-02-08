@@ -30,15 +30,15 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	tower2 = std::make_shared<Texture>("tower2.png");
 	tower3 = std::make_shared<Texture>("tower3.png");
 
-	towers.push_back(*(new Sprite(tower1, 7 * 80 + 40, 0 * 80 + 40)));
-	towers.push_back(*(new Sprite(tower2, 8 * 80 + 40, 0 * 80 + 40)));
-	towers.push_back(*(new Sprite(tower3, 9 * 80 + 40, 0 * 80 + 40)));
+	towers.push_back(Tower(7, 0, 1, 1, Sprite(tower1, 0, 0)));
+	towers.push_back(Tower(8, 0, 1, 1, Sprite(tower2, 0, 0)));
+	towers.push_back(Tower(9, 0, 1, 1, Sprite(tower3, 0, 0)));
 
-	numbersDrawn.push_back(*(new Sprite(numbers.at(5), 7 * 80 + 67 - 8 * 0, 0 * 80 + 68)));
-	numbersDrawn.push_back(*(new Sprite(numbers.at(1), 8 * 80 + 67 - 8 * 1, 0 * 80 + 68)));
-	numbersDrawn.push_back(*(new Sprite(numbers.at(0), 8 * 80 + 67 - 8 * 0, 0 * 80 + 68)));
-	numbersDrawn.push_back(*(new Sprite(numbers.at(2), 9 * 80 + 67 - 8 * 1, 0 * 80 + 68)));
-	numbersDrawn.push_back(*(new Sprite(numbers.at(0), 9 * 80 + 67 - 8 * 0, 0 * 80 + 68)));
+	numbersDrawn.push_back(Sprite(numbers.at(5), 7 * 80 + 67 - 8 * 0, 0 * 80 + 68));
+	numbersDrawn.push_back(Sprite(numbers.at(1), 8 * 80 + 67 - 8 * 1, 0 * 80 + 68));
+	numbersDrawn.push_back(Sprite(numbers.at(0), 8 * 80 + 67 - 8 * 0, 0 * 80 + 68));
+	numbersDrawn.push_back(Sprite(numbers.at(2), 9 * 80 + 67 - 8 * 1, 0 * 80 + 68));
+	numbersDrawn.push_back(Sprite(numbers.at(0), 9 * 80 + 67 - 8 * 0, 0 * 80 + 68));
 
 	goldNumberPart1 = 0;
 	goldNumberPart2 = 0;
@@ -101,14 +101,13 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	enemyWay.push_back(*(new Point(15, 4)));
 	enemyWay.push_back(*(new Point(16, 4)));
 
-	enemies.push_back(*(new Enemy(0, 0, 100, 0.5f, *(new Sprite(enemy1, 0, 0)), enemyWay, 4)));
-	enemies.push_back(*(new Enemy(0, 0, 100, 2, *(new Sprite(enemy2, 0, 0)), enemyWay, 2)));
-	enemies.push_back(*(new Enemy(0, 0, 100, 1, *(new Sprite(enemy3, 0, 0)), enemyWay, 0)));
-	enemies.push_back(*(new Enemy(0, 0, 100, 1, *(new Sprite(enemy2, 0, 0)), enemyWay, 1)));
-	enemies.push_back(*(new Enemy(0, 0, 100, 5, *(new Sprite(enemy1, 0, 0)), enemyWay, 3)));
+	enemies.push_back(Enemy(0, 0, 100, 1, Sprite(enemy1, 0, 0), enemyWay, 0));
+	enemies.push_back(Enemy(0, 0, 100, 2, Sprite(enemy2, 0, 0), enemyWay, 0));
+	enemies.push_back(Enemy(0, 0, 100, 3, Sprite(enemy3, 0, 0), enemyWay, 0));
+	enemies.push_back(Enemy(0, 0, 100, 4, Sprite(enemy2, 0, 0), enemyWay, 0));
+	enemies.push_back(Enemy(0, 0, 100, 5, Sprite(enemy1, 0, 0), enemyWay, 0));
 
-
-	lines.push_back(*(new Line(Point(0, 0), Point(100, 100))));
+	//lines.push_back(*(new Line(Point(0, 0), Point(100, 100))));
 }
 
 TowerDefenseGame::~TowerDefenseGame()
@@ -123,17 +122,21 @@ void TowerDefenseGame::RunSpaceInvaders()
 		CalculateSelectedSlot();
 		CalculateMouseInput();
 		CalculateEnemyMovement();
-		if (iPressed)
-		{
-			CalculateLines();
-		}
+		CalculateLines();
 		DrawAll();
 	});
 }
 
 void TowerDefenseGame::CalculateLines()
 {
-	
+	if(towers.size() > 3)
+		for (int i = 3; i < towers.size(); i++)
+		{
+			towers[i].CalculateLines();
+		}
+
+	/*if (towers.size() > 3)
+		testline.SetPoint(1, enemies[0].GetPos().x, enemies[0].GetPos().y);*/
 }
 
 void TowerDefenseGame::ChangeGoldAmount(int number)
@@ -179,11 +182,15 @@ void TowerDefenseGame::CalculateMouseInput()
 		{
 			if (map[slot_selected_y][slot_selected_x] == 2)
 			{
-				if (towerIndex == 0) towers.push_back(*(new Sprite(tower1, slot_selected_x * 80 + 40, slot_selected_y * 80 + 40)));
-				if (towerIndex == 1) towers.push_back(*(new Sprite(tower2, slot_selected_x * 80 + 40, slot_selected_y * 80 + 40)));
-				if (towerIndex == 2) towers.push_back(*(new Sprite(tower3, slot_selected_x * 80 + 40, slot_selected_y * 80 + 40)));
+				if (towerIndex == 0) towers.push_back(Tower(slot_selected_x, slot_selected_y, 1, 1, *(new Sprite(tower1, 0, 0))));
+				if (towerIndex == 1) towers.push_back(Tower(slot_selected_x, slot_selected_y, 1, 1, *(new Sprite(tower2, 0, 0))));
+				if (towerIndex == 2) towers.push_back(Tower(slot_selected_x, slot_selected_y, 1, 1, *(new Sprite(tower3, 0, 0))));
 				towerSelected = false;
 				seletedTowerIndex = -1;
+				if (towers.size() == 4)
+					testline = Line(Point(slot_selected_x * 80 + 40, slot_selected_y * 80 + 40), Point(enemies[0].GetPos().x, enemies[0].GetPos().y));
+				for (int i = 0; i < enemies.size(); i++)
+					towers[towers.size() - 1].AddEnemy(&enemies[i]);
 			}
 		}
 
@@ -236,29 +243,35 @@ void TowerDefenseGame::DrawAll()
 	}
 	slot_selected->Draw();
 
-	if (iPressed)
+	//if (iPressed)
+	//{
+	//	for (int i = 0; i < lines.size(); i++)
+	//	{
+	//		lines.at(i).Draw();
+	//	}
+	//}
+
+	/*if (towers.size() > 3)
+		testline.Draw();*/
+
+	for (int i = 0; i < towers.size(); i++)
 	{
-		for (int i = 0; i < lines.size(); i++)
-		{
-			lines.at(i).Draw();
-		}
+		towers[i].Draw();
 	}
+
+	
 
 	for (int i = 0; i < enemies.size(); i++)
 	{
 		enemies[i].Draw();
 	}
 	
-	for (int i = 0; i < towers.size(); i++)
-	{
-		Sprite *tmp = &towers.at(i);
-		tmp->Draw();
-	}
-
 	for (int i = 0; i < numbersDrawn.size(); i++)
 	{
 		numbersDrawn[i].Draw();
 	}
+	
+	
 
 	goldNumber1[goldNumberPart1].Draw();
 	goldNumber2[goldNumberPart2].Draw();

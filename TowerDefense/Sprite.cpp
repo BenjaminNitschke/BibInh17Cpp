@@ -38,6 +38,7 @@ void Sprite::Draw()
 	glVertex2f(GetOpenGLX(x+halfWidth), GetOpenGLY(y+halfHeight));
 
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void Sprite::Move(int addX, int addY)

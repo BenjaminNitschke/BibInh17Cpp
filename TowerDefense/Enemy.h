@@ -12,7 +12,7 @@ public:
 	void Move();
 	void Draw();
 	Point GetPos();
-	bool operator==(Enemy& comp) const { return this->x == comp.x; }
+	bool operator==(Enemy comp) { return this->x == comp.x; }
 private:
 	Sprite sprite;
 	int x;
