@@ -10,8 +10,8 @@ Testphysics::Testphysics()
 {
 	
 	GameObjects = std::vector<std::shared_ptr<GameObject>>();
-	GameObjects.push_back(std::make_shared<GameObject>(0.5, 0, 0));
-	GameObjects.push_back(std::make_shared<GameObject>(0, 0, 0));
+	GameObjects.push_back(std::make_shared<GameObject>(0.5, 0.5, 0));
+	GameObjects.push_back(std::make_shared<GameObject>(0, 0.5, 0));
 	
 }
 
@@ -24,7 +24,7 @@ void Testphysics::RunTestphysics()
 	Run([=]()
 	{
 		ApplayPhysics();
-		//DrawScene();
+		DrawScene();
 		
 	});
 }
@@ -32,13 +32,10 @@ void Testphysics::ApplayPhysics()
 {
 	for (unsigned i = 0; i < GameObjects.size(); i++) {
 		
-		GameObjects[i]->center->y += -0.00002;
+		GameObjects[i]->center->y += -0.00001;
 		
 	}
-	for (unsigned i = 0; i < GameObjects.size(); i++) {
-
-		GameObjects[i]->body->DrawCircle();
-	}
+	
 }
 
 void Testphysics::DrawScene()
