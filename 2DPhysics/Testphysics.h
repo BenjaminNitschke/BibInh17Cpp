@@ -9,6 +9,8 @@ public:
 	~Testphysics();
 	void RunTestphysics();
 	void DrawScene();
-	std::shared_ptr<GameObject> gameobject;
+	void ApplayPhysics();
+	std::vector<std::shared_ptr<GameObject>> GameObjects;
+	
 	
 };
