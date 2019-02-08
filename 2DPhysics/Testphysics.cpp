@@ -22,11 +22,14 @@ void Testphysics::RunTestphysics()
 {
 	Run([=]()
 	{
+		DrawScene();
 		
-		gameobject->body->DrawCircle();
 	});
 }
 
-
+void Testphysics::DrawScene()
+{
+	gameobject->body->DrawCircle();
+}
 
 
