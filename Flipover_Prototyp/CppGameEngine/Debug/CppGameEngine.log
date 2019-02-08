@@ -1,0 +1,4 @@
+﻿  Game.cpp
+libpng16.lib(libpng16.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR ist bereits in "opengl32.lib(OPENGL32.dll)" definiert; zweite Definition wird ignoriert.
+libpng16.lib(libpng16.dll) : warning LNK4221: Die Objektdatei definiert keine zuvor undefinierten ÷ffentlichen Symbole. Sie wird daher von keinem Verkn³pfungsvorgang verwendet, der diese Bibliothek benutzt.
+  CppGameEngine.vcxproj -> D:\Users\admin\Documents\GitHub\BibInh17Cpp\FPS\Debug\CppGameEngine.lib
