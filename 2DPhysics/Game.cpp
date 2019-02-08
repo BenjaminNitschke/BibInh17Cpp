@@ -45,7 +45,7 @@ void Game::Run(std::function<void()> renderFunction)
 		time = glfwGetTime();
 		timeThisTick = time - lastTime;
 		lastTime = time;
-
+		
 		renderFunction();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
