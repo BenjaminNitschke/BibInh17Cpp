@@ -1,1 +1,31 @@
-﻿  EndlessRunner.vcxproj -> C:\Users\TEMP.A213-012.001\Documents\GitHub\BibInh17Cpp\EndlessRunner\Debug\EndlessRunner.exe
+﻿  EndlessRunnerGame.cpp
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\sprite.h(10): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(75): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(76): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(81): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(86): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(97): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(126): warning C4244: "Argument": Konvertierung von "float" in "int", möglicher Datenverlust
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(150): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(152): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(195): warning C4305: "+=": Verkürzung von "double" in "float"
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(196): warning C4305: "+=": Verkürzung von "double" in "float"
+c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(202): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+d:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1801): warning C4244: "Argument": Konvertierung von "_Ty" in "int", möglicher Datenverlust
+          with
+          [
+              _Ty=float
+          ]
+  d:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1865): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Texture>,int,float>(std::shared_ptr<Texture> &&,int &&,float &&)".
+          with
+          [
+              _Ty=Sprite
+          ]
+  d:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\memory(1866): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::_Ref_count_obj<_Ty>::_Ref_count_obj<std::shared_ptr<Texture>,int,float>(std::shared_ptr<Texture> &&,int &&,float &&)".
+          with
+          [
+              _Ty=Sprite
+          ]
+  c:\users\temp.a213-012.001\documents\github\bibinh17cpp\endlessrunner\endlessrunner\endlessrunnergame.cpp(18): note: Siehe Verweis auf die Instanziierung der gerade kompilierten Funktions-Vorlage "std::shared_ptr<Sprite> std::make_shared<Sprite,std::shared_ptr<Texture>,int,float>(std::shared_ptr<Texture> &&,int &&,float &&)".
+MSVCRTD.lib(initializers.obj) : warning LNK4098: Standardbibliothek "msvcrt.lib" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
+  EndlessRunner.vcxproj -> C:\Users\TEMP.A213-012.001\Documents\GitHub\BibInh17Cpp\EndlessRunner\Debug\EndlessRunner.exe

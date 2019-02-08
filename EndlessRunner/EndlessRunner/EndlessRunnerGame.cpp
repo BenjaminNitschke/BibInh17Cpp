@@ -3,9 +3,10 @@
 #include "Sprite.h"
 #include <memory>
 #include <algorithm>
-#include <ctime>
 #include <string>
-#include <iostream>
+#include <windows.h>
+#include <mmsystem.h>
+#include <mciapi.h>
 
 const int collisionTolerance = 12;
 
@@ -137,6 +138,8 @@ void EndlessRunnerGame::DetectPlayerCollision()
 			playerCar->y + playerCar->GetHeight() - 2 * collisionTolerance > enemy.sprite->y)
 		{
 			dead = true;
+			PlaySound(TEXT("../Pics/crash.wav"), nullptr, SND_FILENAME | SND_ASYNC);
+			return;
 		}
 	}
 }

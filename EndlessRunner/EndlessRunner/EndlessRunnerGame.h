@@ -1,9 +1,9 @@
 #pragma once
 #include <Game.h>
 #include <Sprite.h>
-#include <time.h>
 #include <vector>
 #include "Entity.h"
+#include "EndlessRunner.h"
 
 class EndlessRunnerGame : public Game
 {
