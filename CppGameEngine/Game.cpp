@@ -1,12 +1,16 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
-#include <iostream>
 
+bool Game::aPressed;
+bool Game::wPressed;
+bool Game::dPressed;
+bool Game::sPressed;
 bool Game::leftPressed;
 bool Game::upPressed;
 bool Game::rightPressed;
 bool Game::downPressed;
 bool Game::spacePressed;
+bool Game::hPressed;
 
 float Game::xDelta;
 float Game::yDelta;
@@ -17,15 +21,25 @@ float oldPosX, oldPosY;
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_A)
-		Game::leftPressed = action != GLFW_RELEASE;
+		Game::aPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_W)
-		Game::upPressed = action != GLFW_RELEASE;
+		Game::wPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_D)
-		Game::rightPressed = action != GLFW_RELEASE;
+		Game::dPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_S)
+		Game::sPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_LEFT)
+		Game::leftPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_UP)
+		Game::upPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_RIGHT)
+		Game::rightPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_DOWN)
 		Game::downPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_SPACE)
 		Game::spacePressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_H)
+		Game::hPressed = action != GLFW_RELEASE;
 
 	if (key == GLFW_KEY_ESCAPE)
 		glfwSetWindowShouldClose(window, true);
@@ -55,10 +69,11 @@ Game::Game(int width, int height, const char* name)
 	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
 	// tell glfw it should use the created window
 	glfwMakeContextCurrent(pWindow);
-	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwSetKeyCallback(pWindow, OnKeyboard);
 	glfwSetCursorPosCallback(pWindow, OnMouse);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
+	glfwSetWindowMonitor(pWindow, glfwGetPrimaryMonitor(), 0, 0, width, height, 60);
 }
 
 Game::~Game()

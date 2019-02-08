@@ -3,9 +3,9 @@
 #include "GLFW/glfw3.h"
 
 // width of the screen
-#define SCREEN_WIDTH (float)1280.0f
+#define SCREEN_WIDTH (float)1920.0f
 // height of the screen
-#define SCREEN_HEIGHT (float)720.0f
+#define SCREEN_HEIGHT (float)1080.0f
 
 // convert custom screen-space to openGL screen-space
 float GetX(int x)
@@ -18,11 +18,6 @@ float GetY(int y)
 {
 	float centerY = y - SCREEN_HEIGHT / 2;
 	return centerY / SCREEN_HEIGHT * -2;
-}
-
-Sprite::Sprite(const char* source, float x, float y) : x(x), y(y)
-{
-	texture = std::make_shared<Texture>(source);
 }
 
 // Draw the entity
