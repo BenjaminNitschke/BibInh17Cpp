@@ -39,3 +39,8 @@ void Sprite::Draw(int offsetX)
 
 	glEnd();
 }
+
+std::shared_ptr<Texture> Sprite::GetTexture()
+{
+	return this->texture;
+}

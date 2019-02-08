@@ -11,7 +11,7 @@ void CanastaGame::RunGame()
 {
 	Run([=]()
 	{			
-		player.hand[0]->cardGraphic->Draw();
+		player.DisplayHand();
 	});
 }
 
@@ -46,8 +46,10 @@ void CanastaGame::DealCards(std::vector<std::shared_ptr<Card>>* hand, int amount
 		std::cout << "Deck size: " << deck.size() << std::endl;
 		for (int i = 0; i < amount; i++)
 		{
-			(*hand).push_back(deck.back());
-			deck.pop_back();
+			//std::cout << deck.back()->color.c_str() << std::endl;
+			(*hand).push_back(std::make_shared<Card>(deck.back()));
+			//std::cout << deck.back()->color.c_str() << std::endl;
+			deck.pop_back();			 
 		}		
 	}
 }
@@ -74,4 +76,7 @@ void CanastaGame::DrawCards()
 void CanastaGame::Init()
 {
 	DealCards(&player.hand, 15);
+	player.SortHand();	
+	player.ArrangeHand();
+	player.DisplayHand();
 }

@@ -5,13 +5,15 @@
 class Player
 {
 private:
-
+	void SortCategory();
 public:
 	std::vector<std::shared_ptr<Card>> hand = std::vector<std::shared_ptr<Card>>();
 	Player();
 	~Player(){}
-	void GetStartHand();
 	void DisplayHand();
+	void ArrangeHand();
+	void SortHand();
+	void PushCardsIntoHand(std::vector<std::shared_ptr<Card>> category, std::vector<std::shared_ptr<Card>>* hand);
 };
 	
 
