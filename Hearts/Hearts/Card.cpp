@@ -2,7 +2,8 @@
 #include "Card.h"
 #include "Utility.h"
 
-std::function<void(Card* card)> Card::playFunction;
+std::function<void(Player* player, Card* card)> Card::sortAndRemove;
+std::function<void(Trick* trick, Player* player, Card* card)> Card::addToTrick;
 
 Card::Card(int color, int value) : color(color), value(value)
 {

@@ -3,12 +3,15 @@
 #include "Sprite.h"
 #include "Utility.h"
 #include <functional>
-#include <iostream>
+
+class Trick;
+class Player;
 
 class Card
 {
 public:
-	static std::function<void(Card* card)> playFunction;
+	static std::function<void(Player* player, Card* card)> sortAndRemove;
+	static std::function<void(Trick* trick, Player* player, Card* card)> addToTrick;
 	Card(int color, int value);
 	int color, value;
 	float width, height;
@@ -33,8 +36,6 @@ public:
 
 	void Play()
 	{
-		std::cout << "Card played" << std::endl;
 		sprite->MoveTo(640, 360);
-		playFunction(this);
 	}
 };

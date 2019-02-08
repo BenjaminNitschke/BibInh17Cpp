@@ -3,10 +3,11 @@
 
 Trick::Trick()
 {
-	Card::playFunction = [this](Card* card)
-	{
-		card->sprite->Move(640, 360);
-		cards.push_back(card);
-		delete card;
-	};
+
+}
+
+void Trick::Draw()
+{
+	for (auto card : cards)
+		card->sprite->Draw();
 }

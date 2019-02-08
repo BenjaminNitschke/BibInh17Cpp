@@ -14,7 +14,7 @@ Deck::Deck()
 
 void Deck::Shuffle()
 {
-	std::shuffle(deck.begin(), deck.end(), std::default_random_engine(time(nullptr)));
+	std::shuffle(deck.begin(), deck.end(), std::default_random_engine((unsigned int)time(nullptr)));
 }
 
 void Deck::PrintDeck()

@@ -5,9 +5,12 @@
 class Player
 {
 private:
-	Card* selectedCard = nullptr;
+	float handX, handY;
+	std::shared_ptr<Sprite> backSprite;
 public:
-	Player();
+	Card* selectedCard = nullptr;
+	Player() = default;
+	Player(float handX, float handY, std::shared_ptr<Sprite> backSprite);
 
 	std::vector<std::shared_ptr<Card>> hand = std::vector<std::shared_ptr<Card>>();
 	void SortHand();

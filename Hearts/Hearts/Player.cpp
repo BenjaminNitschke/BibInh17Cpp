@@ -4,16 +4,29 @@
 #include <algorithm>
 #include <iostream>
 
-Player::Player()
+
+Player::Player(float handX, float handY, std::shared_ptr<Sprite> backSprite) : handX(handX), handY(handY), backSprite(backSprite)
 {
-	Card::playFunction = [=](Card* card) {RepositionHand(); };
+	Card::sortAndRemove = [=](Player* player, Card* card)
+	{
+		for (auto i = 0; i < player->hand.size(); i++)
+			if (player->hand[i].get() == card)
+			{
+				player->hand.erase(player->hand.begin() + i);
+				break;
+			}
+
+		player->RepositionHand();
+		std::cout << "Penis";
+		//std::cout << player->handY << " played " << card->ToString();
+	};
 }
 
 void Player::SortHand()
 {
 	std::vector<std::vector<std::shared_ptr<Card>>> tmp = std::vector<std::vector<std::shared_ptr<Card>>>(4);
 
-	for (auto c : hand)
+	for (auto& c : hand)
 	{
 		if (c->color == spades)
 			tmp[0].push_back(c);
@@ -30,7 +43,7 @@ void Player::SortHand()
 	for (auto v : tmp)
 	{
 		std::sort(v.begin(), v.end(), [](std::shared_ptr<Card> a, std::shared_ptr<Card> b) {return a->value < b->value; });
-		for (auto c : v)
+		for (auto& c : v)
 			hand.push_back(c);
 	}
 }
@@ -39,21 +52,29 @@ void Player::RepositionHand() const
 {
 	const auto cardWidth = hand[0]->width / 3;
 	const auto cardCount = hand.size();
-	const auto init = cardWidth * floor(cardCount / 2) + 640 - (cardCount % 2 == 0 ? cardWidth / 2 : 0);
+	const auto init = cardWidth * floor(cardCount / 2) + handX - (cardCount % 2 == 0 ? cardWidth / 2 : 0);
 
 	for (int i = 0; i < cardCount; i++)
-		hand[i]->sprite->MoveTo(init - cardWidth * i, 720);
+		hand[i]->sprite->MoveTo(init - cardWidth * i, handY);
 }
 
 void Player::DrawHand() const
 {
-	for(auto c : hand)
-		c->sprite->Draw();
+	for (auto c : hand)
+	{
+		if (handY == 720)
+			c->sprite->Draw();
+		else
+		{
+			backSprite->MoveTo(c->sprite->x, c->sprite->y);
+			backSprite->Draw();
+		}
+	}
 }
 
 void Player::SelectCard(float mouseX, float mouseY)
 {
-	for (int i = hand.size() - 1; i >= 0; i--)
+	for (int i = 0; i < hand.size(); i++)
 	{
 		if (mouseX > hand[i]->sprite->x - hand[i]->width / 2 && mouseX < hand[i]->sprite->x + hand[i]->width / 2 &&
 			mouseY > hand[i]->sprite->y - hand[i]->height / 2 && mouseY < hand[i]->sprite->y + hand[i]->height / 2)
@@ -73,20 +94,24 @@ void Player::SelectCard(float mouseX, float mouseY)
 			if (hand[i].get() == selectedCard)
 			{
 				selectedCard->Play();
+				//Card::addToTrick(currentTrick, this, selectedCard);
+				Card::sortAndRemove(this, selectedCard);
 				selectedCard = nullptr;
 				hand.erase(hand.begin() + i);
-				if(!hand.empty())
+				if (!hand.empty())
 					RepositionHand();
 				return;
 			}
-				
+
 		}
 		else
 		{
 			if (selectedCard == nullptr) continue;
 			selectedCard->Play();
+			//Card::addToTrick(currentTrick, this, selectedCard);
+			Card::sortAndRemove(this, selectedCard);
 			hand.erase(hand.begin() + i);
-			if(!hand.empty())
+			if (!hand.empty())
 				RepositionHand();
 			selectedCard = nullptr;
 		}
