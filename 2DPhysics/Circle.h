@@ -1,9 +1,8 @@
 #pragma once
-#include "Game.h"
+
 #include "stdafx.h"
-#include <GLFW/glfw3.h>
-#include <functional>
 #include <memory>
+#include <GLFW/glfw3.h>
 #include <vector>
 #include <algorithm>
 #include "Vector3.h"
@@ -15,25 +14,31 @@ public:
 	{
 		centerptr = mycenter;
 		r = radius;
+		theta = 2 * 3.1415926 / float(50);
+		c = cosf(theta);
+		s = sinf(theta);
+		x = r;
+		y = 0;
+		
 	}
-	Circle(float x, float y, float radius)
+	
+	Circle()
 	{
-		cx = x;
-		cy = y;
-		r = radius;
-		r = radius;
+		
 	}
+	std::shared_ptr<Vector3> centerptr;
 	void DrawCircle();
-	float theta = 2 * 3.1415926 / float(50);
-	float c = cosf(theta);
-	float s = sinf(theta);
+	float theta;
+	float c;
+	float s;
 	float t;
 	float r;
 	float cx;
 	float cy;
-	float x = r;
-	float y = 0;
-	std::shared_ptr<Vector3> centerptr;
+	float x ;
+	float y;
+	
+	
 	~Circle()
 	{}
 private:
