@@ -10,7 +10,7 @@ Testphysics::Testphysics()
 {
 	gameobject= std::make_shared<GameObject>(0, 0, 0);
 	
-	//cir= *gameobject->body.get();
+	
 	
 }
 
