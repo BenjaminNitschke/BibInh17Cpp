@@ -9,5 +9,6 @@ public:
 		center = mycenter;
 	}
 
-	~CircleCollider();
+	~CircleCollider()
+	{}
 };
