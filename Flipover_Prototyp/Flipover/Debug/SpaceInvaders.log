@@ -1,0 +1,16 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: Das Zwischenverzeichnis (Debug\) enthält freigegebene Dateien aus einem anderen Projekt (SpaceInvaders.vcxproj). Dies kann zu einem falschen Bereinigungs- und Neuerstellungsverhalten führen.
+  SpaceInvadersGame.cpp
+d:\users\admin\desktop\flipover_prototyp\flipover\sprite.h(9): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+d:\users\admin\desktop\flipover_prototyp\flipover\spaceinvadersgame.cpp(15): warning C4244: "Initialisierung": Konvertierung von "int" in "float", möglicher Datenverlust
+d:\users\admin\desktop\flipover_prototyp\flipover\spaceinvadersgame.cpp(17): warning C4244: "Argument": Konvertierung von "float" in "int", möglicher Datenverlust
+d:\users\admin\desktop\flipover_prototyp\flipover\spaceinvadersgame.cpp(78): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+d:\users\admin\desktop\flipover_prototyp\flipover\spaceinvadersgame.cpp(87): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
+d:\users\admin\desktop\flipover_prototyp\flipover\spaceinvadersgame.cpp(90): warning C4244: "=": Konvertierung von "int" in "float", möglicher Datenverlust
+d:\users\admin\desktop\flipover_prototyp\flipover\spaceinvadersgame.cpp(97): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+  SpaceInvaders.vcxproj -> d:\Users\admin\Desktop\Flipover_Prototyp\Flipover\Debug\Flipover.exe
+  Fish.png
+  GameOverScreen.png
+  Obstacle.png
+  OceanBackground.png
+          4 Datei(en) kopiert.
+          1 Datei(en) kopiert.
