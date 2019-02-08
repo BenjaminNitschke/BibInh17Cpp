@@ -7,8 +7,10 @@ class Collider
 public:
 	std::shared_ptr<Vector3> center;
 
-	Collider();
+	Collider()
+	{}
 
 
-	~Collider();
+	~Collider()
+	{}
 };
