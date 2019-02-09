@@ -10,8 +10,12 @@ Testphysics::Testphysics()
 {
 	
 	GameObjects = std::vector<std::shared_ptr<GameObject>>();
-	GameObjects.push_back(std::make_shared<GameObject>(0, 0.3, 0,0));
-	GameObjects.push_back(std::make_shared<GameObject>(0, 0, 0,1));
+	GameObjects.push_back(std::make_shared<GameObject>(0, 0.5, 0,0));
+	GameObjects.push_back(std::make_shared<GameObject>(0.05, 0, 0,1));
+	GameObjects.push_back(std::make_shared<GameObject>(0.5, 0.3, 0, 2));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.05, 0, 0, 3));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.3, 0.5, 0, 4));
+	GameObjects.push_back(std::make_shared<GameObject>(0.1, -0.3, 0, 5));
 	collider = std::vector<std::shared_ptr<CircleCollider>>();
 	for (auto &col : GameObjects) {
 
@@ -19,7 +23,7 @@ Testphysics::Testphysics()
 
 	}
 	
-
+	
 }
 
 Testphysics::~Testphysics()
@@ -69,10 +73,29 @@ void Testphysics::CollisionDetection()
 }
 void Testphysics::ApplayPhysics()
 {
+
+	if (downPressed )
+	{
+		collider[0]->velocity->y += -0.0000001;
+	}
+	if (upPressed)
+	{
+		collider[0]->velocity->y += 0.0000001;
+	}
+	for (auto &Object : collider) {
+
+		Object->velocity->x += Object->acceleration->x;
+		Object->velocity->y += Object->acceleration->y;
+		Object->center->x += Object->velocity->x;
+		Object->center->y += Object->velocity->y;
+
+		if (fabs(Object->velocity->x * Object->velocity->x + Object->velocity->y * Object->velocity->y)<0.01f)
+		{
+			//Object->velocity->x =0;
+			//Object->velocity->y =0;
+		}
+	}
 	
-		
-		GameObjects[0]->center->y += -0.00003;
-		
 	
 	
 }

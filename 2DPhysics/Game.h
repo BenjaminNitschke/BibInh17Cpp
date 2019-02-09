@@ -10,8 +10,8 @@ public:
 	Game();
 	~Game();
 	void Run(std::function<void()> renderFunction);
-	static bool leftPressed;
-	static bool rightPressed;
+	static bool upPressed;
+	static bool downPressed;
 	static bool spacePressed;
 	double time = 0;
 	double lastTime = 0;

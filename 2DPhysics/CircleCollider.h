@@ -9,6 +9,7 @@ public:
 		center = mycenter;
 		id = ID;
 		r = radius;
+		
 	}
 	float r;
 	float id;

@@ -3,18 +3,28 @@
 
 
 
-bool Game::leftPressed;
-bool Game::rightPressed;
+bool Game::upPressed;
+bool Game::downPressed;
 bool Game::spacePressed;
 
-
+void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_UP)
+		Game::upPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_DOWN)
+		Game::downPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_SPACE)
+		Game::spacePressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_ESCAPE)
+		glfwSetWindowShouldClose(window, true);
+}
 
 Game::Game()
 {
 	glfwInit();
-	window = glfwCreateWindow(720, 720, "Physictest", NULL, NULL);
+	window = glfwCreateWindow(1440, 1440, "Physictest", NULL, NULL);
 	glfwMakeContextCurrent(window);
-	
+	glfwSetKeyCallback(window, OnKeyboard);
 }
 
 Game::~Game()

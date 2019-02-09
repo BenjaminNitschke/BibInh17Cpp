@@ -5,11 +5,14 @@
 class Collider
 {
 public:
-	
-	std::shared_ptr<Vector3> velosity;
-	std::shared_ptr<Vector3> axeleration;
 	Collider()
-	{}
+	{
+		velocity = std::make_shared<Vector3>(0, 0, 0);
+		acceleration = std::make_shared<Vector3>(0, 0, 0);
+	}
+	std::shared_ptr<Vector3> velocity;;
+	std::shared_ptr<Vector3> acceleration;
+	
 
 
 	~Collider()
