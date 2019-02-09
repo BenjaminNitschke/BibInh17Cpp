@@ -5,7 +5,8 @@
 
 bool Game::upPressed;
 bool Game::downPressed;
-bool Game::spacePressed;
+bool Game::leftPressed;
+bool Game::rightPressed;
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -13,10 +14,11 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		Game::upPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_DOWN)
 		Game::downPressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_SPACE)
-		Game::spacePressed = action != GLFW_RELEASE;
-	if (key == GLFW_KEY_ESCAPE)
-		glfwSetWindowShouldClose(window, true);
+	if (key == GLFW_KEY_LEFT)
+		Game::leftPressed = action != GLFW_RELEASE;
+	if (key == GLFW_KEY_RIGHT)
+		Game::rightPressed = action != GLFW_RELEASE;
+		
 }
 
 Game::Game()

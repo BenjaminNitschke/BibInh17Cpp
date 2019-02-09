@@ -12,7 +12,8 @@ public:
 	void Run(std::function<void()> renderFunction);
 	static bool upPressed;
 	static bool downPressed;
-	static bool spacePressed;
+	static bool leftPressed;
+	static bool rightPressed;
 	double time = 0;
 	double lastTime = 0;
 	double timeThisTick = 0.001;

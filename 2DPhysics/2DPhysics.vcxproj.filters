@@ -27,9 +27,6 @@
     <ClInclude Include="2DPhysics.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
     <ClInclude Include="CircleCollider.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -46,6 +43,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Circle.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

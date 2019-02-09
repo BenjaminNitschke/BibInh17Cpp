@@ -76,18 +76,26 @@ void Testphysics::ApplayPhysics()
 
 	if (downPressed )
 	{
-		collider[0]->velocity->y += -0.0000001;
+		collider[0]->velocity->y += -0.0001;
 	}
 	if (upPressed)
 	{
-		collider[0]->velocity->y += 0.0000001;
+		collider[0]->velocity->y += 0.0001;
+	}
+	if (leftPressed)
+	{
+		collider[0]->velocity->x += -0.0001;
+	}
+	if (rightPressed)
+	{
+		collider[0]->velocity->x += 0.0001;
 	}
 	for (auto &Object : collider) {
 
 		Object->velocity->x += Object->acceleration->x;
 		Object->velocity->y += Object->acceleration->y;
-		Object->center->x += Object->velocity->x;
-		Object->center->y += Object->velocity->y;
+		Object->center->x += Object->velocity->x * timeThisTick;
+		Object->center->y += Object->velocity->y * timeThisTick;
 
 		if (fabs(Object->velocity->x * Object->velocity->x + Object->velocity->y * Object->velocity->y)<0.01f)
 		{
@@ -102,9 +110,9 @@ void Testphysics::ApplayPhysics()
 
 void Testphysics::DrawScene()
 {
-	for (unsigned i = 0; i < GameObjects.size(); i++) {
+	for (auto &Object : GameObjects) {
 		
-		GameObjects[i]->body->DrawCircle();
+		Object->body->DrawCircle();
 	}
 	
 }
