@@ -10,6 +10,7 @@ public:
 	void RunTestphysics();
 	void DrawScene();
 	void ApplayPhysics();
+	void CollisionDetection();
 	std::vector<std::shared_ptr<GameObject>> GameObjects;
 	
 	
