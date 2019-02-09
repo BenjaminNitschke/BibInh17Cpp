@@ -8,9 +8,11 @@ public:
 	{
 		center = mycenter;
 		id = ID;
+		r = radius;
 	}
 	float r;
 	float id;
+	std::shared_ptr<Vector3> center;
 	~CircleCollider()
 	{}
 };

@@ -12,6 +12,6 @@ public:
 	void ApplayPhysics();
 	void CollisionDetection();
 	std::vector<std::shared_ptr<GameObject>> GameObjects;
-	
+	std::vector<std::shared_ptr<CircleCollider>> collider;
 	
 };

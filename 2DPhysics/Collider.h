@@ -5,7 +5,7 @@
 class Collider
 {
 public:
-	std::shared_ptr<Vector3> center;
+	
 	std::shared_ptr<Vector3> velosity;
 	std::shared_ptr<Vector3> axeleration;
 	Collider()
