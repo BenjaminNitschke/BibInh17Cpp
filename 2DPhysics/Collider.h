@@ -12,7 +12,7 @@ public:
 	}
 	std::shared_ptr<Vector3> velocity;;
 	std::shared_ptr<Vector3> acceleration;
-	
+	float mass;
 
 
 	~Collider()

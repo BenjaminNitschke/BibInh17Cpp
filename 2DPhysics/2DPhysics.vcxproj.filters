@@ -48,6 +48,9 @@
     <ClInclude Include="Collider.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="ColliderPair.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

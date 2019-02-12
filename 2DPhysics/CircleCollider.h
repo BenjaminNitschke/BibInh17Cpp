@@ -9,7 +9,7 @@ public:
 		center = mycenter;
 		id = ID;
 		r = radius;
-		
+		mass = r * 10;
 	}
 	float r;
 	float id;

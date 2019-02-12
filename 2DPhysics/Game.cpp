@@ -24,7 +24,7 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 Game::Game()
 {
 	glfwInit();
-	window = glfwCreateWindow(1440, 1440, "Physictest", NULL, NULL);
+	window = glfwCreateWindow(800, 800, "Physictest", NULL, NULL);
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, OnKeyboard);
 }

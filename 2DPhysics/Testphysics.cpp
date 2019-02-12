@@ -5,18 +5,24 @@
 #include <vector>
 #include <algorithm>
 #include "GameObject.h"
-
+#include "ColliderPair.h"
 Testphysics::Testphysics()
 {
 	
 	GameObjects = std::vector<std::shared_ptr<GameObject>>();
-	GameObjects.push_back(std::make_shared<GameObject>(0, 0.5, 0,0));
-	GameObjects.push_back(std::make_shared<GameObject>(0.05, 0, 0,1));
-	GameObjects.push_back(std::make_shared<GameObject>(0.5, 0.3, 0, 2));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.05, 0, 0, 3));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.3, 0.5, 0, 4));
-	GameObjects.push_back(std::make_shared<GameObject>(0.1, -0.3, 0, 5));
+	GameObjects.push_back(std::make_shared<GameObject>(0, 0.5, 0,0,0.2));
+	GameObjects.push_back(std::make_shared<GameObject>(0.05, 0, 0,1,0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.5, 0.3, 0, 2, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.15, 0, 0, 3, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.3, 0.5, 0, 4, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.1, -0.3, 0, 5, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.6, 0.9, 0, 1, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.2, 0.4, 0, 2, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.6, 0.2, 0, 3, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.3, -0.5, 0, 4, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.4, -0.7, 0, 5, 0.05));
 	collider = std::vector<std::shared_ptr<CircleCollider>>();
+	cPair = std::vector<std::shared_ptr<ColliderPair>>();
 	for (auto &col : GameObjects) {
 
 		collider.push_back(col->collider);
@@ -57,6 +63,7 @@ void Testphysics::CollisionDetection()
 			{
 				if (Collide(Object->center->x, Object->center->y, Object->r, target->center->x, target->center->y, target->r))
 				{
+					cPair.push_back(std::make_shared<ColliderPair>(Object,target));
 					float Distance = sqrtf((Object->center->x - target->center->x)*(Object->center->x - target->center->x) + (Object->center->y - target->center->y)*(Object->center->y - target->center->y));
 					float Overlap = 0.5f* (Distance - Object->r - target->r);
 					Object->center->x -= Overlap * (Object->center->x - target->center->x) / Distance;
@@ -69,38 +76,92 @@ void Testphysics::CollisionDetection()
 
 		}
 	}
+	for (auto c : cPair)
+	{
+		float Distance = sqrtf((c->collider1->center->x - c->collider2->center->x)*(c->collider1->center->x - c->collider2->center->x) + (c->collider1->center->y - c->collider2->center->y)*(c->collider1->center->y - c->collider2->center->y));
+		//normal
+		float nx=( c->collider2->center->x - c->collider1->center->x )/ Distance;
+		float ny= (c->collider2->center->y - c->collider1->center->y) / Distance;
+		//tangent
+		float tx = -ny;
+		float ty = nx;
+		//dotProductTangent
+		float dpTan1 = c->collider1->velocity->x *tx + c->collider1->velocity->y *ty;
+		float dpTan2 = c->collider2->velocity->x *tx + c->collider2->velocity->y *ty;
+		//dotProductNormal
+		float dpNorm1 = c->collider1->velocity->x *nx + c->collider1->velocity->y *ny;
+		float dpNorm2 = c->collider2->velocity->x *nx + c->collider2->velocity->y *ny;
+		//Conservation of momentum in 1D
+		float m1 = (dpNorm1 * (c->collider1->mass - c->collider2->mass) +  2* c->collider2->mass * dpNorm2);
+		float m2 = (dpNorm2 * (c->collider2->mass - c->collider1->mass) +  2* c->collider1->mass * dpNorm1);
 
+		c->collider1->velocity->x = (tx * dpTan1 + nx*m1);
+		c->collider1->velocity->y = (ty * dpTan1 + ny*m1);
+		c->collider2->velocity->x = (tx * dpTan2 + nx*m2);
+		c->collider2->velocity->y = (ty * dpTan2 + ny*m2);
+	}
+	cPair.clear();
 }
 void Testphysics::ApplayPhysics()
 {
 
 	if (downPressed )
 	{
-		collider[0]->velocity->y += -0.0001;
+		collider[0]->velocity->y += -0.01;
 	}
 	if (upPressed)
 	{
-		collider[0]->velocity->y += 0.0001;
+		collider[0]->velocity->y += 0.01;
 	}
 	if (leftPressed)
 	{
-		collider[0]->velocity->x += -0.0001;
+		collider[0]->velocity->x += -0.01;
 	}
 	if (rightPressed)
 	{
-		collider[0]->velocity->x += 0.0001;
+		collider[0]->velocity->x += 0.01;
 	}
 	for (auto &Object : collider) {
 
-		Object->velocity->x += Object->acceleration->x;
-		Object->velocity->y += Object->acceleration->y;
-		Object->center->x += Object->velocity->x * timeThisTick;
-		Object->center->y += Object->velocity->y * timeThisTick;
-
-		if (fabs(Object->velocity->x * Object->velocity->x + Object->velocity->y * Object->velocity->y)<0.01f)
+		if (Object->velocity->x == 0)
 		{
-			//Object->velocity->x =0;
-			//Object->velocity->y =0;
+			Object->acceleration->x = 0;
+		}
+		else if(Object->velocity->x > 0)
+		{
+			Object->acceleration->x = -0.005;
+		}
+		else
+		{
+			Object->acceleration->x = 0.005;
+		}
+		if (Object->velocity->y == 0)
+		{Object->acceleration->y = 0;}
+		else if (Object->velocity->y > 0)
+		{
+			Object->acceleration->y = -0.005;
+		}
+		else
+		{
+			Object->acceleration->y = 0.005;
+		}
+		Object->velocity->x += Object->acceleration->x ;
+		Object->velocity->y += Object->acceleration->y ;
+		Object->center->x += Object->velocity->x * timeThisTick ;
+		Object->center->y += Object->velocity->y * timeThisTick ;
+		if (Object->center->x < -(Object->r+1))
+			Object->center->x = (Object->r + 1);
+		if (Object->center->x > (Object->r + 1))
+			Object->center->x = -(Object->r + 1);
+		if (Object->center->y < -(Object->r + 1))
+			Object->center->y = (Object->r + 1);
+		if (Object->center->y > (Object->r + 1))
+			Object->center->y = -(Object->r + 1);
+
+		if (fabs(Object->velocity->x * Object->velocity->x + Object->velocity->y * Object->velocity->y)<0.0000001f)
+		{
+			Object->velocity->x =0;
+			Object->velocity->y =0;
 		}
 	}
 	
