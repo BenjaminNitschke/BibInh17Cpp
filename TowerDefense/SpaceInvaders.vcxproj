@@ -165,6 +165,7 @@ copy libpng16.dll $(OutputPath)</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Line.h" />
@@ -180,6 +181,7 @@ copy libpng16.dll $(OutputPath)</Command>
     <ClInclude Include="WaveManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Line.cpp" />

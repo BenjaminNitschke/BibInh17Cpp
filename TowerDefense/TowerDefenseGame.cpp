@@ -101,12 +101,10 @@ TowerDefenseGame::TowerDefenseGame(int width, int height, const char* name)
 	enemyWay.push_back(*(new Point(15, 4)));
 	enemyWay.push_back(*(new Point(16, 4)));
 
-	for (float i = 0; i < 6; i+=2)
+	for (float i = 0; i < 10; i+=2.0f)
 	{
-		enemies.push_back(Enemy(0, 0, 100, i+1, Sprite(enemy1, 0, 0), enemyWay, 0));
+		enemies.push_back(Enemy(0, 0, 100, (int)(2 * i/2) % 5 + 1, Sprite(enemy1, 0, 0), enemyWay, i));
 	}
-
-	//lines.push_back(*(new Line(Point(0, 0), Point(100, 100))));
 }
 
 TowerDefenseGame::~TowerDefenseGame()
@@ -188,9 +186,9 @@ void TowerDefenseGame::CalculateMouseInput()
 		{
 			if (map[slot_selected_y][slot_selected_x] == 2)
 			{
-				if (towerIndex == 0) towers.push_back(Tower(slot_selected_x, slot_selected_y, 1, 1, 100, Sprite(tower1, 0, 0), &iPressed));
-				if (towerIndex == 1) towers.push_back(Tower(slot_selected_x, slot_selected_y, 1, 1, 200, Sprite(tower2, 0, 0), &iPressed));
-				if (towerIndex == 2) towers.push_back(Tower(slot_selected_x, slot_selected_y, 1, 1, 400, Sprite(tower3, 0, 0), &iPressed));
+				if (towerIndex == 0) towers.push_back(Tower(slot_selected_x, slot_selected_y, 1, 1, 200, Sprite(tower1, 0, 0), &iPressed));
+				if (towerIndex == 1) towers.push_back(Tower(slot_selected_x, slot_selected_y, 10.0f, 1, 180, Sprite(tower2, 0, 0), &iPressed));
+				if (towerIndex == 2) towers.push_back(Tower(slot_selected_x, slot_selected_y, 0.5f, 10, 500, Sprite(tower3, 0, 0), &iPressed));
 				towerSelected = false;
 				seletedTowerIndex = -1;
 				for (int i = 0; i < enemies.size(); i++)
@@ -247,11 +245,6 @@ void TowerDefenseGame::DrawAll()
 	}
 	slot_selected->Draw();
 
-	for (int i = 0; i < towers.size(); i++)
-	{
-		towers[i].Draw();
-	}
-
 	for (int i = 0; i < enemies.size(); i++)
 	{
 		enemies[i].Draw();
@@ -265,6 +258,11 @@ void TowerDefenseGame::DrawAll()
 	goldNumber1[goldNumberPart1].Draw();
 	goldNumber2[goldNumberPart2].Draw();
 	goldNumber3[goldNumberPart3].Draw();
+
+	for (int i = 0; i < towers.size(); i++)
+	{
+		towers[i].Draw();
+	}
 }
 
 double TowerDefenseGame::DistanceTo(Sprite* missile, Sprite* enemie)

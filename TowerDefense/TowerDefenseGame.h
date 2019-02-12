@@ -25,7 +25,6 @@ public:
 	void DrawAll();
 	double DistanceTo(Sprite * missile, Sprite * enemie);
 private:
-	std::vector<Line> lines;
 	std::shared_ptr<Sprite> background;
 	std::shared_ptr<Texture> slot;
 	std::shared_ptr<Texture> slot_way;
@@ -36,14 +35,12 @@ private:
 	std::shared_ptr<Texture> tower3;
 	std::vector<std::shared_ptr<Texture>> numbers;
 	std::vector<Sprite> numbersDrawn;
-	//std::vector<Sprite> towers;
 	std::shared_ptr<Sprite> slot_selected;
 	std::vector<Sprite> slots;
 	std::vector<Point> enemyWay;
 	std::shared_ptr<Texture> enemy1;
 	std::shared_ptr<Texture> enemy2;
 	std::shared_ptr<Texture> enemy3;
-	//std::vector<Sprite> enemies;
 	double lastTime;
 	int slot_selected_x;
 	int slot_selected_y;

@@ -1,6 +1,7 @@
 #pragma once
 #include "Line.h"
 #include "Enemy.h"
+#include "Bullet.h"
 #include <iostream>
 #include <algorithm>
 class Tower
@@ -27,6 +28,8 @@ private:
 	std::vector<Line> lines;
 	std::vector<Enemy*> enemies;
 	std::vector<float> distanceToEnemies;
+	std::vector<Bullet> bullets;
+	std::shared_ptr<Texture> bullet1;
 	void DrawLine();
 	void DrawSprite();
 };

@@ -17,6 +17,7 @@ Tower::Tower(int xIndex, int yIndex, float attacksPerSec, float damage, float ra
 	this->sprite.setPos(xIndex * 80 + 40, yIndex * 80 + 40);
 	lastAttackTime = glfwGetTime();
 	canShoot = false;
+	bullet1 = std::make_shared<Texture>("bullet1.png");
 }
 
 void Tower::AddEnemy(Enemy* enemy)
@@ -31,8 +32,8 @@ void Tower::RemoveEnemy(Enemy* enemy)
 	if (pos != enemies.end())
 	{
 		int index = pos - enemies.begin();
-		//lines.erase(lines.begin() + index);
-		//enemies.erase(pos);
+		lines.erase(lines.begin() + index);
+		enemies.erase(pos);
 	}
 }
 
@@ -70,6 +71,12 @@ void Tower::Draw()
 	DrawSprite();
 	if(*iPressed)
 		DrawLine();
+
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].Move();
+		bullets[i].Draw();
+	}
 }
 
 void Tower::Attack()
@@ -79,6 +86,8 @@ void Tower::Attack()
 	{
 		canShoot = true;
 		lastAttackTime = now;
+		if (distanceToEnemies[indexOfNearestEnemy] <= range*range)
+			bullets.push_back(Bullet((Sprite(bullet1, 0, 0)), xIndex * 80 + 40, yIndex * 80 + 40, 1000, enemies[indexOfNearestEnemy]));
 	}
 }
 
@@ -97,19 +106,14 @@ void Tower::DrawLine()
 			lines[i].Draw(0, 0, 0, 0.1f);
 	}
 
-	if (canShoot && (glfwGetTime() - lastAttackTime) < 0.25f)
+	if (canShoot)
 	{
 		if (distanceToEnemies[indexOfNearestEnemy] <= range*range)
 		{
-			std::cout << "Fire: " << glfwGetTime() << std::endl;
 			Line tmp = Line(Point(xIndex * 80 + 40, yIndex * 80 + 40), enemies[indexOfNearestEnemy]->GetPos());
-			RemoveEnemy(enemies[indexOfNearestEnemy]);
-
+			//RemoveEnemy(enemies[indexOfNearestEnemy]);
 			tmp.Draw(1, 1, 0, 1);
+			canShoot = false;
 		}
-	}
-	else
-	{
-		canShoot = false;
 	}
 }
