@@ -1,27 +1,11 @@
 #include "stdafx.h"
 #include "Circle.h"
-#include <memory>
-#include "stdafx.h"
-#include "Testphysics.h"
-
-
-#include <vector>
-#include <algorithm>
-#include "GameObject.h"
-
 void Circle::DrawCircle()
 {
-
-	
-	
-	
-	cx = centerptr->x;
-	cy = centerptr->y;
-	
 	glBegin(GL_LINE_LOOP);
 	for (int ii = 0; ii < 20; ii++)
 	{
-		glVertex2f(x + cx, y + cy);
+		glVertex2f(x + centerptr->x, y + centerptr->y);
 
 
 		t = x;

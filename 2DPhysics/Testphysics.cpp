@@ -8,19 +8,19 @@
 #include "ColliderPair.h"
 Testphysics::Testphysics()
 {
-	
+	testdraw = std::make_shared<GameObject>(0, 0, 0, 0.5);
 	GameObjects = std::vector<std::shared_ptr<GameObject>>();
-	GameObjects.push_back(std::make_shared<GameObject>(0, 0.5, 0,0,0.2));
-	GameObjects.push_back(std::make_shared<GameObject>(0.05, 0, 0,1,0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(0.5, 0.3, 0, 2, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.15, 0, 0, 3, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.3, 0.5, 0, 4, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(0.1, -0.3, 0, 5, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(0.6, 0.9, 0, 1, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(0.2, 0.4, 0, 2, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.6, 0.2, 0, 3, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.3, -0.5, 0, 4, 0.05));
-	GameObjects.push_back(std::make_shared<GameObject>(0.4, -0.7, 0, 5, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0, -0.9, 0,0,0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0, 0.4, 0,1,0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.025, 0.45, 0, 2, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.025, 0.45, 0.4, 3, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.05, 0.5, 0, 4, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.1, 0.5, 0, 5, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.05, 0.5, 0, 6, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.1, 0.5, 0, 7, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.05, 0.55, 0, 8, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.1, 0.55, 0, 9, 0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(-1.5, 0.55, 0, 10, 0.05));
 	collider = std::vector<std::shared_ptr<CircleCollider>>();
 	cPair = std::vector<std::shared_ptr<ColliderPair>>();
 	for (auto &col : GameObjects) {
@@ -65,7 +65,7 @@ void Testphysics::CollisionDetection()
 				{
 					cPair.push_back(std::make_shared<ColliderPair>(Object,target));
 					float Distance = sqrtf((Object->center->x - target->center->x)*(Object->center->x - target->center->x) + (Object->center->y - target->center->y)*(Object->center->y - target->center->y));
-					float Overlap = 0.5f* (Distance - Object->r - target->r);
+					float Overlap = 0.501f* (Distance - Object->r - target->r);
 					Object->center->x -= Overlap * (Object->center->x - target->center->x) / Distance;
 					Object->center->y -= Overlap * (Object->center->y - target->center->y) / Distance;
 
@@ -107,20 +107,22 @@ void Testphysics::ApplayPhysics()
 
 	if (downPressed )
 	{
-		collider[0]->velocity->y += -0.01;
+		collider[0]->velocity->y += -0.02;
 	}
 	if (upPressed)
 	{
-		collider[0]->velocity->y += 0.01;
+		testdraw->center->y += 0.01;
+		collider[0]->velocity->y += 0.02;
 	}
 	if (leftPressed)
 	{
-		collider[0]->velocity->x += -0.01;
+		collider[0]->velocity->x += -0.02;
 	}
 	if (rightPressed)
 	{
-		collider[0]->velocity->x += 0.01;
+		collider[0]->velocity->x += 0.02;
 	}
+	
 	for (auto &Object : collider) {
 
 		if (Object->velocity->x == 0)
@@ -129,24 +131,26 @@ void Testphysics::ApplayPhysics()
 		}
 		else if(Object->velocity->x > 0)
 		{
-			Object->acceleration->x = -0.005;
+			Object->acceleration->x = -0.6;
 		}
 		else
 		{
-			Object->acceleration->x = 0.005;
+			Object->acceleration->x = 0.6;
 		}
 		if (Object->velocity->y == 0)
-		{Object->acceleration->y = 0;}
+		{
+			Object->acceleration->y =0;
+		}
 		else if (Object->velocity->y > 0)
 		{
-			Object->acceleration->y = -0.005;
+			Object->acceleration->y = -0.6;
 		}
 		else
 		{
-			Object->acceleration->y = 0.005;
+			Object->acceleration->y = 0.6;
 		}
-		Object->velocity->x += Object->acceleration->x ;
-		Object->velocity->y += Object->acceleration->y ;
+		Object->velocity->x += Object->acceleration->x *timeThisTick;
+		Object->velocity->y += Object->acceleration->y*timeThisTick;
 		Object->center->x += Object->velocity->x * timeThisTick ;
 		Object->center->y += Object->velocity->y * timeThisTick ;
 		if (Object->center->x < -(Object->r+1))
@@ -158,7 +162,7 @@ void Testphysics::ApplayPhysics()
 		if (Object->center->y > (Object->r + 1))
 			Object->center->y = -(Object->r + 1);
 
-		if (fabs(Object->velocity->x * Object->velocity->x + Object->velocity->y * Object->velocity->y)<0.0000001f)
+		if (fabs(Object->velocity->x * Object->velocity->x + Object->velocity->y * Object->velocity->y)<0.000003f)
 		{
 			Object->velocity->x =0;
 			Object->velocity->y =0;
@@ -175,7 +179,7 @@ void Testphysics::DrawScene()
 		
 		Object->body->DrawCircle();
 	}
-	
+	testdraw->lbody->DrawLine();
 }
 
 

@@ -26,23 +26,22 @@ public:
 	{
 		
 	}
-	std::shared_ptr<Vector3> centerptr;
+	
 	void DrawCircle();
-	float theta;
-	float c;
-	float s;
-	float t;
-	float r;
-	float cx;
-	float cy;
-	float x ;
-	float y;
 	
 	
 	~Circle()
 	{}
 private:
-	
+	std::shared_ptr<Vector3> centerptr;
+	float theta;
+	float c;
+	float s;
+	float t;
+	float r;
+	float x;
+	float y;
+
 	
 };
 

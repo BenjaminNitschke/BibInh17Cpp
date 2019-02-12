@@ -15,4 +15,5 @@ public:
 	std::vector<std::shared_ptr<GameObject>> GameObjects;
 	std::vector<std::shared_ptr<CircleCollider>> collider;
 	std::vector<std::shared_ptr<ColliderPair>> cPair;
+	std::shared_ptr<GameObject > testdraw;
 };
