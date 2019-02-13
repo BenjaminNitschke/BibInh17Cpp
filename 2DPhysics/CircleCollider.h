@@ -1,11 +1,12 @@
 #pragma once
 #include "stdafx.h"
-#include <vector>
-
+#include"Vector3.h"
 #include <memory>
-#include "GameObject.h"
+
+
+
 #include "Collider.h"
-#include "LineCollider.h"
+
 
 class CircleCollider : public Collider
 {
@@ -17,16 +18,16 @@ public:
 		r = radius;
 		mass = r * 10;
 	}
-	float r;
-	float id;
-	std::shared_ptr<Vector3> center;
-	void CheckCollision(std::vector<std::shared_ptr<GameObject>> GameObjects);
-	bool Collide(std::shared_ptr<CircleCollider>collider );
-	/*bool Collide(std::shared_ptr<LineCollider> );*/
 	CircleCollider()
 	{
-		
+
 	}
+	float r;
+	float id;
+	bool Collides(std::shared_ptr<CircleCollider>collider);
+	bool CheckCollision(std::shared_ptr<CircleCollider>collider);
+	std::shared_ptr<Vector3> center;
+	
 	~CircleCollider()
 	{}
 };

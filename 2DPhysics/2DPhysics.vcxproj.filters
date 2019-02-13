@@ -48,16 +48,10 @@
     <ClInclude Include="Collider.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderPair.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="LineCollider.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Line.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Body.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,9 +72,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Body.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="CircleCollider.cpp">

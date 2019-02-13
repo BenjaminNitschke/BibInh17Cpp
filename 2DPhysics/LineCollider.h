@@ -10,6 +10,7 @@ public:
 	}
 	std::shared_ptr<Vector3> p1;
 	std::shared_ptr<Vector3> p2;
+
 	~LineCollider();
 };
 
