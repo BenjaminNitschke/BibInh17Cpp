@@ -39,9 +39,9 @@ void Testphysics::RunTestphysics()
 		CollisionDetection();
 		ApplayPhysics();
 		DrawScene();
-		
-	});
 
+	});
+}
 
 void Testphysics::CollisionDetection()
 {
@@ -123,6 +123,8 @@ void Testphysics::ApplayPhysics()
 	
 	
 }
+
+
 
 void Testphysics::DrawScene()
 {

@@ -7,9 +7,9 @@ class Testphysics : public Game
 {
 public:
 	
-	
-	std::vector<std::shared_ptr<GameObject>>GameObjects;
 	void RunTestphysics();
+	std::vector<std::shared_ptr<GameObject>> GameObjects;
+	
 	void DrawScene();
 	void CollisionDetection();
 	void ApplayPhysics();
