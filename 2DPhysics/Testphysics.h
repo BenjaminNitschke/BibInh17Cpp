@@ -6,14 +6,14 @@
 class Testphysics : public Game
 {
 public:
-	Testphysics();
-	~Testphysics();
+	
+	
+	std::vector<std::shared_ptr<GameObject>>GameObjects;
 	void RunTestphysics();
 	void DrawScene();
-	void ApplayPhysics();
 	void CollisionDetection();
-	std::vector<std::shared_ptr<GameObject>> GameObjects;
-	std::vector<std::shared_ptr<CircleCollider>> collider;
-	std::vector<std::shared_ptr<ColliderPair>> cPair;
+	void ApplayPhysics();
+	
+
 	std::shared_ptr<GameObject > testdraw;
 };

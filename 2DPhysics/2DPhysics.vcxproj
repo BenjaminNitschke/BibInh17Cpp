@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="2DPhysics.h" />
+    <ClInclude Include="Body.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Collider.h" />
@@ -166,7 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2DPhysics.cpp" />
+    <ClCompile Include="Body.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="stdafx.cpp">

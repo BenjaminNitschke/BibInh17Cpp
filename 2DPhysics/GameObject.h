@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "Vector3.h"
 #include "CircleCollider.h"
 #include <memory>
@@ -14,6 +15,11 @@ public:
 	std::shared_ptr<Circle> body;
 	std::shared_ptr<Line> lbody;
 	
+	GameObject()
+	{
+
+
+	}
 	GameObject(float x, float y, float z, float ID,float radius)
 	{
 		
@@ -32,11 +38,7 @@ public:
 		//body = std::make_shared<Circle>(center, radius);
 		lbody = std::make_shared<Line>(p1, p2);
 	}
-	GameObject()
-	{
-
-
-	}
+	
 
 	~GameObject()
 	{

@@ -57,6 +57,9 @@
     <ClInclude Include="Line.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Body.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -75,6 +78,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Body.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
