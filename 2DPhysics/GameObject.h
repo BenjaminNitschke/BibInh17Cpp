@@ -21,6 +21,16 @@ public:
 		body = std::make_shared<Circle>(center, radius);
 
 	}
+	GameObject(float x, float y, float z, float x2, float y2, float z2, float ID)
+	{
+
+		center = std::make_shared<Vector3>(x+x2/2, y+y2/2, z);
+		p1 = std::make_shared<Vector3>(x, y, z);
+		p1 = std::make_shared<Vector3>(x2, y2, z2);
+		collider = std::make_shared<LineCollider>(p1,p2,  ID);
+		body = std::make_shared<Line>(p1,p2);
+
+	}
 	
 	std::shared_ptr<CircleCollider> collider;
 	std::shared_ptr<Vector3> center;

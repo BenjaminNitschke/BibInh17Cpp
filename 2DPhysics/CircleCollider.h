@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include"Vector3.h"
 #include <memory>
-
+#include "LineCollider.h"
 
 
 #include "Collider.h"
@@ -16,7 +16,7 @@ public:
 		center = mycenter;
 		id = ID;
 		r = radius;
-		mass = r * 10;
+		mass = r * 2;
 	}
 	CircleCollider()
 	{
@@ -26,8 +26,10 @@ public:
 	float id;
 	bool Collides(std::shared_ptr<CircleCollider>collider);
 	bool CheckCollision(std::shared_ptr<CircleCollider>collider);
+	bool CheckCollision(std::shared_ptr<LineCollider>collider);
 	std::shared_ptr<Vector3> center;
-	
+	bool Collides(std::shared_ptr<Vector3>collider);
+	float Distance(float x, float y, float x2, float y2);
 	~CircleCollider()
 	{}
 };
