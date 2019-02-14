@@ -103,7 +103,30 @@ bool CircleCollider::CheckCollision(std::shared_ptr<LineCollider>collider)
 		float leng = Distance(collider->p1->x, collider->p1->y, collider->p2->x, collider->p2->y);
 		float dot = (((center->x - collider->p1->x)*(collider->p2->x - collider->p1->x)) + ((center->y - collider->p1->y)*(collider->p2->y - collider->p1->y))) / std::pow(leng,2);
 		float closestX = collider->p1->x + (dot*(collider->p2->x - collider->p1->x));
-		float closestX = collider->p1->y + (dot*(collider->p2->y - collider->p1->y));
+		float closestY = collider->p1->y + (dot*(collider->p2->y - collider->p1->y));
+		if (CheckCollision(collider, std::make_shared<Vector3>(closestX, closestY, 0)))
+		{
+			if (Collides(std::make_shared<Vector3>(closestX, closestY, 0)))
+			{
+				float Distance = sqrtf((center->x - closestX)*(center->x - closestX) + (center->y - closestY)*(center->y - closestY));
+				float Overlap = 1.01f* (Distance - r);
+				center->x -= Overlap * (center->x - closestX) / Distance;
+				center->y -= Overlap * (center->y - closestY) / Distance;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+bool CircleCollider::CheckCollision(std::shared_ptr<LineCollider>collider, std::shared_ptr<Vector3> point)
+{
+	float leng = Distance(collider->p1->x, collider->p1->y, collider->p2->y, collider->p2->y);
+	float d1 = Distance(point->x, point->y, collider->p1->x, collider->p1->y);
+	float d2 = Distance(point->x, point->y, collider->p2->x, collider->p2->y);
+	float buffer = 0.01;
+	if (d1 + d2 >= leng + buffer && d1 + d2 <= leng + buffer)
+	{
+		return true;
 	}
 	return false;
 }

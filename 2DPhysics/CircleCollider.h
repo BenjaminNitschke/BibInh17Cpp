@@ -27,6 +27,7 @@ public:
 	bool Collides(std::shared_ptr<CircleCollider>collider);
 	bool CheckCollision(std::shared_ptr<CircleCollider>collider);
 	bool CheckCollision(std::shared_ptr<LineCollider>collider);
+	bool CheckCollision(std::shared_ptr<LineCollider>collider, std::shared_ptr<Vector3> point);
 	std::shared_ptr<Vector3> center;
 	bool Collides(std::shared_ptr<Vector3>collider);
 	float Distance(float x, float y, float x2, float y2);
