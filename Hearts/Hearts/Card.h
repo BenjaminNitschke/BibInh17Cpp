@@ -10,8 +10,7 @@ class Player;
 class Card
 {
 public:
-	static std::function<void(Player* player, Card* card)> sortAndRemove;
-	static std::function<void(Trick* trick, Player* player, Card* card)> addToTrick;
+	static std::function<void(std::shared_ptr<Card> card, int index)> cardSelected;
 	Card(int color, int value);
 	int color, value;
 	float width, height;
@@ -22,20 +21,5 @@ public:
 		std::string col = names.at(color);
 		std::string tmp = "Card: " + val + " of " + col;
 		return tmp;
-	}
-
-	void Select() const
-	{
-		sprite->Move(0, -200);
-	}
-
-	void Deselect() const
-	{
-		sprite->Move(0, 200);
-	}
-
-	void Play()
-	{
-		sprite->MoveTo(640, 360);
 	}
 };

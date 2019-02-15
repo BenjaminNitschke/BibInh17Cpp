@@ -9,4 +9,5 @@ public:
 	Deck();
 	void Shuffle();
 	void PrintDeck();
+	std::shared_ptr<Card> DrawTop();
 };

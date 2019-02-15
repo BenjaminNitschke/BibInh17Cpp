@@ -2,8 +2,7 @@
 #include "Card.h"
 #include "Utility.h"
 
-std::function<void(Player* player, Card* card)> Card::sortAndRemove;
-std::function<void(Trick* trick, Player* player, Card* card)> Card::addToTrick;
+std::function<void(std::shared_ptr<Card> card, int index)> Card::cardSelected;
 
 Card::Card(int color, int value) : color(color), value(value)
 {

@@ -36,9 +36,6 @@
     <ClInclude Include="HeartsGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Trick.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,9 +57,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HeartsGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Trick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

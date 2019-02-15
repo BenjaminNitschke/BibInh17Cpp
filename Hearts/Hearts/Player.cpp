@@ -2,24 +2,11 @@
 #include "Player.h"
 #include "Utility.h"
 #include <algorithm>
-#include <iostream>
 
 
 Player::Player(float handX, float handY, std::shared_ptr<Sprite> backSprite) : handX(handX), handY(handY), backSprite(backSprite)
 {
-	Card::sortAndRemove = [=](Player* player, Card* card)
-	{
-		for (auto i = 0; i < player->hand.size(); i++)
-			if (player->hand[i].get() == card)
-			{
-				player->hand.erase(player->hand.begin() + i);
-				break;
-			}
-
-		player->RepositionHand();
-		std::cout << "Penis";
-		//std::cout << player->handY << " played " << card->ToString();
-	};
+	
 }
 
 void Player::SortHand()
@@ -79,41 +66,8 @@ void Player::SelectCard(float mouseX, float mouseY)
 		if (mouseX > hand[i]->sprite->x - hand[i]->width / 2 && mouseX < hand[i]->sprite->x + hand[i]->width / 2 &&
 			mouseY > hand[i]->sprite->y - hand[i]->height / 2 && mouseY < hand[i]->sprite->y + hand[i]->height / 2)
 		{
-			std::cout << i << std::endl;
-			if (hand[i].get() != selectedCard || selectedCard == nullptr)
-			{
-				if (selectedCard != nullptr)
-				{
-					selectedCard->Deselect();
-					selectedCard = nullptr;
-				}
-				hand[i]->Select();
-				selectedCard = hand[i].get();
-				return;
-			}
-			if (hand[i].get() == selectedCard)
-			{
-				selectedCard->Play();
-				//Card::addToTrick(currentTrick, this, selectedCard);
-				Card::sortAndRemove(this, selectedCard);
-				selectedCard = nullptr;
-				hand.erase(hand.begin() + i);
-				if (!hand.empty())
-					RepositionHand();
-				return;
-			}
-
-		}
-		else
-		{
-			if (selectedCard == nullptr) continue;
-			selectedCard->Play();
-			//Card::addToTrick(currentTrick, this, selectedCard);
-			Card::sortAndRemove(this, selectedCard);
-			hand.erase(hand.begin() + i);
-			if (!hand.empty())
-				RepositionHand();
-			selectedCard = nullptr;
+			Card::cardSelected(hand[i], i);
+			return;
 		}
 	}
 }
