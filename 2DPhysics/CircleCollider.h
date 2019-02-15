@@ -11,7 +11,7 @@
 class CircleCollider : public Collider
 {
 public:
-	CircleCollider(std::shared_ptr<Vector3>  mycenter,float radius,float ID)
+	CircleCollider(std::shared_ptr<Vector3>  mycenter,float radius,int ID)
 	{
 		center = mycenter;
 		id = ID;
@@ -25,7 +25,7 @@ public:
 	}
 	bool stat = false;
 	float r;
-	float id;
+	int id;
 	bool Collides(std::shared_ptr<CircleCollider>collider);
 	bool CheckCollisioncc(std::shared_ptr<CircleCollider>collider);
 	bool CheckCollisionl(std::shared_ptr<LineCollider>collider);

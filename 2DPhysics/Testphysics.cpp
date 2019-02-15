@@ -10,16 +10,17 @@
 
 Testphysics::Testphysics()
 {
-	testdraw = std::make_shared<GameObject>(0.0f, -0.9f, 0.0f, 0.0f, 0.05f);
+	testdraw = std::make_shared<GameObject>(0.0f, -0.9f, 0.0f, 0, 0.05f);
 	//testdraw2 = std::make_shared<GameObject>(std::make_shared<GameObject>(-0.9, 0.9, 0, 0.9, 0.9, 0, 2, true));
 	GameObjects.push_back(testdraw);
-	GameObjects.push_back(std::make_shared<GameObject>(0.0f, 0.5f, 0.0f,1.0f,0.05f));
-	
-	
-	
-	
-	
-	
+	GameObjects.push_back(std::make_shared<GameObject>(0.1f, 0.1f, 0.0f,1,0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.2f, -0.2f, 0.0f, 2, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.3f, 0.3f, 0.0f, 3, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.4f, 0.4f, 0.0f, 4, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.5f, 0.5f, 0.0f, 5, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.6f, -0.6f, 0.0f, 6, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.7f, 0.7f, 0.0f, 7, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.8f, 0.8f, 0.0f, 8, 0.05f));
 }
 
 Testphysics::~Testphysics()

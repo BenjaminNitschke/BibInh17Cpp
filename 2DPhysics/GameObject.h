@@ -13,7 +13,7 @@ public:
 
 
 	}
-	GameObject(float x, float y, float z, float ID, float radius)
+	GameObject(float x, float y, float z, int ID, float radius)
 	{
 		
 		center = std::make_shared<Vector3>(x, y, z);
