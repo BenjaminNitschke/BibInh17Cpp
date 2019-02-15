@@ -14,9 +14,10 @@ public:
 
 	std::vector<std::shared_ptr<Card>> hand = std::vector<std::shared_ptr<Card>>();
 	void SortHand();
-	void RepositionHand() const;
+	void RepositionHand();
 	void DrawHand() const;
 	void SelectCard(float mouseX, float mouseY);
+
 	~Player()
 	{
 		if(selectedCard != nullptr)

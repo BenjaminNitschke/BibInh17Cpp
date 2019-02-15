@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "Hearts.h"
-#include "Deck.h"
-#include "Player.h"
-#include "Game.h"
 #include "HeartsGame.h"
 
 void InitializeDeck();
@@ -18,5 +15,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 	hearts->RunHearts();
 
-	delete(hearts);
+	delete hearts;
 }

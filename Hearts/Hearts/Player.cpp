@@ -6,7 +6,7 @@
 
 Player::Player(float handX, float handY, std::shared_ptr<Sprite> backSprite) : handX(handX), handY(handY), backSprite(backSprite)
 {
-	
+
 }
 
 void Player::SortHand()
@@ -27,15 +27,18 @@ void Player::SortHand()
 
 	hand.clear();
 
+	int sum = tmp[0].size() + tmp[1].size() + tmp[2].size() + tmp[3].size();
+
 	for (auto v : tmp)
 	{
 		std::sort(v.begin(), v.end(), [](std::shared_ptr<Card> a, std::shared_ptr<Card> b) {return a->value < b->value; });
-		for (auto& c : v)
-			hand.push_back(c);
+		hand.insert(hand.end(), v.begin(), v.end());
 	}
+
+	RepositionHand();
 }
 
-void Player::RepositionHand() const
+void Player::RepositionHand()
 {
 	const auto cardWidth = hand[0]->width / 3;
 	const auto cardCount = hand.size();

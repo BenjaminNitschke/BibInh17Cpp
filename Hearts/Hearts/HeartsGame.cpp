@@ -8,20 +8,10 @@
 
 bool mouseClicked = false;
 
-HeartsGame::HeartsGame(int width, int height, const char * name) : Game(width, height, name)
-{
-
-}
-
-std::shared_ptr<Sprite> back;
-Deck deck;
-
-Player north;
-Player east;
-Player south;
-Player west;
-
-std::vector<std::shared_ptr<Card>> cards;
+Deck* HeartsGame::deck;
+Player HeartsGame::south;
+Player HeartsGame::north;
+std::shared_ptr<Sprite> HeartsGame::back;
 
 void QueryMouseInput(GLFWwindow* window, int button, int action, int mods)
 {
@@ -29,61 +19,36 @@ void QueryMouseInput(GLFWwindow* window, int button, int action, int mods)
 	{
 		double x, y;
 		glfwGetCursorPos(Game::pWindow, &x, &y);
-		if (x > drawX - (float)back->texture->width * scaling / 2 && x < drawX + (float)back->texture->width * scaling / 2 &&
-			y > drawY - (float)back->texture->height * scaling / 2 && y < drawY + (float)back->texture->height * scaling / 2)
+		if (x > drawX - (float)HeartsGame::back->texture->width * scaling / 2 && x < drawX + (float)HeartsGame::back->texture->width * scaling / 2 &&
+			y > drawY - (float)HeartsGame::back->texture->height * scaling / 2 && y < drawY + (float)HeartsGame::back->texture->height * scaling / 2 &&
+			!HeartsGame::deck->deck.empty())
 		{
-			std::cout << "x: " << x << "drawX: " << drawX << std::endl;
-			std::cout << "y: " << y << "drawY: " << drawY << std::endl;
-
-			south.hand.push_back(deck.DrawTop());
-			south.SortHand();
-			south.RepositionHand();
+			HeartsGame::south.hand.push_back(HeartsGame::deck->DrawTop());
+			HeartsGame::south.SortHand();
+			HeartsGame::south.RepositionHand();
 		}
 
 		else
-			south.SelectCard(x, y);
+			HeartsGame::south.SelectCard(x, y);
 	}
 }
 
-bool ValidCard(std::shared_ptr<Card> card)
+HeartsGame::HeartsGame(int width, int height, const char * name) : Game(width, height, name)
 {
-	if (cards.back()->value == card->value)
-		return true;
-	if (cards.back()->color == card->color)
-		return true;
-	if (card->value == jack && cards.back()->value != jack)
-		return true;
-	if (cards.back()->value == eight && card->value != eight)
-		return false;
-	return false;
-}
-
-void HeartsGame::RunHearts()
-{
-	deck = Deck();
-
-	glfwSetMouseButtonCallback(pWindow, QueryMouseInput);
-
-	deck.Shuffle();
+	deck = new Deck();
+	bg = std::make_shared<Sprite>("background.png", 640, 360);
 	back = std::make_shared<Sprite>("./back.png", 0, 0, scaling);
 
 	north = Player(640, 0, back);
 	south = Player(640, 720, back);
 
-	for (int i = 0; i < initialHandSize; i++)
-	{
-		north.hand.push_back(deck.DrawTop());
-		south.hand.push_back(deck.DrawTop());
-	}
+	glfwSetMouseButtonCallback(pWindow, QueryMouseInput);
 
-	cards.push_back(deck.DrawTop());
-	cards.back()->sprite->MoveTo(pileX, pileY);
-
-	Card::cardSelected = [](std::shared_ptr<Card> card, int index)
+	Card::cardSelected = [this](std::shared_ptr<Card> card, int index)
 	{
 		if (ValidCard(card))
 		{
-			cards.push_back(card);
+			stack.push_back(card);
 			card->sprite->MoveTo(pileX, pileY);
 			south.hand.erase(south.hand.begin() + index);
 			south.SortHand();
@@ -91,38 +56,66 @@ void HeartsGame::RunHearts()
 		}
 	};
 
-	south.SortHand();
+	deck->Shuffle();
 
-	const auto bg = std::make_shared<Sprite>("background.png", 640, 360);
-
-	double x, y;
+	for (int i = 0; i < initialHandSize; i++)
+	{
+		north.hand.push_back(deck->DrawTop());
+		south.hand.push_back(deck->DrawTop());
+	}
 
 	south.RepositionHand();
 	north.RepositionHand();
 
-	std::cout << std::endl << std::endl << "Deck created" << std::endl;
+	stack.push_back(deck->DrawTop());
 
+	stack.back()->sprite->MoveTo(pileX, pileY);
+
+	std::cout << std::endl << std::endl << "Deck created" << std::endl;
+}
+
+bool HeartsGame::ValidCard(std::shared_ptr<Card> card)
+{
+	if (stack.back()->value == card->value)
+		return true;
+	if (stack.back()->color == card->color)
+		return true;
+	if (card->value == jack && stack.back()->value != jack)
+		return true;
+	if (stack.back()->value == eight && card->value != eight)
+		return false;
+	return false;
+}
+
+void HeartsGame::RunHearts()
+{
 	Run([=]()
 	{
 		// render
 		south.DrawHand();
 		north.DrawHand();
-		cards.back()->sprite->Draw();
-		if (deck.deck.empty())
-		{
-			for (int i = 0; i < cards.size() - 1; i++)
-			{
-				deck.deck.push_back(cards[i]);
-				cards.erase(cards.begin() + i);
-				std::cout << "The deck has been reshuffled. Now contains " << deck.deck.size() << " Cards" << std::endl;
-			}
-		}
-		else
-		{
-			back->MoveTo(drawX, drawY);
-			back->Draw();
-		}
+		stack.back()->sprite->Draw();
+		ReshuffleDeck();
 		bg->Draw();
 	});
+}
+
+void HeartsGame::ReshuffleDeck()
+{
+	if (deck->deck.empty() && stack.size() > 1)
+	{
+		for (int i = stack.size() - 1; i >= 1; --i)
+		{
+			deck->deck.push_back(stack[stack.size() - i - 1]);
+			stack.erase(stack.end() - i - 1);
+		}
+		deck->Shuffle();
+		std::cout << "The deck has been reshuffled. Now contains " << deck->deck.size() << " Cards" << std::endl;
+	}
+	else if (!deck->deck.empty())
+	{
+		back->MoveTo(drawX, drawY);
+		back->Draw();
+	}
 }
 
