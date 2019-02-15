@@ -1,0 +1,27 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: Das Zwischenverzeichnis (Debug\) enthält freigegebene Dateien aus einem anderen Projekt (SpaceInvaders.vcxproj). Dies kann zu einem falschen Bereinigungs- und Neuerstellungsverhalten führen.
+  TwothousandGame.cpp
+c:\users\hbinh17gsc.ha.001\desktop\bibinh17cpp-master\twothousand\twothousandgame.cpp(14): warning C4244: "Argument": Konvertierung von "time_t" in "unsigned int", möglicher Datenverlust
+c:\users\hbinh17gsc.ha.001\desktop\bibinh17cpp-master\twothousand\twothousandgame.cpp(323): warning C4244: "Argument": Konvertierung von "float" in "int", möglicher Datenverlust
+  SpaceInvaders.vcxproj -> C:\Users\hbinh17gsc.HA.001\Desktop\BibInh17Cpp-master\TwoThousand\Debug\TwoThousand.exe
+  1024.png
+  128.png
+  16.png
+  2.png
+  2048.png
+  256.png
+  32.png
+  4.png
+  512.png
+  64.png
+  8.png
+  background.png
+  enemy.png
+  Grid.png
+  lose.png
+  Missile.png
+  ship.png
+  Unfilled.png
+  win.png
+  Zahlen.png
+         20 Datei(en) kopiert.
+          1 Datei(en) kopiert.
