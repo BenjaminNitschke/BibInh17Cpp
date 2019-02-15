@@ -14,7 +14,7 @@ public:
 	{
 		centerptr = mycenter;
 		r = radius;
-		theta = 2 * 3.1415926 / float(20);
+		theta = 2 * 3.141592f / 20.0f;
 		c = cosf(theta);
 		s = sinf(theta);
 		x = r;

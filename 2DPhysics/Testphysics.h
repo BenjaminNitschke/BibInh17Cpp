@@ -25,5 +25,6 @@ public:
 	
 
 	std::shared_ptr<GameObject> testdraw;
+	//std::shared_ptr<GameObject> testdraw2;
 	~Testphysics();
 };

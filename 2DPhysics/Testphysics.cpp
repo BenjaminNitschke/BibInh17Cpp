@@ -10,10 +10,10 @@
 
 Testphysics::Testphysics()
 {
-	testdraw = std::make_shared<GameObject>(0, -0.9, 0, 0, 0.05);
-	
+	testdraw = std::make_shared<GameObject>(0.0f, -0.9f, 0.0f, 0.0f, 0.05f);
+	//testdraw2 = std::make_shared<GameObject>(std::make_shared<GameObject>(-0.9, 0.9, 0, 0.9, 0.9, 0, 2, true));
 	GameObjects.push_back(testdraw);
-	GameObjects.push_back(std::make_shared<GameObject>(0, 0.5, 0,1,0.05));
+	GameObjects.push_back(std::make_shared<GameObject>(0.0f, 0.5f, 0.0f,1.0f,0.05f));
 	
 	
 	
@@ -38,11 +38,11 @@ void Testphysics::RunTestphysics()
 			}
 			else if (Object->collider->velocity->x > 0)
 			{
-				Object->collider->acceleration->x = -0.6;
+				Object->collider->acceleration->x = -0.5;
 			}
 			else
 			{
-				Object->collider->acceleration->x = 0.6;
+				Object->collider->acceleration->x = 0.5;
 			}
 			if (Object->collider->velocity->y == 0)
 			{
@@ -50,11 +50,11 @@ void Testphysics::RunTestphysics()
 			}
 			else if (Object->collider->velocity->y > 0)
 			{
-				Object->collider->acceleration->y = -0.6;
+				Object->collider->acceleration->y = -0.5;
 			}
 			else
 			{
-				Object->collider->acceleration->y = 0.6;
+				Object->collider->acceleration->y = 0.5;
 			}
 			Object->collider->velocity->x += Object->collider->acceleration->x *timeThisTick;
 			Object->collider->velocity->y += Object->collider->acceleration->y*timeThisTick;
@@ -86,13 +86,18 @@ void Testphysics::CollisionDetection()
 {
 	
 	for (auto &Object : GameObjects) {
-		for (auto &target : GameObjects) {
-			if (Object->collider->id != target->collider->id) {
-				if (Object->collider->CheckCollision(target->collider)) {}
-			}
-			
+		
+		
+			for (auto &target : GameObjects) {
+				if (Object->collider->id != target->collider->id)
+				{
+					if (Object->collider->CheckCollisioncc(target->collider)) {}
+				}
 				
-		}
+
+			}
+		
+		//if (Object->collider->CheckCollisionl(testdraw2->lcollider)) {}
 	}
 
 
@@ -133,7 +138,7 @@ void Testphysics::DrawScene()
 		
 		Object->body->DrawCircle();
 	}
-	testdraw->lbody->DrawLine();
+//	testdraw->lbody->DrawLine();
 }
 
 

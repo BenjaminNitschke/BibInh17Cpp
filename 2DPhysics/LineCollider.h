@@ -13,6 +13,7 @@ public:
 	std::shared_ptr<Vector3> p1;
 	std::shared_ptr<Vector3> p2;
 	float id;
+	bool stat = false;
 	~LineCollider();
 };
 
