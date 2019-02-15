@@ -4,15 +4,106 @@
 #include <algorithm>
 #include <random>
 #include <ctime>
+#include <iostream>
 
-bool test = true;
-bool once = true;
 void CanastaGame::RunGame()
 {
 	Run([=]()
-	{			
+	{	
+		//std::cout << posX << "  :  " << posY << std::endl;
+		if (leftMouseButtonClicked)
+		{
+			HandlePlayerInput();
+		}
+		playCardBtn->Draw();
 		player.DisplayHand();
+		leftMouseButtonClicked = false;
 	});
+}
+
+void CanastaGame::HandlePlayerInput()
+{
+	if (player.hand.size() > 0)
+	{
+		auto clickedCard = CheckIfPlayerCardIsClicked();
+		if (clickedCard != NULL)
+		{
+			HighlightCard(clickedCard);
+		}
+	}	
+	if (ClickDetection(playCardBtn->x - playCardBtn->GetWidth() / 2, playCardBtn->x + playCardBtn->GetWidth() / 2, playCardBtn->y - playCardBtn->GetHeight() / 2, playCardBtn->y + playCardBtn->GetHeight() / 2))
+	{
+		PlaceSelectedCards();
+	}
+	
+}
+
+void CanastaGame::PlaceSelectedCards()
+{
+	
+	for (int i = 0; i < player.selectedCards.size(); i++)
+	{
+		player.selectedCards[i]->cardGraphic->x = viewportWidth / 2; 
+		player.selectedCards[i]->cardGraphic->y = viewportHeight / 2; 
+	}
+	for (int i = 0; i < player.selectedCards.size(); i++)
+	{		
+		player.selectedCards[i]->isPlaced = true;
+		
+	}
+	for (int i = 0; i < player.selectedCards.size(); i++)
+	{
+		player.hand.erase(std::remove(player.hand.begin(), player.hand.end(), player.selectedCards[i]), player.hand.end());
+	}
+	player.selectedCards.clear();
+	player.ArrangeHand();
+}
+
+std::shared_ptr<Card> CanastaGame::CheckIfPlayerCardIsClicked()
+{
+	double cardWidth = player.hand[0]->cardGraphic->GetWidth() / 16;
+	double cardHeight = player.hand[0]->cardGraphic->GetHeight() / 16;
+
+	for (int i = 0; i < player.hand.size(); i++)
+	{
+		auto card = player.hand[i]->cardGraphic;
+
+		if (ClickDetection(card->x - cardWidth, card->x + cardWidth, card->y - cardHeight, card->y + cardHeight))
+		{
+			return player.hand[i];
+		}
+	}
+	return NULL;
+}
+
+void CanastaGame::HighlightCard(std::shared_ptr<Card> card)
+{
+	if (card->isPlaced)return;
+
+	if (card->isHighlightable)
+	{
+		card->cardGraphic->y -= 50;
+		card->isHighlightable = false;
+		player.selectedCards.push_back(card);
+	}
+	else
+	{
+		card->cardGraphic->y += 50;
+		card->isHighlightable = true;
+		player.selectedCards.erase(std::remove(player.selectedCards.begin(), player.selectedCards.end(), card), player.selectedCards.end());
+	}
+}
+
+bool CanastaGame::ClickDetection(double minX, double maxX, double minY, double maxY)
+{
+	if (posX >= minX &&
+		posX <= maxX &&
+		posY >= minY &&
+		posY <= maxY)
+	{
+		return true;
+	}
+	return false;
 }
 
 CanastaGame::CanastaGame() : Game("Canasta")
@@ -46,9 +137,7 @@ void CanastaGame::DealCards(std::vector<std::shared_ptr<Card>>* hand, int amount
 		std::cout << "Deck size: " << deck.size() << std::endl;
 		for (int i = 0; i < amount; i++)
 		{
-			//std::cout << deck.back()->color.c_str() << std::endl;
 			(*hand).push_back(std::make_shared<Card>(deck.back()));
-			//std::cout << deck.back()->color.c_str() << std::endl;
 			deck.pop_back();			 
 		}		
 	}

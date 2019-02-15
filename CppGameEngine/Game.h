@@ -17,10 +17,13 @@ public:
 	static bool rightPressed;
 	static bool downPressed;
 	static bool spacePressed;
+	static bool leftMouseButtonClicked;
 	static float xDelta;
 	static float yDelta;
 	double time = 0;
 	double lastTime = 0;
 	double timeThisTick = 0.001;
+	static double posX;
+	static double posY;
 	float GetTimeDelta() { return static_cast<float>(timeThisTick); }
 };

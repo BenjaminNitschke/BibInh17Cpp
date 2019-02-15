@@ -7,8 +7,11 @@ bool Game::upPressed;
 bool Game::rightPressed;
 bool Game::downPressed;
 bool Game::spacePressed;
+bool Game::leftMouseButtonClicked;
 float Game::xDelta;
 float Game::yDelta;
+double Game::posX;
+double Game::posY;
 
 void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -22,18 +25,31 @@ void OnKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 		Game::downPressed = action != GLFW_RELEASE;
 	if (key == GLFW_KEY_SPACE)
 		Game::spacePressed = action != GLFW_RELEASE;
-
 	if (key == GLFW_KEY_ESCAPE)
 		glfwSetWindowShouldClose(window, true);
 }
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
+		Game::leftMouseButtonClicked = true;
+	}
+	else	Game::leftMouseButtonClicked = false;
+		
+}
+//float oldPosX, oldPosY;
+//void OnMouse(GLFWwindow* window, double posX, double posY)
+//{
+//	Game::xDelta = oldPosX - posX;
+//	Game::yDelta = oldPosY - posY;
+//	oldPosX = posX;
+//	oldPosY = posY;
+//}
 
-float oldPosX, oldPosY;
 void OnMouse(GLFWwindow* window, double posX, double posY)
 {
-	Game::xDelta = oldPosX - posX;
-	Game::yDelta = oldPosY - posY;
-	oldPosX = posX;
-	oldPosY = posY;
+	Game::posX = posX;
+	Game::posY = posY;
 }
 
 Game::Game(const char* title)
@@ -47,6 +63,7 @@ Game::Game(const char* title)
 	glfwSetCursorPosCallback(glfwWindow, OnMouse);
 	glfwGetWindowSize(glfwWindow, &viewportWidth, &viewportHeight);
 	glEnable(GL_DEPTH_TEST);
+	glfwSetMouseButtonCallback((GLFWwindow*)window, mouse_button_callback);
 }
 
 Game::~Game() 
@@ -86,3 +103,4 @@ void Game::RunTriangle()
 		glEnd();
 	});
 }
+

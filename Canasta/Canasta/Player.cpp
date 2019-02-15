@@ -3,6 +3,7 @@
 #include "Extension.h"
 #include <iostream>
 #include <algorithm>
+
 Player::Player()
 {
 
@@ -18,10 +19,10 @@ void Player::DisplayHand()
 
 void Player::ArrangeHand()
 {
+	if (hand.size() == 0) return;
+
 	float cardWidth = hand[0]->cardGraphic->GetWidth() / 16;
-	//std::cout << cardWidth << std::endl;
 	float width = hand.size() * cardWidth;
-	//std::cout << width << std::endl;
 	float x = 1280 - ((1280 - width) / 2);
 	for (int i = 0; i < hand.size(); i++)
 	{

@@ -8,6 +8,7 @@ private:
 	void SortCategory();
 public:
 	std::vector<std::shared_ptr<Card>> hand = std::vector<std::shared_ptr<Card>>();
+	std::vector<std::shared_ptr<Card>> selectedCards = std::vector<std::shared_ptr<Card>>();
 	Player();
 	~Player(){}
 	void DisplayHand();
