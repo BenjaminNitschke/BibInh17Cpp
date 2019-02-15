@@ -16,7 +16,7 @@ public:
 		center = mycenter;
 		id = ID;
 		r = radius;
-		mass = r * 5;
+		mass = r * 3;
 		
 	}
 	CircleCollider()

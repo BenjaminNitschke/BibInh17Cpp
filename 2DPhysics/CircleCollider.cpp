@@ -23,10 +23,10 @@ bool CircleCollider::CheckCollisioncc(std::shared_ptr<CircleCollider>collider)
 		float m1 = (dpNorm1 * (mass - collider->mass) + 2 * collider->mass * dpNorm2);
 		float m2 = (dpNorm2 * (collider->mass - mass) + 2 * mass * dpNorm1);
 
-		velocity->x = (tx * dpTan1 + nx * m1);
-		velocity->y = (ty * dpTan1 + ny * m1);
-		collider->velocity->x = (tx * dpTan2 + nx * m2);
-		collider->velocity->y = (ty * dpTan2 + ny * m2);
+		velocity->x = (tx * dpTan1 + nx * m1)*0.7;
+		velocity->y = (ty * dpTan1 + ny * m1)*0.7;
+		collider->velocity->x = (tx * dpTan2 + nx * m2)*0.7;
+		collider->velocity->y = (ty * dpTan2 + ny * m2)*0.7;
 		return true;
 	}
 	return false;
@@ -41,7 +41,7 @@ bool CircleCollider::Collides(std::shared_ptr<CircleCollider>collider)
 		if (Collide(center->x, center->y, r, collider->center->x, collider->center->y, collider->r))
 		{
 			float Distance = sqrtf((center->x - collider->center->x)*(center->x - collider->center->x) + (center->y - collider->center->y)*(center->y - collider->center->y));
-			float Overlap = 0.501f* (Distance - r - collider->r);
+			float Overlap = 0.503f* (Distance - r - collider->r);
 			center->x -= Overlap * (center->x - collider->center->x) / Distance;
 			center->y -= Overlap * (center->y - collider->center->y) / Distance;
 

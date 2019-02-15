@@ -39,11 +39,11 @@ void Testphysics::RunTestphysics()
 			}
 			else if (Object->collider->velocity->x > 0)
 			{
-				Object->collider->acceleration->x = -0.5;
+				Object->collider->acceleration->x = -0.53;
 			}
 			else
 			{
-				Object->collider->acceleration->x = 0.5;
+				Object->collider->acceleration->x = 0.53;
 			}
 			if (Object->collider->velocity->y == 0)
 			{
@@ -51,11 +51,11 @@ void Testphysics::RunTestphysics()
 			}
 			else if (Object->collider->velocity->y > 0)
 			{
-				Object->collider->acceleration->y = -0.5;
+				Object->collider->acceleration->y = -0.53;
 			}
 			else
 			{
-				Object->collider->acceleration->y = 0.5;
+				Object->collider->acceleration->y = 0.53;
 			}
 			Object->collider->velocity->x += Object->collider->acceleration->x *timeThisTick;
 			Object->collider->velocity->y += Object->collider->acceleration->y*timeThisTick;
