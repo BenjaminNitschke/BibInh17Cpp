@@ -25,7 +25,6 @@ void QueryMouseInput(GLFWwindow* window, int button, int action, int mods)
 		{
 			HeartsGame::south.hand.push_back(HeartsGame::deck->DrawTop());
 			HeartsGame::south.SortHand();
-			HeartsGame::south.RepositionHand();
 		}
 
 		else
@@ -52,7 +51,6 @@ HeartsGame::HeartsGame(int width, int height, const char * name) : Game(width, h
 			card->sprite->MoveTo(pileX, pileY);
 			south.hand.erase(south.hand.begin() + index);
 			south.SortHand();
-			south.RepositionHand();
 		}
 	};
 
@@ -64,8 +62,8 @@ HeartsGame::HeartsGame(int width, int height, const char * name) : Game(width, h
 		south.hand.push_back(deck->DrawTop());
 	}
 
-	south.RepositionHand();
 	north.RepositionHand();
+	south.SortHand();
 
 	stack.push_back(deck->DrawTop());
 

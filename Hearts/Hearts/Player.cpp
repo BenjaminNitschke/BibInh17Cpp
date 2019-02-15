@@ -11,6 +11,8 @@ Player::Player(float handX, float handY, std::shared_ptr<Sprite> backSprite) : h
 
 void Player::SortHand()
 {
+	if (hand.empty()) return;
+
 	std::vector<std::vector<std::shared_ptr<Card>>> tmp = std::vector<std::vector<std::shared_ptr<Card>>>(4);
 
 	for (auto& c : hand)
@@ -28,6 +30,9 @@ void Player::SortHand()
 	hand.clear();
 
 	int sum = tmp[0].size() + tmp[1].size() + tmp[2].size() + tmp[3].size();
+
+	if(sum > 0)
+		hand.reserve(sum);
 
 	for (auto v : tmp)
 	{
