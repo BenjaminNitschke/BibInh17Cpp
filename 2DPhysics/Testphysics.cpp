@@ -21,14 +21,13 @@ Testphysics::Testphysics()
 	GameObjectsl.push_back(testdraw5);
 	GameObjects.push_back(testdraw);
 	
-	GameObjects.push_back(std::make_shared<GameObject>(0.1f, 0.1f, 0.0f,1,0.05f));
-	GameObjects.push_back(std::make_shared<GameObject>(0.2f, -0.2f, 0.0f, 2, 0.05f));
-	GameObjects.push_back(std::make_shared<GameObject>(0.3f, 0.3f, 0.0f, 3, 0.05f));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.4f, 0.4f, 0.0f, 4, 0.05f));
-	GameObjects.push_back(std::make_shared<GameObject>(0.5f, 0.5f, 0.0f, 5, 0.05f));
-	GameObjects.push_back(std::make_shared<GameObject>(0.6f, -0.6f, 0.0f, 6, 0.05f));
-	GameObjects.push_back(std::make_shared<GameObject>(0.7f, 0.7f, 0.0f, 7, 0.05f));
-	GameObjects.push_back(std::make_shared<GameObject>(-0.8f, 0.8f, 0.0f, 8, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.0f, 0.1f, 0.0f,1,0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.051f, 0.201f, 0.0f, 2, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.051f, 0.201f, 0.0f, 3, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.121f, 0.302f, 0.0f, 4, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(-0.121f, 0.302f, 0.0f, 5, 0.05f));
+	GameObjects.push_back(std::make_shared<GameObject>(0.103f, 0.302, 0.0f, 6, 0.05f));
+	
 }
 
 Testphysics::~Testphysics()
@@ -290,7 +289,7 @@ bool Testphysics::CheckCollisionlp(std::shared_ptr<LineCollider>collider, std::s
 	float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->y, collider->p2->y);
 	float d1 = CalcDistance(point->x, point->y, collider->p1->x, collider->p1->y);
 	float d2 = CalcDistance(point->x, point->y, collider->p2->x, collider->p2->y);
-	float buffer = 0.05;
+	float buffer = 0.01;
 	if (d1 + d2 >= leng - buffer && d1 + d2 <= leng + buffer)
 	{
 		return true;
