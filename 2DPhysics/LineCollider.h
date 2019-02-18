@@ -7,13 +7,14 @@ public:
 	LineCollider(std::shared_ptr<Vector3> point1, std::shared_ptr<Vector3> point2,float ID)
 	{
 		id = ID;
-		std::shared_ptr<Vector3> p1=point1;
-		std::shared_ptr<Vector3> p2=point2;
+		p1=point1;
+		p2=point2;
 	}
 	std::shared_ptr<Vector3> p1;
 	std::shared_ptr<Vector3> p2;
 	float id;
 	bool stat = false;
-	~LineCollider();
+	~LineCollider()
+	{}
 };
 

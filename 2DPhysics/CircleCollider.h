@@ -16,7 +16,7 @@ public:
 		center = mycenter;
 		id = ID;
 		r = radius;
-		mass = r * 3;
+		mass = r * 1;
 		
 	}
 	CircleCollider()
@@ -26,13 +26,13 @@ public:
 	bool stat = false;
 	float r;
 	int id;
-	bool Collides(std::shared_ptr<CircleCollider>collider);
-	bool CheckCollisioncc(std::shared_ptr<CircleCollider>collider);
-	bool CheckCollisionl(std::shared_ptr<LineCollider>collider);
+	
+	
+	
 	bool CheckCollisionlp(std::shared_ptr<LineCollider>collider, std::shared_ptr<Vector3> point);
 	std::shared_ptr<Vector3> center;
-	bool Collidesv(std::shared_ptr<Vector3>collider);
-	float Distance(float x, float y, float x2, float y2);
+	
+	
 	~CircleCollider()
 	{}
 };
