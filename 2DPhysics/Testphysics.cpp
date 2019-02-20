@@ -273,7 +273,7 @@ bool Testphysics::Collidescv(std::shared_ptr<CircleCollider>collider,std::shared
 		float dpNorm1 = collider->velocity->x *nx + collider->velocity->y *ny;
 		float dpNorm2 = 0 *nx + 0 *ny;
 		//Conservation of momentum in 1D
-		float m1 = (dpNorm1 * (collider->mass - 0.1) + 2.0f* 0.1 * dpNorm2) / (collider->mass + 0.1);
+		float m1 = (dpNorm1 * (collider->mass - collider->mass*0.3) + 2.0f* collider->mass*0.3 * dpNorm2) / (collider->mass + collider->mass*0.3);
 		//float m2 = (dpNorm2 * (collider->mass - mass) + 2 * mass * dpNorm1);
 
 		collider->velocity->x = (tx * dpTan1 + nx * m1);
@@ -289,7 +289,7 @@ bool Testphysics::CheckCollisionlp(std::shared_ptr<LineCollider>collider, std::s
 	float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->y, collider->p2->y);
 	float d1 = CalcDistance(point->x, point->y, collider->p1->x, collider->p1->y);
 	float d2 = CalcDistance(point->x, point->y, collider->p2->x, collider->p2->y);
-	float buffer = 0.01;
+	float buffer = 0.02;
 	if (d1 + d2 >= leng - buffer && d1 + d2 <= leng + buffer)
 	{
 		return true;
