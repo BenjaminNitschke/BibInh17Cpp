@@ -11,14 +11,16 @@
 Testphysics::Testphysics()
 {
 	testdraw = std::make_shared<GameObject>(0.0f, -0.8f, 0.0f, 0, 0.05f);
-	testdraw2 = std::make_shared<GameObject>(-0.9, 0.9, 0, 0.9, 0.9, 0, 2);
-	testdraw3 = std::make_shared<GameObject>(-0.9, 0.9, 0, -0.9, -0.9, 0, 2);
-	testdraw4 = std::make_shared<GameObject>(0.9, -0.9, 0, 0.9, 0.9, 0, 2);
-	testdraw5 = std::make_shared<GameObject>(0.9, -0.9, 0, -0.9, -0.9, 0, 2);
+	testdraw2 = std::make_shared<GameObject>(-0.45, 0.25, 0, 0.99, 0.99, 0, 2);
+	testdraw3 = std::make_shared<GameObject>(0.85, -0.25 , 0, -0.99, 0.90, 0, 2);
+	testdraw4 = std::make_shared<GameObject>(0.95, -0.95, 0, 0.95, 0.05, 0, 2);
+	testdraw5 = std::make_shared<GameObject>(0.45, -0.75, 0, -0.95, 0.25, 0, 2);
 	GameObjectsl.push_back(testdraw2);
-	GameObjectsl.push_back(testdraw3);
+	//GameObjectsl.push_back(testdraw3);
 	GameObjectsl.push_back(testdraw4);
 	GameObjectsl.push_back(testdraw5);
+
+
 	GameObjects.push_back(testdraw);
 	
 	GameObjects.push_back(std::make_shared<GameObject>(0.0f, 0.1f, 0.0f,1,0.05f));
@@ -38,19 +40,38 @@ void Testphysics::RunTestphysics()
 {
 	Run([=]()
 	{
+		ApplayPhysics();
+		CollisionDetection();
 		for (auto &Object : GameObjects) {
-
+			Object->collider->velocity->y -= 0.1;
+			
+			if (Object->collider->velocity->x > 1)
+			{
+				Object->collider->velocity->x = 1;
+			}
+			else if (Object->collider->velocity->x < -1)
+			{
+				Object->collider->velocity->x = -1;
+			}
+			if (Object->collider->velocity->y > 1)
+			{
+				Object->collider->velocity->y = 1;
+			}
+			else if (Object->collider->velocity->y < -1)
+			{
+				Object->collider->velocity->y = -1;
+			}
 			if (Object->collider->velocity->x == 0)
 			{
 				Object->collider->acceleration->x = 0.0f;
 			}
 			else if (Object->collider->velocity->x > 0)
 			{
-				Object->collider->acceleration->x = -0.6f;
+				Object->collider->acceleration->x = -0.015f;
 			}
 			else
 			{
-				Object->collider->acceleration->x = 0.6f;
+				Object->collider->acceleration->x = 0.015f;
 			}
 			if (Object->collider->velocity->y == 0)
 			{
@@ -58,14 +79,14 @@ void Testphysics::RunTestphysics()
 			}
 			else if (Object->collider->velocity->y > 0)
 			{
-				Object->collider->acceleration->y = -0.6f;
+				Object->collider->acceleration->y = -0.015f;
 			}
 			else
 			{
-				Object->collider->acceleration->y = 0.6f;
+				Object->collider->acceleration->y = 0.015f;
 			}
-			Object->collider->velocity->x += Object->collider->acceleration->x *timeThisTick;
-			Object->collider->velocity->y += Object->collider->acceleration->y*timeThisTick;
+			Object->collider->velocity->x += Object->collider->acceleration->x;
+			Object->collider->velocity->y += Object->collider->acceleration->y;
 			Object->center->x += Object->collider->velocity->x * timeThisTick;
 			Object->center->y += Object->collider->velocity->y * timeThisTick;
 			if (Object->center->x < -(Object->collider->r + 1))
@@ -83,8 +104,8 @@ void Testphysics::RunTestphysics()
 				Object->collider->velocity->y = 0;
 			}
 		}
-		CollisionDetection();
-		ApplayPhysics();
+		
+		
 		DrawScene();
 
 	});
@@ -172,20 +193,20 @@ void Testphysics::ApplayPhysics()
 
 	if (downPressed )
 	{
-		testdraw->collider->velocity->y += -5* timeThisTick;
+		testdraw->collider->velocity->y -= 0.1;
 	}
 	if (upPressed)
 	{
 		
-		testdraw->collider->velocity->y += 5* timeThisTick;
+		testdraw->collider->velocity->y += 0.1;
 	}
 	if (leftPressed)
 	{
-		testdraw->collider->velocity->x += -5* timeThisTick;
+		testdraw->collider->velocity->x -= 0.1;
 	}
 	if (rightPressed)
 	{
-		testdraw->collider->velocity->x += 5* timeThisTick;
+		testdraw->collider->velocity->x += 0.1;
 	}
 	
 	
@@ -245,21 +266,15 @@ bool Testphysics::CheckCollisionl(std::shared_ptr<LineCollider>collider, std::sh
 }
 bool Testphysics::Collidescv(std::shared_ptr<CircleCollider>collider,std::shared_ptr<Vector3>point)
 {
-	auto Colliden = [](float x1, float y1, float r1, float x2, float y2)
-	{
-		return fabs((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)) <= r1 * r1;
-
-	};
-	if (CalcDistance(collider->center->x,collider->center->y,point->x,point->y)<=collider->r )//Colliden(collider->center->x, collider->center->y, collider->r, point->x, point->y)
+	
+	if (CalcDistance(collider->center->x,collider->center->y,point->x,point->y)<=collider->r*1.01 )//Colliden(collider->center->x, collider->center->y, collider->r, point->x, point->y)
 	{
 		float Distance = CalcDistance(collider->center->x, collider->center->y, point->x, point->y);
-		float Overlap = 1.01f* (Distance - collider->r);
+		float Overlap =  1*(Distance - collider->r);
 		collider->center->x -= Overlap * (collider->center->x - point->x) / Distance;
 		collider->center->y -= Overlap * (collider->center->y - point->y) / Distance;
 
-		//point->x += Overlap * (collider->center->x - point->x) / Distance;
-		//point->y += Overlap * (collider->center->y - point->y) / Distance;
-		
+
 		//normal
 		float nx = (collider->center->x - point->x) / Distance;
 		float ny = (collider->center->y - point->y) / Distance;
@@ -273,7 +288,8 @@ bool Testphysics::Collidescv(std::shared_ptr<CircleCollider>collider,std::shared
 		float dpNorm1 = collider->velocity->x *nx + collider->velocity->y *ny;
 		float dpNorm2 = 0 *nx + 0 *ny;
 		//Conservation of momentum in 1D
-		float m1 = (dpNorm1 * (collider->mass - collider->mass*0.3) + 2.0f* collider->mass*0.3 * dpNorm2) / (collider->mass + collider->mass*0.3);
+		float m1 = (dpNorm1 * (collider->mass -1) + 2.0f* 1 * dpNorm2) / (collider->mass + 1);
+		//float m1 = (dpNorm1 * (collider->mass - 0.5) + 2.0f* 0.5 * dpNorm2) / (collider->mass + 0.5);
 		//float m2 = (dpNorm2 * (collider->mass - mass) + 2 * mass * dpNorm1);
 
 		collider->velocity->x = (tx * dpTan1 + nx * m1);
@@ -286,13 +302,14 @@ bool Testphysics::Collidescv(std::shared_ptr<CircleCollider>collider,std::shared
 }
 bool Testphysics::CheckCollisionlp(std::shared_ptr<LineCollider>collider, std::shared_ptr<Vector3> point)
 {
-	float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->y, collider->p2->y);
+	float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->x, collider->p2->y);
 	float d1 = CalcDistance(point->x, point->y, collider->p1->x, collider->p1->y);
 	float d2 = CalcDistance(point->x, point->y, collider->p2->x, collider->p2->y);
-	float buffer = 0.02;
+	float buffer = 0.1;
 	if (d1 + d2 >= leng - buffer && d1 + d2 <= leng + buffer)
 	{
 		return true;
 	}
+	
 	return false;
 }
