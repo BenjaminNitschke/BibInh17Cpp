@@ -46,12 +46,13 @@ TEST_CASE("Test", "T")
 {
 	std::vector<int> test1 = { };
 	std::vector<int> test2 = { 1 };
-	std::vector<int> test3 = { 1,1 };
-	std::vector<int> test4 = { 1,2 };
-	std::vector<int> test5 = { 1,2,3 };
-	std::vector<int> test6 = { 3,2,1,4,5 };
-	std::vector<int> test7 = { 2,2,1,4,4 };
+	std::vector<int> test3 = { 1, 1 };
+	std::vector<int> test4 = { 1, 2 };
+	std::vector<int> test5 = { 1, 2, 3 };
+	std::vector<int> test6 = { 3, 2, 1, 4, 5 };
+	std::vector<int> test7 = { 2, 2, 1, 4, 4 };
 	std::vector<int> test8 = { 1, 1, 1, 1, 2, 2, 3, 3, 4, 5, 4 };
+	std::vector<int> test9 = { 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5 };
 	REQUIRE(calc(test1) == 0);
 	REQUIRE(calc(test2) == 8);
 	REQUIRE(calc(test3) == 16);
@@ -60,4 +61,5 @@ TEST_CASE("Test", "T")
 	REQUIRE(calc(test6) == 28);
 	REQUIRE(calc(test7) == 36.8f);
 	REQUIRE(calc(test8) == 69.6f);
+	REQUIRE(calc(test9) == 112);
 }
