@@ -34,7 +34,11 @@ float calculatePrize(vector<BookType> books)
 	{
 		for (int j = 0; j < amountOfBooks; j++)
 		{
-			if (books[i] == (BookType)j) bookAmount[j]++;
+			if (books[i] == (BookType)j)
+			{
+				bookAmount[j]++;
+				break;
+			}
 		}
 	}
 	for (int i = 0; i < books.size(); i++)
