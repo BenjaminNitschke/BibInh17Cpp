@@ -19,13 +19,13 @@ void get_amounts()
 void step()
 {
 	auto minAmount = amounts[0];
+	amounts.erase(amounts.begin());
 	if (minAmount != 0)
 	{
-		total += minAmount * prices[amounts.size() - 1];
+		total += minAmount * prices[amounts.size()];
 		for (auto i = 0; i < amounts.size(); i++)
 			amounts[i] -= minAmount;
 	}
-	amounts.erase(amounts.begin());
 }
 
 float calc(std::vector<int> b)
