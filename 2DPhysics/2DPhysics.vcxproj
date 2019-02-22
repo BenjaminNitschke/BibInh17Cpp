@@ -23,7 +23,7 @@
     <ProjectGuid>{FE422BD1-BBEF-4B5D-80E1-C6CA83832B78}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My2DPhysics</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -40,7 +40,7 @@ void Testphysics::RunTestphysics()
 {
 	Run([=]()
 	{
-		ApplayPhysics();
+		//ApplayPhysics();
 		CollisionDetection();
 		for (auto &Object : GameObjects) {
 			Object->collider->velocity->y -= 0.1;
@@ -146,24 +146,13 @@ void Testphysics::CollisionDetection()
 							target->collider->velocity->y = (ty * dpTan2 + ny * m2);
 							
 						}
-						
-					
-					
 				}
-				
-
 			}
 			for (auto &Lines : GameObjectsl) {
 				if (CheckCollisionl(Lines->lcollider, Object->collider)) {}
 
-
 			}
-			
-		
 	}
-
-
-	
 }
 bool Testphysics::Collides(std::shared_ptr<CircleCollider>collider, std::shared_ptr<CircleCollider>collider2)
 {
@@ -175,7 +164,7 @@ bool Testphysics::Collides(std::shared_ptr<CircleCollider>collider, std::shared_
 	if (Collide(collider->center->x, collider->center->y, collider->r, collider2->center->x, collider2->center->y, collider2->r))
 	{
 		float Distance = CalcDistance(collider->center->x, collider->center->y, collider2->center->x, collider2->center->y);
-		float Overlap = 0.503f* (Distance - collider->r - collider2->r);
+		float Overlap = 0.5f* (Distance - collider->r - collider2->r);
 		collider->center->x -= Overlap * (collider->center->x - collider2->center->x) / Distance;
 		collider->center->y -= Overlap * (collider->center->y - collider2->center->y) / Distance;
 
@@ -185,8 +174,99 @@ bool Testphysics::Collides(std::shared_ptr<CircleCollider>collider, std::shared_
 	}
 	return false;
 }
+bool Testphysics::CheckCollisionl(std::shared_ptr<LineCollider>collider, std::shared_ptr<CircleCollider>collider2)
+{
+	if (Collidescv(collider2, collider->p1) || Collidescv(collider2, collider->p2))
+	{
 
-	
+
+		return true;
+	}
+	else
+	{
+		float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->x, collider->p2->y);
+		float dot = (((collider2->center->x - collider->p1->x)*(collider->p2->x - collider->p1->x)) + ((collider2->center->y - collider->p1->y)*(collider->p2->y - collider->p1->y))) / std::pow(leng, 2);
+		float closestX = collider->p1->x + (dot*(collider->p2->x - collider->p1->x));
+		float closestY = collider->p1->y + (dot*(collider->p2->y - collider->p1->y));
+		if (CheckCollisionlp(collider, std::make_shared<Vector3>(closestX, closestY, 0)))
+		{
+			if (Collidescv(collider2, std::make_shared<Vector3>(closestX, closestY, 0)))
+			{
+				return true;
+			}
+			return true;
+		}
+		return false;
+	}
+}
+bool Testphysics::CheckCollisionlp(std::shared_ptr<LineCollider>collider, std::shared_ptr<Vector3> point)
+{
+	float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->x, collider->p2->y);
+	float p1 = CalcDistance(point->x, point->y, collider->p1->x, collider->p1->y);
+	float p2 = CalcDistance(point->x, point->y, collider->p2->x, collider->p2->y);
+	float buffer = 0.1;
+	if (p1 + p2 >= leng - buffer && p1 + p2 <= leng + buffer)
+	{
+		return true;
+	}
+
+	return false;
+}
+bool Testphysics::Collidescv(std::shared_ptr<CircleCollider>collider, std::shared_ptr<Vector3>point)
+{
+
+	if (CalcDistance(collider->center->x, collider->center->y, point->x, point->y) <= collider->r)
+	{
+		float Distance = CalcDistance(collider->center->x, collider->center->y, point->x, point->y);
+		float Overlap = 1 * (Distance - collider->r);
+		collider->center->x -= Overlap * (collider->center->x - point->x) / Distance;
+		collider->center->y -= Overlap * (collider->center->y - point->y) / Distance;
+
+
+		//normal
+		float nx = (collider->center->x - point->x) / Distance;
+		float ny = (collider->center->y - point->y) / Distance;
+		//tangent
+		float tx = -ny;
+		float ty = nx;
+		//dotProductTangent
+		float dpTan1 = collider->velocity->x *tx + collider->velocity->y *ty;
+		float dpTan2 = 0 * tx + 0 * ty;
+		//dotProductNormal
+		float dpNorm1 = collider->velocity->x *nx + collider->velocity->y *ny;
+		float dpNorm2 = 0 * nx + 0 * ny;
+		//Conservation of momentum in 1D
+		float m1 = (dpNorm1 * (collider->mass - 1) + 2.0f * 1 * dpNorm2) / (collider->mass + 1);
+
+
+		collider->velocity->x = (tx * dpTan1 + nx * m1);
+		collider->velocity->y = (ty * dpTan1 + ny * m1);
+		return true;
+	}
+	return false;
+}
+void Testphysics::DrawScene()
+{
+	for (auto &Object : GameObjects) {
+
+		Object->body->DrawCircle();
+	}
+	for (auto &Lines : GameObjectsl) {
+		Lines->lbody->DrawLine();
+
+
+	}
+
+}
+
+float Testphysics::CalcDistance(float x, float y, float x2, float y2)
+{
+	float distX = x - x2;
+	float distY = y - y2;
+	return sqrt((distX*distX) + (distY*distY));
+
+
+}
 
 void Testphysics::ApplayPhysics()
 {
@@ -217,99 +297,6 @@ void Testphysics::ApplayPhysics()
 
 
 
-void Testphysics::DrawScene()
-{
-	for (auto &Object : GameObjects) {
-		
-		Object->body->DrawCircle();
-	}
-	for (auto &Lines : GameObjectsl) {
-		Lines->lbody->DrawLine();
 
 
-	}
-	
-}
 
-float Testphysics::CalcDistance(float x, float y, float x2, float y2)
-{
-	float distX = x - x2;
-	float distY = y - y2;
-	return sqrt((distX*distX) + (distY*distY));
-
-
-}
-bool Testphysics::CheckCollisionl(std::shared_ptr<LineCollider>collider, std::shared_ptr<CircleCollider>collider2)
-{
-	if (Collidescv(collider2, collider->p1) || Collidescv(collider2, collider->p2))
-	{
-		
-		
-		return true;
-	}
-	else
-	{
-		float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->x, collider->p2->y);
-		float dot = (((collider2->center->x - collider->p1->x)*(collider->p2->x - collider->p1->x)) + ((collider2->center->y - collider->p1->y)*(collider->p2->y - collider->p1->y))) / std::pow(leng, 2);
-		float closestX = collider->p1->x + (dot*(collider->p2->x - collider->p1->x));
-		float closestY = collider->p1->y + (dot*(collider->p2->y - collider->p1->y));
-		if (CheckCollisionlp(collider, std::make_shared<Vector3>(closestX, closestY, 0)))
-		{
-			if(Collidescv(collider2, std::make_shared<Vector3>(closestX, closestY, 0)))
-			{
-				return true;
-			}
-			return true;
-		}
-		return false;
-	}
-}
-bool Testphysics::Collidescv(std::shared_ptr<CircleCollider>collider,std::shared_ptr<Vector3>point)
-{
-	
-	if (CalcDistance(collider->center->x,collider->center->y,point->x,point->y)<=collider->r*1.01 )//Colliden(collider->center->x, collider->center->y, collider->r, point->x, point->y)
-	{
-		float Distance = CalcDistance(collider->center->x, collider->center->y, point->x, point->y);
-		float Overlap =  1*(Distance - collider->r);
-		collider->center->x -= Overlap * (collider->center->x - point->x) / Distance;
-		collider->center->y -= Overlap * (collider->center->y - point->y) / Distance;
-
-
-		//normal
-		float nx = (collider->center->x - point->x) / Distance;
-		float ny = (collider->center->y - point->y) / Distance;
-		//tangent
-		float tx = -ny;
-		float ty = nx;
-		//dotProductTangent
-		float dpTan1 = collider->velocity->x *tx + collider->velocity->y *ty;
-		float dpTan2 = 0 *tx + 0 *ty;
-		//dotProductNormal
-		float dpNorm1 = collider->velocity->x *nx + collider->velocity->y *ny;
-		float dpNorm2 = 0 *nx + 0 *ny;
-		//Conservation of momentum in 1D
-		float m1 = (dpNorm1 * (collider->mass -1) + 2.0f* 1 * dpNorm2) / (collider->mass + 1);
-		//float m1 = (dpNorm1 * (collider->mass - 0.5) + 2.0f* 0.5 * dpNorm2) / (collider->mass + 0.5);
-		//float m2 = (dpNorm2 * (collider->mass - mass) + 2 * mass * dpNorm1);
-
-		collider->velocity->x = (tx * dpTan1 + nx * m1);
-		collider->velocity->y = (ty * dpTan1 + ny * m1);
-		//collider->velocity->x = (tx * dpTan2 + nx * m2)*0.8;
-		//collider->velocity->y = (ty * dpTan2 + ny * m2)*0.8;
-		return true;
-	}
-	return false;
-}
-bool Testphysics::CheckCollisionlp(std::shared_ptr<LineCollider>collider, std::shared_ptr<Vector3> point)
-{
-	float leng = CalcDistance(collider->p1->x, collider->p1->y, collider->p2->x, collider->p2->y);
-	float d1 = CalcDistance(point->x, point->y, collider->p1->x, collider->p1->y);
-	float d2 = CalcDistance(point->x, point->y, collider->p2->x, collider->p2->y);
-	float buffer = 0.1;
-	if (d1 + d2 >= leng - buffer && d1 + d2 <= leng + buffer)
-	{
-		return true;
-	}
-	
-	return false;
-}
