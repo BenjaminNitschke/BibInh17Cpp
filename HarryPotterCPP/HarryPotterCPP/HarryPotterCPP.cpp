@@ -16,18 +16,18 @@ void get_amounts()
 		amounts[books[i] - 1]++;
 }
 
-void step(int index)
+void step()
 {
 	auto minAmount = amounts[0];
 	if (minAmount == 0)
-		amounts.erase(amounts.begin());
-	else
 	{
-		total += minAmount * prices[amounts.size() - 1];
 		amounts.erase(amounts.begin());
-		for (auto i = 0; i < amounts.size(); i++)
-			amounts[i] -= minAmount;
+		return;
 	}
+	total += minAmount * prices[amounts.size() - 1];
+	amounts.erase(amounts.begin());
+	for (auto i = 0; i < amounts.size(); i++)
+		amounts[i] -= minAmount;
 }
 
 float calc(std::vector<int> b)
@@ -38,7 +38,7 @@ float calc(std::vector<int> b)
 	get_amounts();
 	std::sort(amounts.begin(), amounts.end());
 	for (auto i = 0; i < 5; i++)
-		step(i);
+		step();
 	return total;
 }
 
