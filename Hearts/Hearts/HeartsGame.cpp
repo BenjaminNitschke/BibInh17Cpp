@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Deck.h"
 #include <iostream>
+#include "StateMachine.h"
 
 bool mouseClicked = false;
 
@@ -13,10 +14,14 @@ Player HeartsGame::south;
 Player HeartsGame::north;
 std::shared_ptr<Sprite> HeartsGame::back;
 
+StateMachine stateMachine;
+
 void QueryMouseInput(GLFWwindow* window, int button, int action, int mods)
 {
 	if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
 	{
+		if(stateMachine.GetState() != PLAYER_TURN || stateMachine.GetState() != COLOR_SELECTION)
+			return;
 		double x, y;
 		glfwGetCursorPos(Game::pWindow, &x, &y);
 		if (x > drawX - (float)HeartsGame::back->texture->width * scaling / 2 && x < drawX + (float)HeartsGame::back->texture->width * scaling / 2 &&
