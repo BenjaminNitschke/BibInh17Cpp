@@ -53,7 +53,7 @@ Game::Game(int width, int height, const char* name)
 	glfwInit();
 	// create a window
 	pWindow = glfwCreateWindow(width, height, name, nullptr, nullptr);
-	// tell glfw it should use the created window
+	// tell glfw it should Use the created window
 	glfwMakeContextCurrent(pWindow);
 	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetKeyCallback(pWindow, OnKeyboard);

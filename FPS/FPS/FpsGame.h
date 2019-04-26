@@ -1,4 +1,5 @@
 #pragma once
+#include "Shader.h"
 #include "Game.h"
 #include <memory>
 #include "Sprite.h"
@@ -30,5 +31,7 @@ public:
 	std::vector<VertexPositionUV> wallVertices = std::vector<VertexPositionUV>();
 
 	std::shared_ptr<Sprite> ground = std::make_shared<Sprite>("ground.png", 640, 360);
+	std::shared_ptr<Shader> groundShader;
+
 	std::shared_ptr<Sprite> wall = std::make_shared<Sprite>("wall.png", 640, 360);
 };

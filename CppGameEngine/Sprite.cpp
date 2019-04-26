@@ -32,7 +32,7 @@ void Sprite::Draw()
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
 	// start using texture mode
 	glEnable(GL_TEXTURE_2D);
-	// use transparency
+	// Use transparency
 	glEnable(GL_BLEND);
 	// transparency mode
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

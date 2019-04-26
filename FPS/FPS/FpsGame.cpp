@@ -2,6 +2,7 @@
 #include "FpsGame.h"
 #include "VertexPositionUV.h"
 #include <vector>
+#include "Shader.h"
 
 FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, name)
 {
@@ -11,6 +12,23 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 	AddQuad(&groundVertices, -levelWidth / 2, -levelHeight / 2, 0, levelWidth, levelHeight);
 
 	AddBox(0, 0);
+
+	// Load Shader
+	groundShader = std::make_shared<Shader>(
+		// Vertex Shader
+		"out "
+		"void main()"
+		"{"
+		"  gl_Position.xyz = gl_Position.xyz"
+		"gl_Position.w = 1.0"
+		"}"
+		,
+		// Fragment Shader
+		"out vec3 color"
+		"void main()"
+		"{"
+		"  color = vec3(1.0, 0.0, 0.0);"
+		"}");
 
 	glEnable(GL_TEXTURE_2D);
 }
@@ -64,6 +82,8 @@ void FpsGame::DrawVertices(const std::shared_ptr<Texture> texture, std::vector<V
 	//for (auto vertex : vertices)
 		vertex.Draw();
 */
+
+	groundShader->Use();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

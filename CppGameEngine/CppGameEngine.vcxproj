@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="stdafx.h" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
