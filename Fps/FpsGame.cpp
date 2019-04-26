@@ -71,10 +71,21 @@ void Fps::FpsGame::UpdateCamera()
 void Fps::FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
 {
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
-	glBegin(GL_QUADS);
+	//TODO: do shader stuff
+	groundShader->Use();
+	//TODO: must be changed to glDrawArrays (non indexed, easy) / glDrawElement (indexed. hard)
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexPositionUV), vertices.data());
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexPositionUV), ((BYTE*)vertices.data())+12);
+	glDrawArrays(GL_QUADS, 0, vertices.size());
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	/*glBegin(GL_QUADS);
 	for (auto vertex : vertices)
 		vertex.Draw();
-	glEnd();
+	glEnd();*/
 }
 
 void Fps::FpsGame::RunGame()

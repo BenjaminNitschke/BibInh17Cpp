@@ -1,4 +1,5 @@
 #pragma once
+#include <Shader.h>
 #include "Game.h"
 #include "Texture.h"
 #include "Sprite.h"
@@ -6,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include "VertexPositionUV.h"
+
 
 namespace Fps
 {
@@ -15,6 +17,7 @@ namespace Fps
 		std::shared_ptr<Texture> groundTexture;
 		std::vector<VertexPositionUV> wallVertices;
 		std::shared_ptr<Texture> wallTexture;
+		std::shared_ptr<Shader> groundShader;
 		float rotationX = 270;
 		float rotationY = -110;
 		Vector3 movement = Vector3(0, 0, 0);
@@ -34,7 +37,7 @@ namespace Fps
 
 			wallTexture = std::make_shared<Texture>("wall.png");
 
-			for (int i = -4; i < 6; i++)
+			for (float i = -4; i < 6; i++)
 			{
 				wallVertices.push_back(VertexPositionUV((i * 4), 20, 4, 1, 1));
 				wallVertices.push_back(VertexPositionUV((i * 4) - 4, 20, 4, 0, 1));
@@ -42,7 +45,7 @@ namespace Fps
 				wallVertices.push_back(VertexPositionUV((i * 4), 20, 0, 1, 0));
 			}
 
-			for (int i = -4; i < 6; i++)
+			for (float i = -4; i < 6; i++)
 			{
 				wallVertices.push_back(VertexPositionUV((i * 4), -20, 4, 1, 1));
 				wallVertices.push_back(VertexPositionUV((i * 4) - 4, -20, 4, 0, 1));
@@ -50,7 +53,7 @@ namespace Fps
 				wallVertices.push_back(VertexPositionUV((i * 4), -20, 0, 1, 0));
 			}
 
-			for (int i = -4; i < 6; i++)
+			for (float i = -4; i < 6; i++)
 			{
 				wallVertices.push_back(VertexPositionUV(20, (i * 4), 4, 1, 1));
 				wallVertices.push_back(VertexPositionUV(20, (i * 4) - 4, 4, 0, 1));
@@ -58,13 +61,29 @@ namespace Fps
 				wallVertices.push_back(VertexPositionUV(20, (i * 4), 0, 1, 0));
 			}
 
-			for (int i = -4; i < 6; i++)
+			for (float i = -4; i < 6; i++)
 			{
 				wallVertices.push_back(VertexPositionUV(-20, (i * 4), 4, 1, 1));
 				wallVertices.push_back(VertexPositionUV(-20, (i * 4) - 4, 4, 0, 1));
 				wallVertices.push_back(VertexPositionUV(-20, (i * 4) - 4, 0, 0, 0));
 				wallVertices.push_back(VertexPositionUV(-20, (i * 4), 0, 1, 0));
 			}
+
+			//Load shaders
+
+			groundShader = std::make_shared<Shader>(
+				//Vertex shader
+				"void main()"
+				"{"
+				"	gl_Position.xyz = gl_Position.xyz;"
+				"	gl_Position.w = 1.0;"
+				"}",
+				//Fragment shader
+				"out vec3 color;"
+				"void main()"
+				"{"
+				"	color = vec3(1.0, 0.0, 0.0);"
+				"}");
 
 			SetupProjection();
 			glEnable(GL_TEXTURE_2D);
