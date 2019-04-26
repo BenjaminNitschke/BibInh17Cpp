@@ -8,26 +8,10 @@ FpsGame::FpsGame(int width, int height, const char * name) : Game(width, height,
 	int levelWidth = 10;
 	int levelHeight = 10;
 
-	AddQuad(&groundVertices, 0, 0, 0, levelWidth, levelHeight);
+	AddQuad(&groundVertices, -levelWidth/2, -levelHeight/2, 0, levelWidth, levelHeight);
 
-	/*groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0, levelWidth / 2, levelHeight / 2));
-	groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0, 0, levelHeight / 2));
-	groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0, 0, 0));
-	groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0, levelWidth / 2, 0));*/
-	//TODO: make function for this
-	wallVertices.push_back(VertexPositionUV(2, 0, 4, 1, 1));
-	wallVertices.push_back(VertexPositionUV(-2, 0, 4, 0, 1));
-	wallVertices.push_back(VertexPositionUV(-2, 0, 0, 0, 0));
-	wallVertices.push_back(VertexPositionUV(2, 0, 0, 1, 0));
-	//TODO: add 2 more walls and rotate (X, Y)
-	wallVertices.push_back(VertexPositionUV(2, 1, 4, 1, 1));
-	wallVertices.push_back(VertexPositionUV(-2, 1, 4, 0, 1));
-	wallVertices.push_back(VertexPositionUV(-2, 1, 0, 0, 0));
-	wallVertices.push_back(VertexPositionUV(2, 1, 0, 1, 0));
-	wallVertices.push_back(VertexPositionUV(2, 2, 4, 1, 1));
-	wallVertices.push_back(VertexPositionUV(-2, 2, 4, 0, 1));
-	wallVertices.push_back(VertexPositionUV(-2, 2, 0, 0, 0));
-	wallVertices.push_back(VertexPositionUV(2, 2, 0, 1, 0));
+	AddBox(0, 0);
+
 	glEnable(GL_TEXTURE_2D);
 }
 
@@ -37,6 +21,36 @@ void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, fl
 	cache->push_back(VertexPositionUV(x, y + depth, 0, 0, depth / 2));
 	cache->push_back(VertexPositionUV(x, y, 0, 0, 0));
 	cache->push_back(VertexPositionUV(x + width, y, 0, width / 2, 0));
+}
+
+void FpsGame::AddBox(int x, int y)
+{
+	int size = 4;
+	int x0 = x * size;
+	int x1 = (x + 1) * size;
+	int y0 = y * size;
+	int y1 = (y + 1) * size;
+	int z0 = 0;
+	int z1 = size;
+	wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0));
+
+	wallVertices.push_back(VertexPositionUV(x0, y0, z1, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x0, y0, z0, 1, 0));
+
+	wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1, 0));
+
+	wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0));
 }
 
 FpsGame::~FpsGame()

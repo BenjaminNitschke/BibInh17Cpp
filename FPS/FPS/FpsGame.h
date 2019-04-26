@@ -10,6 +10,7 @@ class FpsGame : public Game
 {
 public:
 	FpsGame(int width, int height, const char* name);
+	void AddBox(int x, int y);
 	void AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth);
 	~FpsGame();
 	void DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices);
