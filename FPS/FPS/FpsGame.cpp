@@ -3,12 +3,12 @@
 #include "VertexPositionUV.h"
 #include <vector>
 
-FpsGame::FpsGame(int width, int height, const char * name) : Game(width, height, name)
+FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, name)
 {
 	int levelWidth = 10;
 	int levelHeight = 10;
 
-	AddQuad(&groundVertices, -levelWidth/2, -levelHeight/2, 0, levelWidth, levelHeight);
+	AddQuad(&groundVertices, -levelWidth / 2, -levelHeight / 2, 0, levelWidth, levelHeight);
 
 	AddBox(0, 0);
 
@@ -57,13 +57,24 @@ FpsGame::~FpsGame()
 {
 }
 
-void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
+void FpsGame::DrawVertices(const std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
 {
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
-	glBegin(GL_QUADS);
-	for (auto vertex : vertices)
+	/*glBegin(GL_QUADS);
+	//for (auto vertex : vertices)
 		vertex.Draw();
-	glEnd();
+*/
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexPositionUV), vertices.data());
+	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexPositionUV), reinterpret_cast<BYTE*>(vertices.data()) + 12);
+
+	glDrawArrays(GL_QUADS, 0, vertices.size());
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void FpsGame::RunGame()
@@ -71,30 +82,30 @@ void FpsGame::RunGame()
 	SetupProjection();
 
 	Run([=]()
-	{
-		Input();
-		SetupProjection();
-		UpdateCamera();
+		{
+			Input();
+			SetupProjection();
+			UpdateCamera();
 
-		// tell openGL it will work with a texture
-		DrawVertices(ground->texture, groundVertices);
-		DrawVertices(wall->texture, wallVertices);
+			// tell openGL it will work with a texture
+			DrawVertices(ground->texture, groundVertices);
+			DrawVertices(wall->texture, wallVertices);
 
-		// put camera back into 2d
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glDisable(GL_TEXTURE_2D);
-		glBegin(GL_LINES);
-		glColor3f(1, 1, 1);
-		glVertex3f(-0.02f, 0, 0);
-		glVertex3f(0.018f, 0, 0);
-		glVertex3f(0, -0.033f, 0);
-		glVertex3f(0, 0.031f, 0);
-		glEnd();
-		glEnable(GL_TEXTURE_2D);
-	});
+			// put camera back into 2d
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+			glDisable(GL_TEXTURE_2D);
+			glBegin(GL_LINES);
+			glColor3f(1, 1, 1);
+			glVertex3f(-0.02f, 0, 0);
+			glVertex3f(0.018f, 0, 0);
+			glVertex3f(0, -0.033f, 0);
+			glVertex3f(0, 0.031f, 0);
+			glEnd();
+			glEnable(GL_TEXTURE_2D);
+		});
 }
 
 // Do all the math in order to have a sensible camera and movement
@@ -129,13 +140,13 @@ void FpsGame::UpdateCamera() const
 void FpsGame::Input()
 {
 	if (leftPressed)
-		CalculateMovement(Xrotation-90);
+		CalculateMovement(Xrotation - 90);
 	else if (rightPressed)
-		CalculateMovement(Xrotation+90);
+		CalculateMovement(Xrotation + 90);
 	else if (upPressed)
 		CalculateMovement(Xrotation);
 	else if (downPressed)
-		CalculateMovement(Xrotation+180);
+		CalculateMovement(Xrotation + 180);
 	Xrotation -= xDelta * RotationSpeed;
 	Yrotation -= yDelta * RotationSpeed;
 	if (Yrotation < -90)
@@ -146,6 +157,6 @@ void FpsGame::Input()
 
 void FpsGame::CalculateMovement(float angle)
 {
-	movement.x-=sin(angle * DegreeToRadians) * MovementSpeed * timeThisTick;
-	movement.y-=cos(angle * DegreeToRadians) * MovementSpeed * timeThisTick;
+	movement.x -= static_cast<double>(sin(angle * DegreeToRadians)) * MovementSpeed * timeThisTick;
+	movement.y -= static_cast<double>(cos(angle * DegreeToRadians)) * MovementSpeed * timeThisTick;
 }
