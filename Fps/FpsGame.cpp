@@ -55,10 +55,20 @@ void FpsGame::CalculateMovement(float angle)
 void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
 {
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
+	groundShader->Use();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexPositionUV), vertices.data());
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexPositionUV), ((BYTE*)(vertices.data()))+12);
+	glDrawArrays(GL_QUADS, 0, vertices.size());//non indexed, just vertices, easy
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	/*old
 	glBegin(GL_QUADS);
 	for (auto vertex : vertices)
 		vertex.Draw();
 	glEnd();
+	*/
 }
 
 void FpsGame::RunGame()
@@ -70,19 +80,24 @@ void FpsGame::RunGame()
 		UpdateCamera();
 		DrawVertices(groundTexture, groundVertices);
 		DrawVertices(wallTexture, wallVertices);
-		// put camera back into 2d
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glDisable(GL_TEXTURE_2D);
-		glBegin(GL_LINES);
-		glColor3f(1, 1, 1);
-		glVertex3f(-0.02f, 0, 0);
-		glVertex3f(0.018f, 0, 0);
-		glVertex3f(0, -0.033f, 0);
-		glVertex3f(0, 0.031f, 0);
-		glEnd();
-		glEnable(GL_TEXTURE_2D);
+		DrawCrosshair();
 	});
+}
+
+void FpsGame::DrawCrosshair()
+{
+	// put camera back into 2d
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glDisable(GL_TEXTURE_2D);
+	glBegin(GL_LINES);
+	glColor3f(1, 1, 1);
+	glVertex3f(-0.02f, 0, 0);
+	glVertex3f(0.018f, 0, 0);
+	glVertex3f(0, -0.033f, 0);
+	glVertex3f(0, 0.031f, 0);
+	glEnd();
+	glEnable(GL_TEXTURE_2D);
 }

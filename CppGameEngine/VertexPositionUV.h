@@ -5,7 +5,6 @@ struct VertexPositionUV
 {
 	float x, y, z;
 	float u, v;
-	static const size_t SizeInBytes = 20;
 
 	VertexPositionUV() { x = y = z = u = v = 0; }
 
