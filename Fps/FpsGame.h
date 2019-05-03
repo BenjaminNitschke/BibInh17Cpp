@@ -47,23 +47,29 @@ public:
 		//Load shaders
 		groundShader = std::make_shared<Shader>(
 			// Vertex Shader
-			"uniform mat4 worldViewPerspective;\n"
-			"in vec3 in_Position; \n"
+			"#version 330\n"
+			"layout(location = 0) in vec3 vertexPosition_modelspace;\n"
 			"void main(){\n"
-			"  gl_Position = vec4(in_Position, 1) * worldViewPerspective;\n"
+			"    gl_Position.xyz = vertexPosition_modelspace;\n"
+			"    gl_Position.w = 1.0;\n"
 			"}",
 			// Pixel Shader
-			"out vec3 color;"
-			"void main() {"
-			"	color = vec3(0, 1, 0);"
+			"#version 330\n"
+			"out vec3 color;\n"
+			"void main() {\n"
+			"	color = vec3(0, 1, 0);\n"
 			"}");
 
-// Generate 1 buffer, put the resulting identifier in vertexbuffer
+GLfloat data[] = {
+   -1.0f, -1.0f, 0.0f,
+   1.0f, -1.0f, 0.0f,
+   0.0f,  1.0f, 0.0f,
+};
 glGenBuffers(1, &vertexbuffer);
-// The following commands will talk about our 'vertexbuffer' buffer
 glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-// Give our vertices to OpenGL.
-glBufferData(GL_ARRAY_BUFFER,  sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
+glBufferData(GL_ARRAY_BUFFER, 3*3*4, data, GL_STATIC_DRAW);
+
+	//sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
 
 		SetupProjection();
 		glEnable(GL_TEXTURE_2D);

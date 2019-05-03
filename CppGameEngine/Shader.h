@@ -6,7 +6,7 @@ class Shader
 {
 public:
 	Shader(const char* vertexShader, const char* fragmentShader);
-	void CreateShader(GLuint type, const char * &vertexShaderCode);
+	int CreateShader(GLuint type, const char * &vertexShaderCode);
 	void Use();
 	int GetHandle() { return program; }
 private:

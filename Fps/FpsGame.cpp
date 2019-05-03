@@ -65,7 +65,9 @@ void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexP
 		float viewPerspectiveMatrix[16];
 		glGetFloatv(GL_MODELVIEW_MATRIX, viewPerspectiveMatrix);
 		*/
+
 	groundShader->Use();
+	/*
 	Matrix viewPerspectiveMatrix = projection * view;
 	// Specify vertex attributes to be used (position and uv)
 		glGetAttribLocation(groundShader->GetHandle(), "position");
@@ -96,8 +98,10 @@ glVertexAttribPointer(
    (void*)0            // array buffer offset
 );
 
-	glDrawArrays(GL_QUADS, 0, vertices.size());//non indexed, just vertices, easy
-	glDisableClientState(GL_VERTEX_ARRAY);
+	glDrawArrays(GL_QUADS, 0, 3);//vertices.size());//non indexed, just vertices, easy
+	
+glDisableVertexAttribArray(0);
+	/*glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	/*old
 	glBegin(GL_QUADS);
@@ -111,11 +115,13 @@ void FpsGame::RunGame()
 {
 	Run([=]()
 	{
+		/*
 		Input();
 		SetupProjection();
 		UpdateCamera();
 		DrawVertices(groundTexture, groundVertices);
 		DrawVertices(wallTexture, wallVertices);
+		*/
 		DrawCrosshair();
 	});
 }
@@ -128,6 +134,7 @@ void FpsGame::DrawCrosshair()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glDisable(GL_TEXTURE_2D);
+	/*
 	glBegin(GL_LINES);
 	glColor3f(1, 1, 1);
 	glVertex3f(-0.02f, 0, 0);
@@ -135,5 +142,23 @@ void FpsGame::DrawCrosshair()
 	glVertex3f(0, -0.033f, 0);
 	glVertex3f(0, 0.031f, 0);
 	glEnd();
+	*/
+	groundShader->Use();
+
+glEnableVertexAttribArray(0);
+glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+glDrawArrays(GL_TRIANGLES, 0, 3);
+glDisableVertexAttribArray(0);
+
+/*old
+	glBegin(GL_TRIANGLES);
+	glColor3f(1, 1, 1);
+	glVertex3f(data[0], data[1], data[2]);
+	glVertex3f(data[3], data[4], data[5]);
+	glVertex3f(data[6], data[7], data[8]);
+	glEnd();
+*/
+
 	glEnable(GL_TEXTURE_2D);
 }

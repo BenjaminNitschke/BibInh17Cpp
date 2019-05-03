@@ -157,7 +157,8 @@ GLuint Texture::Load(const char* file_name, int* width, int* height)
 	glTexImage2D(GL_TEXTURE_2D, 0, format, temp_width, temp_height, 0, format, GL_UNSIGNED_BYTE, image_data);
 
 	const auto error = glGetError();
-	printf("error %d", error);
+	if (error != GL_NO_ERROR)
+		printf("error %d", error);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

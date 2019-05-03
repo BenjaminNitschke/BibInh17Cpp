@@ -61,8 +61,6 @@ Game::Game(const char* title)
   if (err != GLEW_OK) {
 		std::cout << "GLEW init failed " << glewGetErrorString(err) << "\n";
 		exit(1);
-  } else {
-    printf("Using GLEW\n");
   }
 }
 

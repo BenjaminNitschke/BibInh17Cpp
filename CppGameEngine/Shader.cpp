@@ -4,8 +4,8 @@
 Shader::Shader(const char* vertexShaderCode, const char* fragmentShaderCode)
 {
 	program = glCreateProgram();
-	CreateShader(GL_VERTEX_SHADER, vertexShaderCode);
-	CreateShader(GL_FRAGMENT_SHADER, fragmentShaderCode);
+	glAttachShader(program, CreateShader(GL_VERTEX_SHADER, vertexShaderCode));
+	glAttachShader(program, CreateShader(GL_FRAGMENT_SHADER, fragmentShaderCode));
 	glBindAttribLocation(program, 0, "in_Position");
 	glLinkProgram(program);
 	
@@ -19,7 +19,7 @@ Shader::Shader(const char* vertexShaderCode, const char* fragmentShaderCode)
 		throw error;
 }
 
-void Shader::CreateShader(GLuint type, const char * &vertexOrFragmentShaderCode)
+int Shader::CreateShader(GLuint type, const char * &vertexOrFragmentShaderCode)
 {
 	GLuint vertexOrFragmentShader = glCreateShader(type);
 	glShaderSource(vertexOrFragmentShader, 1, &vertexOrFragmentShaderCode, NULL);
@@ -34,6 +34,7 @@ void Shader::CreateShader(GLuint type, const char * &vertexOrFragmentShaderCode)
 		printf(buffer);
 		throw buffer;
 	}
+	return vertexOrFragmentShader;
 }
 
 void Shader::Use()
