@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include <sstream>
 #include <iostream>
+#include "../glew-2.1.0/include/GL/glew.h"
 
 bool Game::leftPressed;
 bool Game::rightPressed;
@@ -57,6 +58,7 @@ Game::Game(const char* title)
 	glfwInit();
 	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
 	auto glfwWindow = (GLFWwindow*)window;
+	glewInit();
 	glfwMakeContextCurrent(glfwWindow);
 	glfwSetKeyCallback(glfwWindow, OnKeyboard);
 	glfwSetCursorPosCallback(glfwWindow, cursor_position_callback);
