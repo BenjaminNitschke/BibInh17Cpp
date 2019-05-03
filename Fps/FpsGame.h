@@ -4,6 +4,7 @@
 #include <Texture.h>
 #include <memory>
 #include <Vector3.h>
+#include <Matrix.h>
 #include <vector>
 #include <VertexPositionUV.h>
 
@@ -14,6 +15,9 @@ class FpsGame : public Game
 	std::shared_ptr<Texture> groundTexture;
 	std::shared_ptr<Shader> groundShader;
 	std::shared_ptr<Texture> wallTexture;
+	Matrix projection;
+	Matrix view;
+GLuint vertexbuffer;
 	float Xrotation = 0;
 	float Yrotation = 0;
 	Vector3 movement = Vector3(0, 0, 0);
@@ -42,18 +46,24 @@ public:
 
 		//Load shaders
 		groundShader = std::make_shared<Shader>(
-			// Vertex shader
-"void main()"
-"{"
-"  gl_Position.xyz = gl_Position.xyz;"
-"  gl_Position.w = 1.0;"
-"}",
-			// Fragment/Pixel shader
-"out vec3 color;"
-"void main()"
-"{"
-"  color = vec3(1.0, 0.0, 0.0);"
-"}");
+			// Vertex Shader
+			"uniform mat4 worldViewPerspective;\n"
+			"in vec3 in_Position; \n"
+			"void main(){\n"
+			"  gl_Position = vec4(in_Position, 1) * worldViewPerspective;\n"
+			"}",
+			// Pixel Shader
+			"out vec3 color;"
+			"void main() {"
+			"	color = vec3(0, 1, 0);"
+			"}");
+
+// Generate 1 buffer, put the resulting identifier in vertexbuffer
+glGenBuffers(1, &vertexbuffer);
+// The following commands will talk about our 'vertexbuffer' buffer
+glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+// Give our vertices to OpenGL.
+glBufferData(GL_ARRAY_BUFFER,  sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
 
 		SetupProjection();
 		glEnable(GL_TEXTURE_2D);

@@ -14,6 +14,8 @@ void FpsGame::SetupProjection()
 	float fovH = tan(float(fov * DegreeToRadians / 2.0f)) * zNear;
 	float fovW = fovH * aspect;
 	glFrustum(-fovW, fovW, -fovH, fovH, zNear, zFar);
+	
+	glGetFloatv(GL_PROJECTION, projection.m);
 }
 
 void FpsGame::UpdateCamera()
@@ -26,6 +28,8 @@ void FpsGame::UpdateCamera()
 	xDelta = 0;
 	yDelta = 0;
 	glTranslatef(movement.x, movement.y, -2);
+	
+	glGetFloatv(GL_MODELVIEW, view.m);
 }
 
 void FpsGame::Input()
@@ -54,12 +58,44 @@ void FpsGame::CalculateMovement(float angle)
 
 void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
 {
-	glBindTexture(GL_TEXTURE_2D, texture->handle);
+	/* the hacky way
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(projection.m);
+		glMultMatrixf(view.m);
+		float viewPerspectiveMatrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, viewPerspectiveMatrix);
+		*/
 	groundShader->Use();
+	Matrix viewPerspectiveMatrix = projection * view;
+	// Specify vertex attributes to be used (position and uv)
+		glGetAttribLocation(groundShader->GetHandle(), "position");
+		glGetAttribLocation(groundShader->GetHandle(), "uv");
+		// Set perspective and view matrix for vertex shader to calculate pixel pos
+		auto worldViewPerspectiveLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewPerspective");
+
+		glUniformMatrix4fv(worldViewPerspectiveLocation,	1, true, viewPerspectiveMatrix.m);
+
+
+	glBindTexture(GL_TEXTURE_2D, texture->handle);
+	/*
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(VertexPositionUV), vertices.data());
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexPositionUV), ((BYTE*)(vertices.data()))+12);
+	*/
+
+	
+glEnableVertexAttribArray(0);
+glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+glVertexAttribPointer(
+   0,// attribute 0. No particular reason for 0, but must match the layout in the shader.
+   3,// size
+   GL_FLOAT,           // type
+   GL_FALSE,           // normalized?
+   0,                  // stride
+   (void*)0            // array buffer offset
+);
+
 	glDrawArrays(GL_QUADS, 0, vertices.size());//non indexed, just vertices, easy
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

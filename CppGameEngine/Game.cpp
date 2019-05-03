@@ -1,5 +1,7 @@
 #include "stdafx.h"
+#include <iostream>
 #include "Game.h"
+#include "../glew-2.1.0/include/GL/glew.h"
 #include <GLFW/glfw3.h>
 
 bool Game::leftPressed;
@@ -38,8 +40,15 @@ void OnMouse(GLFWwindow* window, double posX, double posY)
 
 Game::Game(const char* title)
 {
-	glfwInit();
+	if (!glfwInit()){
+    printf("GLFW init failed\n");
+    exit(1);
+	}
 	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
+	if (window == NULL) {
+    printf("GLFW window creation failed\n");
+    exit(1);
+	}
 	auto glfwWindow = (GLFWwindow*)window;
 	glfwMakeContextCurrent(glfwWindow);
 	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -47,6 +56,14 @@ Game::Game(const char* title)
 	glfwSetCursorPosCallback(glfwWindow, OnMouse);
 	glfwGetWindowSize(glfwWindow, &viewportWidth, &viewportHeight);
 	glEnable(GL_DEPTH_TEST);
+
+  GLenum err = glewInit();
+  if (err != GLEW_OK) {
+		std::cout << "GLEW init failed " << glewGetErrorString(err) << "\n";
+		exit(1);
+  } else {
+    printf("Using GLEW\n");
+  }
 }
 
 Game::~Game() 
