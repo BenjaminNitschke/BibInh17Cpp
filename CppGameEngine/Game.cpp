@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include "../glew-2.1.0/include/GL/glew.h"
 #include "Game.h"
 
 bool Game::leftPressed;
@@ -59,6 +60,9 @@ Game::Game(int width, int height, const char* name)
 	glfwSetKeyCallback(pWindow, OnKeyboard);
 	glfwSetCursorPosCallback(pWindow, OnMouse);
 	glEnable(GL_DEPTH_TEST);
+
+	// initialize glew
+	glewInit();
 }
 
 Game::~Game()

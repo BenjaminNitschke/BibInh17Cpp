@@ -30,16 +30,16 @@
     <ClInclude Include="Texture.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="VertexPositionUV.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,13 +56,13 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

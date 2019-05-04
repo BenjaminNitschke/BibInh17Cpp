@@ -6,6 +6,7 @@
 #include "Vector3.h"
 #include "VertexPositionUV.h"
 #include <vector>
+#include "Matrix.h"
 
 class FpsGame : public Game
 {
@@ -34,4 +35,7 @@ public:
 	std::shared_ptr<Shader> groundShader;
 
 	std::shared_ptr<Sprite> wall = std::make_shared<Sprite>("wall.png", 640, 360);
+
+	Matrix projection;
+	Matrix view;
 };

@@ -5,6 +5,7 @@ class Shader
 {
 public:
 	Shader(const char *vertexShader, const char *fragmentShader);
+	GLuint CreateShader(GLuint type, const char*& ShaderCode);
 
 	~Shader();
 	GLuint program;

@@ -16,15 +16,17 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 	// Load Shader
 	groundShader = std::make_shared<Shader>(
 		// Vertex Shader
-		"out "
+		"#version 330\n"
+		"layout(location = 0) in vec3 vertexposition_modelspace;\n"
 		"void main()"
 		"{"
-		"  gl_Position.xyz = gl_Position.xyz"
-		"gl_Position.w = 1.0"
+		"  gl_Position.xyz = vertexposition_modelspace.xyz;"
+		"  gl_Position.w = 1.0;"
 		"}"
 		,
 		// Fragment Shader
-		"out vec3 color"
+		"#version 330\n"
+		"out vec3 color;"
 		"void main()"
 		"{"
 		"  color = vec3(1.0, 0.0, 0.0);"
@@ -85,6 +87,8 @@ void FpsGame::DrawVertices(const std::shared_ptr<Texture> texture, std::vector<V
 
 	groundShader->Use();
 
+	Matrix viewPerspectiveMatrix = view * projection;
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -117,13 +121,29 @@ void FpsGame::RunGame()
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
 			glDisable(GL_TEXTURE_2D);
-			glBegin(GL_LINES);
+			/*glBegin(GL_LINES);
 			glColor3f(1, 1, 1);
 			glVertex3f(-0.02f, 0, 0);
 			glVertex3f(0.018f, 0, 0);
 			glVertex3f(0, -0.033f, 0);
 			glVertex3f(0, 0.031f, 0);
-			glEnd();
+			glEnd();*/
+
+			groundShader->Use();
+
+			unsigned int vertexBuffer;
+
+			Vector3 data[] = { Vector3(-1,-1,0), Vector3(1,-1,0), Vector3(0,1,0) };
+			glGenBuffers(1, &vertexBuffer);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+			glBufferData(GL_ARRAY_BUFFER, sizeof data, data, GL_STATIC_DRAW);
+
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glDisableVertexAttribArray(0);
+
 			glEnable(GL_TEXTURE_2D);
 		});
 }
@@ -140,6 +160,8 @@ void FpsGame::SetupProjection() const
 	float fowH = tan(float(fov * DegreeToRadians / 2.0f)) * zNear;
 	float fowW = fowH * aspect;
 	glFrustum(-fowW, fowW, -fowH, fowH, zNear, zFar);
+
+	glGetFloatv(GL_PROJECTION, (GLfloat*)projection.m);
 }
 
 void FpsGame::UpdateCamera() const
@@ -155,6 +177,8 @@ void FpsGame::UpdateCamera() const
 	xDelta = 0;
 	yDelta = 0;
 	glTranslatef(movement.x, movement.y, -2);
+
+	glGetFloatv(GL_MODELVIEW, (GLfloat*)view.m);
 }
 
 void FpsGame::Input()
