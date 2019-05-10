@@ -15,7 +15,7 @@ void FpsGame::SetupProjection()
 	float fovW = fovH * aspect;
 	glFrustum(-fovW, fovW, -fovH, fovH, zNear, zFar);
 	
-	glGetFloatv(GL_PROJECTION, projection.m);
+	glGetFloatv(GL_PROJECTION_MATRIX, projection.m);
 }
 
 void FpsGame::UpdateCamera()
@@ -29,7 +29,7 @@ void FpsGame::UpdateCamera()
 	yDelta = 0;
 	glTranslatef(movement.x, movement.y, -2);
 	
-	glGetFloatv(GL_MODELVIEW, view.m);
+	glGetFloatv(GL_MODELVIEW_MATRIX, view.m);
 }
 
 void FpsGame::Input()
@@ -58,15 +58,50 @@ void FpsGame::CalculateMovement(float angle)
 
 void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
 {
-	/* the hacky way
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(projection.m);
-		glMultMatrixf(view.m);
-		float worldViewProjectioneMatrix[16];
-		glGetFloatv(GL_MODELVIEW_MATRIX, worldViewProjectionMatrix);
-		*/
 
+	// Step 1: Setup uniforms
+	Matrix worldViewProjection = projection * view;
+	auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
+	glUniformMatrix4fv(worldViewProjectionLocation,	1, false, worldViewProjection.m);
+
+	// Step 2: Create vertexbuffer for rendering	 
+	glGenBuffers(1, &vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	auto sizeInBytes = sizeof(VertexPositionUV)*std::size(vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeInBytes, vertices.data(), GL_STATIC_DRAW);
+	
+	// Step 3: Assign shader
 	groundShader->Use();
+
+	// Step 4: Assign vertexbuffer and location offsets
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)0);
+
+	// Step 5: Finally render with shader and vertexbuffer
+	glDrawArrays(GL_QUADS, 0, vertices.size());
+
+	/*tst
+	Vector3 data[] = {
+		 Vector3(-1.0f, -1.0f, 0.0f),
+		 Vector3(1.0f, -1.0f, 0.0f),
+		 Vector3(1.0f,  1.0f, 0.0f),
+		 Vector3(-1.0f,  1.0f, 0.0f),
+	};
+	glGenBuffers(1, &vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3)*std::size(data), data, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glDrawArrays(GL_QUADS, 0, std::size(data));//non indexed, just vertices, easy
+	*/
+
+	// Restore crap
+	glDisableVertexAttribArray(0);
+	glEnable(GL_TEXTURE_2D);
+	glUseProgram(0);
+
 	/*
 	Matrix worldViewProjectionMatrix = projection * view;
 	// Specify vertex attributes to be used (position and uv)
@@ -84,8 +119,7 @@ void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexP
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexPositionUV), ((BYTE*)(vertices.data()))+12);
 	*/
-
-	
+	/*	
 glEnableVertexAttribArray(0);
 glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 glVertexAttribPointer(
@@ -96,10 +130,8 @@ glVertexAttribPointer(
    0,                  // stride
    (void*)0            // array buffer offset
 );
-
 	glDrawArrays(GL_QUADS, 0, 3);//vertices.size());//non indexed, just vertices, easy
-	
-glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(0);
 	/*glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	/*old
@@ -131,7 +163,7 @@ void FpsGame::DrawCrosshair()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glDisable(GL_TEXTURE_2D);
-	/*
+
 	glBegin(GL_LINES);
 	glColor3f(1, 1, 1);
 	glVertex3f(-0.02f, 0, 0);
@@ -139,20 +171,4 @@ void FpsGame::DrawCrosshair()
 	glVertex3f(0, -0.033f, 0);
 	glVertex3f(0, 0.031f, 0);
 	glEnd();
-	*/
-
-	//testing shader
-	groundShader->Use();
-	
-	Matrix worldViewProjection = Matrix();
-	auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
-	glUniformMatrix4fv(worldViewProjectionLocation,	1, true, worldViewProjection.m);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glDrawArrays(GL_QUADS, 0, 4);
-	glDisableVertexAttribArray(0);
-
-	glEnable(GL_TEXTURE_2D);
 }

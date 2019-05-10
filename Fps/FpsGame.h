@@ -17,7 +17,7 @@ class FpsGame : public Game
 	std::shared_ptr<Texture> wallTexture;
 	Matrix projection;
 	Matrix view;
-GLuint vertexbuffer;
+	GLuint vertexbuffer;
 	float Xrotation = 0;
 	float Yrotation = 0;
 	Vector3 movement = Vector3(0, 0, 0);
@@ -59,7 +59,7 @@ public:
 			"void main() {\n"
 			"	color = vec3(1, 0.3, 0.6);\n"
 			"}");
-
+/*tst
 Vector3 data[] = {
    Vector3(-1.0f, -1.0f, 0.0f),
    Vector3(1.0f, -1.0f, 0.0f),
@@ -71,7 +71,7 @@ glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3)*std::size(data), data, GL_STATIC_DRAW);
 
 	//sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
-
+	*/
 		SetupProjection();
 		glEnable(GL_TEXTURE_2D);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
