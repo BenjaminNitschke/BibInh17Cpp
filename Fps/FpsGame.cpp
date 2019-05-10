@@ -58,21 +58,20 @@ void FpsGame::CalculateMovement(float angle)
 
 void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
 {
-
-	// Step 1: Setup uniforms
+	// Step 1: Assign shader
+	groundShader->Use();
+	
+	// Step 2: Setup uniforms
 	Matrix worldViewProjection = projection * view;
 	auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
 	glUniformMatrix4fv(worldViewProjectionLocation,	1, false, worldViewProjection.m);
 
-	// Step 2: Create vertexbuffer for rendering	 
+	// Step 3: Create vertexbuffer for rendering (should normally be in constructor)
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	auto sizeInBytes = sizeof(VertexPositionUV)*std::size(vertices);
 	glBufferData(GL_ARRAY_BUFFER, sizeInBytes, vertices.data(), GL_STATIC_DRAW);
 	
-	// Step 3: Assign shader
-	groundShader->Use();
-
 	// Step 4: Assign vertexbuffer and location offsets
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
