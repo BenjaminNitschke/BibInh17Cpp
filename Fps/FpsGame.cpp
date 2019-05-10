@@ -62,20 +62,19 @@ void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexP
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(projection.m);
 		glMultMatrixf(view.m);
-		float viewPerspectiveMatrix[16];
-		glGetFloatv(GL_MODELVIEW_MATRIX, viewPerspectiveMatrix);
+		float worldViewProjectioneMatrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, worldViewProjectionMatrix);
 		*/
 
 	groundShader->Use();
 	/*
-	Matrix viewPerspectiveMatrix = projection * view;
+	Matrix worldViewProjectionMatrix = projection * view;
 	// Specify vertex attributes to be used (position and uv)
 		glGetAttribLocation(groundShader->GetHandle(), "position");
 		glGetAttribLocation(groundShader->GetHandle(), "uv");
 		// Set perspective and view matrix for vertex shader to calculate pixel pos
-		auto worldViewPerspectiveLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewPerspective");
-
-		glUniformMatrix4fv(worldViewPerspectiveLocation,	1, true, viewPerspectiveMatrix.m);
+		auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
+		glUniformMatrix4fv(worldViewProjectionLocation,	1, true, worldViewProjectionMatrix.m);
 
 
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
@@ -115,13 +114,11 @@ void FpsGame::RunGame()
 {
 	Run([=]()
 	{
-		/*
 		Input();
 		SetupProjection();
 		UpdateCamera();
 		DrawVertices(groundTexture, groundVertices);
-		DrawVertices(wallTexture, wallVertices);
-		*/
+		//DrawVertices(wallTexture, wallVertices);
 		DrawCrosshair();
 	});
 }
@@ -143,22 +140,19 @@ void FpsGame::DrawCrosshair()
 	glVertex3f(0, 0.031f, 0);
 	glEnd();
 	*/
+
+	//testing shader
 	groundShader->Use();
+	
+	Matrix worldViewProjection = Matrix();
+	auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
+	glUniformMatrix4fv(worldViewProjectionLocation,	1, true, worldViewProjection.m);
 
-glEnableVertexAttribArray(0);
-glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-glDrawArrays(GL_TRIANGLES, 0, 3);
-glDisableVertexAttribArray(0);
-
-/*old
-	glBegin(GL_TRIANGLES);
-	glColor3f(1, 1, 1);
-	glVertex3f(data[0], data[1], data[2]);
-	glVertex3f(data[3], data[4], data[5]);
-	glVertex3f(data[6], data[7], data[8]);
-	glEnd();
-*/
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glDrawArrays(GL_QUADS, 0, 4);
+	glDisableVertexAttribArray(0);
 
 	glEnable(GL_TEXTURE_2D);
 }

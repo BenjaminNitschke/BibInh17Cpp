@@ -48,26 +48,27 @@ public:
 		groundShader = std::make_shared<Shader>(
 			// Vertex Shader
 			"#version 330\n"
-			"layout(location = 0) in vec3 vertexPosition_modelspace;\n"
+			"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
+			"uniform mat4 worldViewProjection;\n"
 			"void main(){\n"
-			"    gl_Position.xyz = vertexPosition_modelspace;\n"
-			"    gl_Position.w = 1.0;\n"
+			"    gl_Position = worldViewProjection * vertexPosition_modelspace;\n"
 			"}",
 			// Pixel Shader
 			"#version 330\n"
 			"out vec3 color;\n"
 			"void main() {\n"
-			"	color = vec3(0, 1, 0);\n"
+			"	color = vec3(1, 0.3, 0.6);\n"
 			"}");
 
-GLfloat data[] = {
-   -1.0f, -1.0f, 0.0f,
-   1.0f, -1.0f, 0.0f,
-   0.0f,  1.0f, 0.0f,
+Vector3 data[] = {
+   Vector3(-1.0f, -1.0f, 0.0f),
+   Vector3(1.0f, -1.0f, 0.0f),
+   Vector3(1.0f,  1.0f, 0.0f),
+   Vector3(-1.0f,  1.0f, 0.0f),
 };
 glGenBuffers(1, &vertexbuffer);
 glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-glBufferData(GL_ARRAY_BUFFER, 3*3*4, data, GL_STATIC_DRAW);
+glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3)*std::size(data), data, GL_STATIC_DRAW);
 
 	//sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
 
