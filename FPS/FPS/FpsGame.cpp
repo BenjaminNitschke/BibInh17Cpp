@@ -13,26 +13,7 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 
 	AddBox(0, 0);
 
-	// Load Shader
-	groundShader = std::make_shared<Shader>(
-		// Vertex Shader
-		"#version 330\n"
-		"layout(location = 0) in vec4 vertexposition_modelspace;\n"
-		"uniform mat4 worldViewPerspective;\n"
-		"void main()"
-		"{"
-		"  gl_Position = worldViewPerspective * vertexposition_modelspace;"
-		"}"
-		,
-		// Fragment Shader
-		"#version 330\n"
-		"out vec3 color;"
-		"void main()"
-		"{"
-		"  color = vec3(1.0, 0.0, 0.0);"
-		"}");
-
-	wallShader = std::make_shared<Shader>(
+	shader = std::make_shared<Shader>(
 		// Vertex Shader
 		"#version 330\n"
 		"in vec4 vertexposition_modelspace;\n"
@@ -56,7 +37,6 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		"void main()"
 		"{"
 		"  color = texture(diffuse, uv);"
-		"  color = color + vec4(0, 1 - vertex.z / 4, 0, 1);"
 		"}");
 
 	glEnable(GL_TEXTURE_2D);
@@ -126,25 +106,25 @@ void FpsGame::RunGame()
 			glLoadIdentity();
 			glDisable(GL_TEXTURE_2D);
 
-			DrawVertices(wallVertices, wallShader);
-			DrawVertices(groundVertices, groundShader);
+			DrawVertices(wallVertices, shader, wall->texture);
+			DrawVertices(groundVertices, shader, ground->texture);
 
 			glEnable(GL_TEXTURE_2D);
 		});
 }
 
-void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader)
+void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> tex)
 {
 	shader->Use();
 	glEnable(GL_TEXTURE_2D);
 
-	auto location = glGetUniformLocation(shader->program, "worldViewPerspective");
-	glUniformMatrix4fv(location, 1, false, (projection * view).m);
+	auto matrixLocation = glGetUniformLocation(shader->program, "worldViewPerspective");
+	glUniformMatrix4fv(matrixLocation, 1, false, (projection * view).m);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, ground->texture->handle);
-	auto location2 = glGetUniformLocation(shader->program, "diffuse");
-	glUniform1i(location2, 0);
+	glBindTexture(GL_TEXTURE_2D, tex->handle);
+	auto textureLocation = glGetUniformLocation(shader->program, "diffuse");
+	glUniform1i(textureLocation, 0);
 
 	unsigned int vertexBuffer;
 

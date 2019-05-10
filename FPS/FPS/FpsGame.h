@@ -15,14 +15,14 @@ public:
 	void AddBox(int x, int y);
 	void AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth);
 	~FpsGame();
-	void DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices);
 	float Xrotation = 0;
 	float Yrotation = 0;
 	Vector3 movement = Vector3(0, 0, 0);
 	float MovementSpeed = 10.0f;
 	float RotationSpeed = 0.1f;
 	void RunGame();
-	void DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader);
+	void DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader,
+	                  std::shared_ptr<Texture> tex);
 	void SetupProjection() const;
 	void UpdateCamera() const;
 	void CalculateMovement(float angle);
@@ -33,8 +33,7 @@ public:
 	std::vector<VertexPositionUV> wallVertices = std::vector<VertexPositionUV>();
 
 	std::shared_ptr<Sprite> ground = std::make_shared<Sprite>("ground.png", 640, 360);
-	std::shared_ptr<Shader> groundShader;
-	std::shared_ptr<Shader> wallShader;
+	std::shared_ptr<Shader> shader;
 
 	std::shared_ptr<Sprite> wall = std::make_shared<Sprite>("wall.png", 640, 360);
 
