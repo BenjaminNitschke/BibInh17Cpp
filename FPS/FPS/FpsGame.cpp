@@ -35,19 +35,28 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 	wallShader = std::make_shared<Shader>(
 		// Vertex Shader
 		"#version 330\n"
-		"layout(location = 0) in vec4 vertexposition_modelspace;\n"
+		"in vec4 vertexposition_modelspace;\n"
+		"in vec2 tex_coord;\n"
+		"out vec3 vertex;\n"
+		"out vec2 uv;\n"
 		"uniform mat4 worldViewPerspective;\n"
 		"void main()"
 		"{"
 		"  gl_Position = worldViewPerspective * vertexposition_modelspace;"
+		"  vertex = vertexposition_modelspace.xyz;"
+		"  uv = tex_coord;"
 		"}"
 		,
 		// Fragment Shader
 		"#version 330\n"
-		"out vec3 color;"
+		"uniform sampler2D diffuse;\n"
+		"in vec2 uv;\n"
+		"in vec3 vertex;\n"
+		"out vec4 color;"
 		"void main()"
 		"{"
-		"  color = vec3(0.0, 1.0, 0.0);"
+		"  color = texture(diffuse, uv);"
+		"  color = color + vec4(0, 1 - vertex.z / 4, 0, 1);"
 		"}");
 
 	glEnable(GL_TEXTURE_2D);
@@ -95,29 +104,6 @@ FpsGame::~FpsGame()
 {
 }
 
-void FpsGame::DrawVertices(const std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
-{
-	glBindTexture(GL_TEXTURE_2D, texture->handle);
-	/*glBegin(GL_QUADS);
-	//for (auto vertex : vertices)
-		vertex.Draw();
-*/
-
-//groundShader->Use();
-
-	Matrix viewPerspectiveMatrix = view * projection;
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, sizeof(VertexPositionUV), vertices.data());
-	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexPositionUV), reinterpret_cast<BYTE*>(vertices.data()) + 12);
-
-	glDrawArrays(GL_QUADS, 0, vertices.size());
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-}
 
 void FpsGame::RunGame()
 {
@@ -140,17 +126,25 @@ void FpsGame::RunGame()
 			glLoadIdentity();
 			glDisable(GL_TEXTURE_2D);
 
-			DrawMeshAsQuads(wallVertices, wallShader);
-			DrawMeshAsQuads(groundVertices, groundShader);
+			DrawVertices(wallVertices, wallShader);
+			DrawVertices(groundVertices, groundShader);
 
 			glEnable(GL_TEXTURE_2D);
 		});
 }
 
-void FpsGame::DrawMeshAsQuads(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader)
+void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader)
 {
+	shader->Use();
+	glEnable(GL_TEXTURE_2D);
+
 	auto location = glGetUniformLocation(shader->program, "worldViewPerspective");
 	glUniformMatrix4fv(location, 1, false, (projection * view).m);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, ground->texture->handle);
+	auto location2 = glGetUniformLocation(shader->program, "diffuse");
+	glUniform1i(location2, 0);
 
 	unsigned int vertexBuffer;
 
@@ -158,11 +152,15 @@ void FpsGame::DrawMeshAsQuads(std::vector<VertexPositionUV> vertices, std::share
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof VertexPositionUV * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 
-	shader->Use();
-
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glGetAttribLocation(shader->program, "vertexposition_modelspace");
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof VertexPositionUV, (void*)0);
+
+	glEnableVertexAttribArray(1);
+	glGetAttribLocation(shader->program, "tex_coord");
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof VertexPositionUV, (void*)sizeof Vector3);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glDrawArrays(GL_QUADS, 0, vertices.size());
 	glDisableVertexAttribArray(0);
 }

@@ -22,7 +22,7 @@ public:
 	float MovementSpeed = 10.0f;
 	float RotationSpeed = 0.1f;
 	void RunGame();
-	void DrawMeshAsQuads(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader);
+	void DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader);
 	void SetupProjection() const;
 	void UpdateCamera() const;
 	void CalculateMovement(float angle);
