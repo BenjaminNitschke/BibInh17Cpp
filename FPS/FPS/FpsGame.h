@@ -22,6 +22,7 @@ public:
 	float MovementSpeed = 10.0f;
 	float RotationSpeed = 0.1f;
 	void RunGame();
+	void DrawMeshAsQuads(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader);
 	void SetupProjection() const;
 	void UpdateCamera() const;
 	void CalculateMovement(float angle);
@@ -33,6 +34,7 @@ public:
 
 	std::shared_ptr<Sprite> ground = std::make_shared<Sprite>("ground.png", 640, 360);
 	std::shared_ptr<Shader> groundShader;
+	std::shared_ptr<Shader> wallShader;
 
 	std::shared_ptr<Sprite> wall = std::make_shared<Sprite>("wall.png", 640, 360);
 
