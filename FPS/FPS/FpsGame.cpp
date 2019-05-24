@@ -31,12 +31,25 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		// Fragment Shader
 		"#version 330\n"
 		"uniform sampler2D diffuse;\n"
+		"uniform vec2 res;\n"
+		"uniform float radius;\n"
 		"in vec2 uv;\n"
 		"in vec3 vertex;\n"
 		"out vec4 color;"
 		"void main()"
 		"{"
-		"  color = texture(diffuse, uv);"
+		"  float right_bound = res.x * radius;"
+		"  float upper_bound = res.y * radius;"
+		"  float count = 0;"
+
+		"  for(float x = -right_bound; x < right_bound; x += res.x) {"
+		"    for(float y = -upper_bound; y < upper_bound; y += res.y) {"
+		"      color += texture(diffuse, vec2(uv.x + x, uv.y + y));"
+		"      count++;"
+		"    }"
+		"  }"
+
+		"  color /= count;"
 		"}");
 
 	glEnable(GL_TEXTURE_2D);
@@ -125,6 +138,12 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	glBindTexture(GL_TEXTURE_2D, tex->handle);
 	auto textureLocation = glGetUniformLocation(shader->program, "diffuse");
 	glUniform1i(textureLocation, 0);
+
+	auto resolutionLocation = glGetUniformLocation(shader->program, "res");
+	glUniform2f(resolutionLocation, 1.0f / tex->width, 1.0f / tex->height);
+
+	auto radiusLocation = glGetUniformLocation(shader->program, "radius");
+	glUniform1f(radiusLocation, 10);
 
 	unsigned int vertexBuffer;
 
