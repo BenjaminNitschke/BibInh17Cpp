@@ -3,6 +3,96 @@
 #include "Sprite.h"
 #include "VertexPositionUV.h"
 
+FpsGame::FpsGame() : Game("Fps")
+{
+	groundTexture = std::make_shared<Texture>("Ground.png");
+	float levelWidth = 20;
+	float levelHeight = 20;
+	groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0.0f, levelWidth/2, levelHeight/2));
+	groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0.0f, 0.0f, levelHeight/2));
+	groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0.0f, 0.0f, 0.0f));
+	groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0.0f, levelWidth/2, 0.0f));
+
+	wallTexture = std::make_shared<Texture>("Wall.png");
+	AddBox(0, 0);
+	AddBox(2, 1);
+
+	//Load shaders
+	groundShader = std::make_shared<Shader>(
+		// Vertex Shader
+		"#version 330\n"
+		"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
+		"layout(location = 1) in vec2 texCoord;\n"
+		"uniform mat4 worldViewProjection;\n"
+		"uniform float time;\n"
+		"out vec2 uv;\n"
+		"void main(){\n"
+		"  vec4 pos = vertexPosition_modelspace;\n"
+		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0);\n"
+		"  uv = texCoord;\n"
+		"  gl_Position = worldViewProjection * pos;\n"
+		"}",
+		// Pixel Shader
+		"#version 330\n"
+		"uniform sampler2D diffuse;\n"
+		"in vec2 uv;\n"
+		"out vec4 color;\n"
+		"void main() {\n"
+		"  color = texture(diffuse, uv);\n"
+		"}");
+	wallShader = std::make_shared<Shader>(
+		// Vertex Shader
+		"#version 330\n"
+		"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
+		"layout(location = 1) in vec2 texCoord;\n"
+		"uniform mat4 worldViewProjection;\n"
+		"uniform float time;\n"
+		"out vec2 uv;\n"
+		"out float height;\n"
+		"void main(){\n"
+		"  vec4 pos = vertexPosition_modelspace;\n"
+		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0);\n"
+		"  height = pos.z;\n"
+		"  uv = texCoord;\n"
+		"  gl_Position = worldViewProjection * pos;\n"
+		"}",
+		// Pixel Shader
+		"#version 330\n"
+		"uniform sampler2D diffuse;\n"
+		"in vec2 uv;\n"
+		"in float height;\n"
+		"out vec4 color;\n"
+		"void main() {\n"
+		"  vec4 simpleColor = vec4(0.1+height/4.0, 0.8, 0.6, 1);\n"
+		"  color = texture(diffuse, uv)*simpleColor;\n"
+		"}");
+/*tst
+Vector3 data[] = {
+  Vector3(-1.0f, -1.0f, 0.0f),
+  Vector3(1.0f, -1.0f, 0.0f),
+  Vector3(1.0f,  1.0f, 0.0f),
+  Vector3(-1.0f,  1.0f, 0.0f),
+};
+glGenBuffers(1, &vertexbuffer);
+glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3)*std::size(data), data, GL_STATIC_DRAW);
+
+//sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
+*/
+		glGenBuffers(1, &groundVertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, groundVertexBuffer);
+		auto sizeInBytes = sizeof(VertexPositionUV)*std::size(groundVertices);
+		glBufferData(GL_ARRAY_BUFFER, sizeInBytes, groundVertices.data(), GL_STATIC_DRAW);
+
+		glGenBuffers(1, &wallVertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, wallVertexBuffer);
+		sizeInBytes = sizeof(VertexPositionUV)*std::size(wallVertices);
+		glBufferData(GL_ARRAY_BUFFER, sizeInBytes, wallVertices.data(), GL_STATIC_DRAW);
+
+	SetupProjection();
+	glEnable(GL_TEXTURE_2D);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+}
 void FpsGame::SetupProjection()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -56,89 +146,43 @@ void FpsGame::CalculateMovement(float angle)
 	movement.y-=cos(angle * DegreeToRadians) * MovementSpeed * timeThisTick;
 }
 
-void FpsGame::DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices)
+void FpsGame::DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, int vertexBuffer, int numberOfVertices)
 {
-	// Step 1: Assign shader
-	groundShader->Use();
+	// Step 1: Assign shader and texture
+	shader->Use();
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture->handle);
+	// Specify vertex attributes to be used (position and uv)
+	glGetAttribLocation(groundShader->GetHandle(), "vertexPosition_modelspace");
+	glGetAttribLocation(groundShader->GetHandle(), "uv");
 	
 	// Step 2: Setup uniforms
 	Matrix worldViewProjection = projection * view;
 	auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
 	glUniformMatrix4fv(worldViewProjectionLocation,	1, false, worldViewProjection.m);
+	auto timeLocation = glGetUniformLocation(groundShader->GetHandle(), "time");
+	glUniform1f(timeLocation, (float)time);
 
-	// Step 3: Create vertexbuffer for rendering (should normally be in constructor)
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	auto sizeInBytes = sizeof(VertexPositionUV)*std::size(vertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeInBytes, vertices.data(), GL_STATIC_DRAW);
-	
+	glActiveTexture(GL_TEXTURE0);
+	auto diffuseLocation = glGetUniformLocation(groundShader->GetHandle(), "diffuse");
+	glUniform1i(diffuseLocation, 0);
+
 	// Step 4: Assign vertexbuffer and location offsets
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)0);
+	//glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	
+		// Set Vertex Format
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), 0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(sizeof(Vector3)));
 
 	// Step 5: Finally render with shader and vertexbuffer
-	glDrawArrays(GL_QUADS, 0, vertices.size());
-
-	/*tst
-	Vector3 data[] = {
-		 Vector3(-1.0f, -1.0f, 0.0f),
-		 Vector3(1.0f, -1.0f, 0.0f),
-		 Vector3(1.0f,  1.0f, 0.0f),
-		 Vector3(-1.0f,  1.0f, 0.0f),
-	};
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3)*std::size(data), data, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glDrawArrays(GL_QUADS, 0, std::size(data));//non indexed, just vertices, easy
-	*/
-
+	glDrawArrays(GL_QUADS, 0, numberOfVertices);
 	// Restore crap
 	glDisableVertexAttribArray(0);
 	glEnable(GL_TEXTURE_2D);
 	glUseProgram(0);
-
-	/*
-	Matrix worldViewProjectionMatrix = projection * view;
-	// Specify vertex attributes to be used (position and uv)
-		glGetAttribLocation(groundShader->GetHandle(), "position");
-		glGetAttribLocation(groundShader->GetHandle(), "uv");
-		// Set perspective and view matrix for vertex shader to calculate pixel pos
-		auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
-		glUniformMatrix4fv(worldViewProjectionLocation,	1, true, worldViewProjectionMatrix.m);
-
-
-	glBindTexture(GL_TEXTURE_2D, texture->handle);
-	/*
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(VertexPositionUV), vertices.data());
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexPositionUV), ((BYTE*)(vertices.data()))+12);
-	*/
-	/*	
-glEnableVertexAttribArray(0);
-glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-glVertexAttribPointer(
-   0,// attribute 0. No particular reason for 0, but must match the layout in the shader.
-   3,// size
-   GL_FLOAT,           // type
-   GL_FALSE,           // normalized?
-   0,                  // stride
-   (void*)0            // array buffer offset
-);
-	glDrawArrays(GL_QUADS, 0, 3);//vertices.size());//non indexed, just vertices, easy
-	glDisableVertexAttribArray(0);
-	/*glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	/*old
-	glBegin(GL_QUADS);
-	for (auto vertex : vertices)
-		vertex.Draw();
-	glEnd();
-	*/
 }
 
 void FpsGame::RunGame()
@@ -148,8 +192,8 @@ void FpsGame::RunGame()
 		Input();
 		SetupProjection();
 		UpdateCamera();
-		DrawVertices(groundTexture, groundVertices);
-		//DrawVertices(wallTexture, wallVertices);
+		DrawVertices(groundShader, groundTexture, groundVertexBuffer, groundVertices.size());
+		DrawVertices(wallShader, wallTexture, wallVertexBuffer, wallVertices.size());
 		DrawCrosshair();
 	});
 }

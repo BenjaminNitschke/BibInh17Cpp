@@ -10,14 +10,16 @@
 
 class FpsGame : public Game
 {
-	std::vector<VertexPositionUV> groundVertices = std::vector<VertexPositionUV>(); 
-	std::vector<VertexPositionUV> wallVertices = std::vector<VertexPositionUV>(); 
+	std::vector<VertexPositionUV> groundVertices = std::vector<VertexPositionUV>();
+	GLuint groundVertexBuffer;
+	std::vector<VertexPositionUV> wallVertices = std::vector<VertexPositionUV>();
+	GLuint wallVertexBuffer;
 	std::shared_ptr<Texture> groundTexture;
 	std::shared_ptr<Shader> groundShader;
 	std::shared_ptr<Texture> wallTexture;
+	std::shared_ptr<Shader> wallShader;
 	Matrix projection;
 	Matrix view;
-	GLuint vertexbuffer;
 	float Xrotation = 0;
 	float Yrotation = 0;
 	Vector3 movement = Vector3(0, 0, 0);
@@ -30,58 +32,11 @@ class FpsGame : public Game
 	void Input();
 
 public:
-	FpsGame() : Game("Fps")
-	{
-		groundTexture = std::make_shared<Texture>("Ground.png");
-		float levelWidth = 20;
-		float levelHeight = 20;
-		groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0.0f, levelWidth/2, levelHeight/2));
-		groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0.0f, 0.0f, levelHeight/2));
-		groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0.0f, 0.0f, 0.0f));
-		groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0.0f, levelWidth/2, 0.0f));
-
-		wallTexture = std::make_shared<Texture>("Wall.png");
-		AddBox(0, 0);
-		AddBox(2, 1);
-
-		//Load shaders
-		groundShader = std::make_shared<Shader>(
-			// Vertex Shader
-			"#version 330\n"
-			"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
-			"uniform mat4 worldViewProjection;\n"
-			"void main(){\n"
-			"    gl_Position = worldViewProjection * vertexPosition_modelspace;\n"
-			"}",
-			// Pixel Shader
-			"#version 330\n"
-			"out vec3 color;\n"
-			"void main() {\n"
-			"	color = vec3(1, 0.3, 0.6);\n"
-			"}");
-/*tst
-Vector3 data[] = {
-   Vector3(-1.0f, -1.0f, 0.0f),
-   Vector3(1.0f, -1.0f, 0.0f),
-   Vector3(1.0f,  1.0f, 0.0f),
-   Vector3(-1.0f,  1.0f, 0.0f),
-};
-glGenBuffers(1, &vertexbuffer);
-glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3)*std::size(data), data, GL_STATIC_DRAW);
-
-	//sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
-	*/
-		SetupProjection();
-		glEnable(GL_TEXTURE_2D);
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	}
-	~FpsGame()
-	{
-	}
+	FpsGame();
+	~FpsGame() {}
 	void RunGame();
 	void DrawCrosshair();
-	void DrawVertices(std::shared_ptr<Texture> texture, std::vector<VertexPositionUV> vertices);
+	void DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, int vertexBuffer, int numberOfVertices);
 	void AddBox(int x, int y)
 	{
 		int size = 4;
