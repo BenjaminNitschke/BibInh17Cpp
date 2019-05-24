@@ -1,65 +1,41 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "Sprite.h"
-#include "GLFW/glfw3.h"
 
-// width of the screen
-#define SCREEN_WIDTH (float)1920.0f
-// height of the screen
-#define SCREEN_HEIGHT (float)1080.0f
+#define SCREEN_WIDTH 1280.0f
+#define SCREEN_HEIGHT 720.0f
 
-// convert custom screen-space to openGL screen-space
-float GetX(int x)
-{
-	float centerX = x - SCREEN_WIDTH / 2;
-	return centerX / SCREEN_WIDTH * 2;
+float GetOpenGLX(int px){
+	int centerX = px - (int)SCREEN_WIDTH/2;
+	return (centerX/SCREEN_WIDTH)*2.0f;
+}
+float GetOpenGLY(int py){
+	int centerY = py - (int)SCREEN_HEIGHT/2;
+	return (centerY/SCREEN_HEIGHT)*(-2.0f);
 }
 
-float GetY(int y)
+void Sprite::Draw(int offsetX)
 {
-	float centerY = y - SCREEN_HEIGHT / 2;
-	return centerY / SCREEN_HEIGHT * -2;
-}
-
-// Draw the entity
-void Sprite::Draw()
-{
-	// tell openGL it will work with a texture
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
-	// start using texture mode
 	glEnable(GL_TEXTURE_2D);
-	// use transparency
 	glEnable(GL_BLEND);
-	// transparency mode
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// tell openGL there will be a quad
 	glBegin(GL_QUADS);
 
-	// dimensions of the texture
 	int halfWidth = texture->width / 2;
 	int halfHeight = texture->height / 2;
-
-	// bind the texture to the quad
+	int currentX = x + offsetX;
+	
 	glTexCoord2f(1, 1);
-	glVertex2f(GetX(x + halfWidth), GetY(y - halfHeight));
+	glVertex2f(GetOpenGLX(currentX+halfWidth), GetOpenGLY(y-halfHeight));
 
 	glTexCoord2f(0, 1);
-	glVertex2f(GetX(x - halfWidth), GetY(y - halfHeight));
+	glVertex2f(GetOpenGLX(currentX-halfWidth), GetOpenGLY(y-halfHeight));
 
 	glTexCoord2f(0, 0);
-	glVertex2f(GetX(x - halfWidth), GetY(y + halfHeight));
+	glVertex2f(GetOpenGLX(currentX-halfWidth), GetOpenGLY(y+halfHeight));
 
 	glTexCoord2f(1, 0);
-	glVertex2f(GetX(x + halfWidth), GetY(y + halfHeight));
+	glVertex2f(GetOpenGLX(currentX+halfWidth), GetOpenGLY(y+halfHeight));
 
-	// tell openGL there won't be any more commands
 	glEnd();
 }
-
-// move the entity by x and y
-void Sprite::Move(const float x, const float y)
-{
-	this->x += x;
-	this->y += y;
-}
-
-Sprite::~Sprite() = default;

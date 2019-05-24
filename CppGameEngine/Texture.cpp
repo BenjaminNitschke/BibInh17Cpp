@@ -1,21 +1,17 @@
 ﻿#include "stdafx.h"
 #include "Texture.h"
+#include <GL/gl.h>
+#include <cstdio>
 #include <png.h>
-#include <cstdlib>
 
-
-Texture::Texture(const char* name)
+Texture::Texture(const char* file_name)
 {
-	handle = Load(name, &width, &height);
+	handle = Load(file_name, &width, &height);
 }
 
-Texture::~Texture()
-{
-	glDeleteTextures(1, &handle);
-}
+Texture::~Texture() = default;
 
-// loads a png image into this class
-GLuint Texture::Load(const char* name, int* width, int* height)
+GLuint Texture::Load(const char* file_name, int* width, int* height)
 {
 	// This function was originally written by David Grayson for
 	// https://github.com/DavidEGrayson/ahrs-visualizer
@@ -23,18 +19,16 @@ GLuint Texture::Load(const char* name, int* width, int* height)
 	png_byte header[8];
 
 	FILE *fp;
-	/*LPSTR buf = new char[512];
-	GetCurrentDirectoryA(512, buf);*/
-	fopen_s(&fp, name, "rb");
+	fopen_s(&fp, file_name, "rb");
 	if (fp == 0)
-		throw name;
+		throw file_name;
 
 	// read the header
 	fread(header, 1, 8, fp);
 
 	if (png_sig_cmp(header, 0, 8))
 	{
-		fprintf(stderr, "error: %s is not a PNG.\n", name);
+		fprintf(stderr, "error: %s is not a PNG.\n", file_name);
 		fclose(fp);
 		return 0;
 	}
@@ -95,11 +89,11 @@ GLuint Texture::Load(const char* name, int* width, int* height)
 	if (width) { *width = temp_width; }
 	if (height) { *height = temp_height; }
 
-	//printf("%s: %lux%lu %d\n", name, temp_width, temp_height, color_type);
+	//printf("%s: %lux%lu %d\n", file_name, temp_width, temp_height, color_type);
 
 	if (bit_depth != 8)
 	{
-		fprintf(stderr, "%s: Unsupported bit depth %d.  Must be 8.\n", name, bit_depth);
+		fprintf(stderr, "%s: Unsupported bit depth %d.  Must be 8.\n", file_name, bit_depth);
 		return 0;
 	}
 
@@ -113,7 +107,7 @@ GLuint Texture::Load(const char* name, int* width, int* height)
 		format = GL_RGBA;
 		break;
 	default:
-		fprintf(stderr, "%s: Unknown libpng color type %d.\n", name, color_type);
+		fprintf(stderr, "%s: Unknown libpng color type %d.\n", file_name, color_type);
 		return 0;
 	}
 
@@ -163,13 +157,12 @@ GLuint Texture::Load(const char* name, int* width, int* height)
 	glTexImage2D(GL_TEXTURE_2D, 0, format, temp_width, temp_height, 0, format, GL_UNSIGNED_BYTE, image_data);
 
 	const auto error = glGetError();
-	printf("error %d", error);
+	if (error != GL_NO_ERROR)
+		printf("error %d", error);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	//TODO: Load glew Extension, until then only nide to have
-	// glGenerateMipMap(GL_TEXTURE_2D);
+	//TODO: nice to have, must load extensions: 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	// clean up
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);

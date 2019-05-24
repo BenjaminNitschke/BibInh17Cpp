@@ -32,7 +32,7 @@ class FpsGame : public Game
 	void UpdateCamera();
 	void CalculateMovement(float angle);
 	void Input();
-	void SubdividePlane(int count);
+	void CreatePlane(int count);
 
 public:
 	FpsGame();

@@ -3,27 +3,6 @@
 #include "Sprite.h"
 #include "VertexPositionUV.h"
 
-void FpsGame::SubdividePlane(int count)
-{
-	std::vector<VertexPositionUV> vertices = std::vector<VertexPositionUV>();
-	auto step = count * 2;
-	auto stepWidth = levelWidth / step;
-	auto stepHeight = levelHeight / step;
-
-	for (int x = 0; x < step; x++)
-	{
-		for (int y = 0; y < step; y++)
-		{
-			vertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y, 0.0f, levelWidth / step, levelHeight / step));
-			vertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y, 0.0f, 0.0f, levelHeight / step));
-			vertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y + stepHeight, 0.0f, 0.0f, 0.0f));
-			vertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y + stepHeight, 0.0f, levelWidth / step, 0.0f));
-		}
-	}
-
-	groundVertices = vertices;
-}
-
 FpsGame::FpsGame() : Game("Fps")
 {
 	groundTexture = std::make_shared<Texture>("Ground.png");
@@ -31,7 +10,7 @@ FpsGame::FpsGame() : Game("Fps")
 	//groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0.0f, 0.0f, levelHeight / 2));
 	//groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0.0f, 0.0f, 0.0f));
 	//groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0.0f, levelWidth / 2, 0.0f));
-	SubdividePlane(16);
+	CreatePlane(16);
 
 
 	wallTexture = std::make_shared<Texture>("Wall.png");
@@ -132,6 +111,25 @@ FpsGame::FpsGame() : Game("Fps")
 	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
+
+void FpsGame::CreatePlane(int subdivisions)
+{
+	auto step = subdivisions * 2;
+	auto stepWidth = levelWidth / step;
+	auto stepHeight = levelHeight / step;
+
+	for (int x = 0; x < step; x++)
+	{
+		for (int y = 0; y < step; y++)
+		{
+			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y, 0.0f, levelWidth / step, levelHeight / step));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y, 0.0f, 0.0f, levelHeight / step));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y + stepHeight, 0.0f, 0.0f, 0.0f));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y + stepHeight, 0.0f, levelWidth / step, 0.0f));
+		}
+	}
+}
+
 void FpsGame::SetupProjection()
 {
 	glMatrixMode(GL_PROJECTION);
