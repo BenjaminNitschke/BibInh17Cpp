@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include <iostream>
-#include "Game.h"
 #include "../glew-2.1.0/include/GL/glew.h"
+#include "Game.h"
 #include <GLFW/glfw3.h>
 
+bool Game::aPressed;
+bool Game::wPressed;
+bool Game::dPressed;
+bool Game::sPressed;
 bool Game::leftPressed;
 bool Game::upPressed;
 bool Game::rightPressed;
@@ -52,13 +56,13 @@ void OnMouse(GLFWwindow* window, double posX, double posY)
 	oldPosY = posY;
 }
 
-Game::Game(const char* title)
+Game::Game(int width, int height, const char* title)
 {
 	if (!glfwInit()){
     printf("GLFW init failed\n");
     exit(1);
 	}
-	window = glfwCreateWindow(1280, 720, title, NULL, NULL);
+	window = glfwCreateWindow(width, height, title, NULL, NULL);
 	if (window == NULL) {
     printf("GLFW window creation failed\n");
     exit(1);
@@ -101,17 +105,17 @@ void Game::Run(std::function<void()> renderFunction)
 	}
 }
 
-void Game::RunTriangle()
-{
-	Run([=]()
-	{
-		glBegin(GL_TRIANGLES);
-		glColor3f(1.f, 0.f, 0.f);
-		glVertex3f(-0.6f, -0.4f, 0.f);
-		glColor3f(0.f, 1.f, 0.f);
-		glVertex3f(0.6f, -0.4f, 0.f);
-		glColor3f(0.f, 0.f, 1.f);
-		glVertex3f(0.f, 0.6f, 0.f);
-		glEnd();
-	});
-}
+//void Game::RunTriangle()
+//{
+//	Run([=]()
+//	{
+//		glBegin(GL_TRIANGLES);
+//		glColor3f(1.f, 0.f, 0.f);
+//		glVertex3f(-0.6f, -0.4f, 0.f);
+//		glColor3f(0.f, 1.f, 0.f);
+//		glVertex3f(0.6f, -0.4f, 0.f);
+//		glColor3f(0.f, 0.f, 1.f);
+//		glVertex3f(0.f, 0.6f, 0.f);
+//		glEnd();
+//	});
+//}

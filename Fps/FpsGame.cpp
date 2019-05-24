@@ -3,7 +3,7 @@
 #include "Sprite.h"
 #include "VertexPositionUV.h"
 
-FpsGame::FpsGame() : Game("Fps")
+FpsGame::FpsGame() : Game(1280, 720, "Fps")
 {
 	groundTexture = std::make_shared<Texture>("Ground.png");
 	float levelWidth = 20;

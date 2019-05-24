@@ -3,6 +3,7 @@
 #include <GL/gl.h>
 #include <cstdio>
 #include <png.h>
+#include <memory>
 
 Texture::Texture(const char* file_name)
 {

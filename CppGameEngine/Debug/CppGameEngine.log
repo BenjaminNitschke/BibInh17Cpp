@@ -1,6 +1,8 @@
 ﻿  Game.cpp
-c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(50): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(51): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(58): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-c:\users\temp.a213-012.001\documents\github\bibinh17cpp\cppgameengine\game.cpp(59): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-  CppGameEngine.vcxproj -> C:\Users\TEMP.A213-012.001\Documents\GitHub\BibInh17Cpp\EndlessRunner\Debug\CppGameEngine.lib
+c:\users\gamelab.a213-016\desktop\bibinh17cpp\cppgameengine\game.cpp(53): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+c:\users\gamelab.a213-016\desktop\bibinh17cpp\cppgameengine\game.cpp(54): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+c:\users\gamelab.a213-016\desktop\bibinh17cpp\cppgameengine\game.cpp(55): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+c:\users\gamelab.a213-016\desktop\bibinh17cpp\cppgameengine\game.cpp(56): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+libpng16.lib(libpng16.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR ist bereits in "opengl32.lib(OPENGL32.dll)" definiert; zweite Definition wird ignoriert.
+libpng16.lib(libpng16.dll) : warning LNK4221: Die Objektdatei definiert keine zuvor undefinierten ÷ffentlichen Symbole. Sie wird daher von keinem Verkn³pfungsvorgang verwendet, der diese Bibliothek benutzt.
+  CppGameEngine.vcxproj -> C:\Users\gamelab.A213-016\Desktop\BibInh17Cpp\Fps\Debug\CppGameEngine.lib

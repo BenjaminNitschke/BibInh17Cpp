@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Shader.h"
+#include <stdio.h>
 
 Shader::Shader(const char* vertexShaderCode, const char* fragmentShaderCode)
 {
@@ -22,7 +23,7 @@ Shader::Shader(const char* vertexShaderCode, const char* fragmentShaderCode)
 int Shader::CreateShader(GLuint type, const char * &vertexOrFragmentShaderCode)
 {
 	GLuint vertexOrFragmentShader = glCreateShader(type);
-	glShaderSource(vertexOrFragmentShader, 1, &vertexOrFragmentShaderCode, NULL);
+	glShaderSource(vertexOrFragmentShader, 1, &vertexOrFragmentShaderCode, nullptr);
 	glCompileShader(vertexOrFragmentShader);
 	GLint status;
 	glGetShaderiv(vertexOrFragmentShader, GL_COMPILE_STATUS, &status);

@@ -1,2 +1,2 @@
-﻿  FpsGame.cpp
+﻿LINK : warning LNK4098: Standardbibliothek "MSVCRT" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
   Fps.vcxproj -> C:\Users\gamelab.A213-016\Desktop\BibInh17Cpp\Fps\Debug\Fps.exe
