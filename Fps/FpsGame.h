@@ -17,6 +17,7 @@ class FpsGame : public Game
 	std::shared_ptr<Texture> groundTexture;
 	std::shared_ptr<Shader> groundShader;
 	std::shared_ptr<Texture> wallTexture;
+	std::shared_ptr<Texture> normalTexture;
 	std::shared_ptr<Shader> wallShader;
 	float levelWidth = 64;
 	float levelHeight = 64;
@@ -25,6 +26,7 @@ class FpsGame : public Game
 	float Xrotation = 0;
 	float Yrotation = 0;
 	Vector3 movement = Vector3(0, 0, 0);
+	Vector3 lightDirection = Vector3(-0.707f, 0, 0.707f);
 	float MovementSpeed = 10.0f;
 	float RotationSpeed = 0.3f;
 	float DegreeToRadians = (1.0f / 180.0f) * 3.14159f;
@@ -44,31 +46,32 @@ public:
 	{
 		int size = 4;
 #pragma warning(disable: 4244)
-		float x0 = x*size;
-		float x1 = (x+1)*size;
-		float y0 = y*size;
-		float y1 = (y+1)*size;
+		float x0 = x * size;
+		float x1 = (x + 1) * size;
+		float y0 = y * size;
+		float y1 = (y + 1) * size;
 		float z0 = 0;
 		float z1 = size;
-		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1.0f, 0.0f));
-
-		wallVertices.push_back(VertexPositionUV(x0, y0, z1, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y0, z0, 1.0f, 0.0f));
-
-		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1.0f, 0.0f));
-
-		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1.0f, 0.0f));
+		// front
+		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 0, -1, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0, -1, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0, -1, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 0, -1, 0, 1.0f, 0.0f));
+		// left
+		wallVertices.push_back(VertexPositionUV(x0, y0, z1, -1, 0, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z1, -1, 0, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z0, -1, 0, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y0, z0, -1, 0, 0, 1.0f, 0.0f));
+		// back
+		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0, 1, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 1, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0, 1, 0, 1.0f, 0.0f));
+		// right
+		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 0, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1, 0, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1, 0, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0, 0, 1.0f, 0.0f));
 	}
 };
 

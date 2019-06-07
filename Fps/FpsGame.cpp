@@ -5,7 +5,7 @@
 
 FpsGame::FpsGame() : Game("Fps")
 {
-	groundTexture = std::make_shared<Texture>("water.png");
+	groundTexture = std::make_shared<Texture>("Water.png");
 	//groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0.0f, levelWidth / 2, levelHeight / 2));
 	//groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0.0f, 0.0f, levelHeight / 2));
 	//groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0.0f, 0.0f, 0.0f));
@@ -14,6 +14,7 @@ FpsGame::FpsGame() : Game("Fps")
 
 
 	wallTexture = std::make_shared<Texture>("Wall.png");
+	normalTexture = std::make_shared<Texture>("NormalMap.png");
 	AddBox(0, 0);
 	AddBox(2, 1);
 
@@ -22,14 +23,18 @@ FpsGame::FpsGame() : Game("Fps")
 		// Vertex Shader
 		"#version 330\n"
 		"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
-		"layout(location = 1) in vec2 texCoord;\n"
+		"layout(location = 1) in vec3 normal;\n"
+		"layout(location = 2) in vec2 texCoord;\n"
 		"uniform mat4 worldViewProjection;\n"
 		"uniform float time;\n"
+		"uniform vec3 lightDirection;\n"
 		"uniform vec2 split;\n"
 		"out float height;\n"
+		"out float brightness;\n"
 		"out vec2 uv;\n"
 		"void main(){\n"
 		"  vec4 pos = vertexPosition_modelspace;\n"
+	//	"  brightness = 0.2f + 0.8f * clamp(dot(lightDirection, normal), 0, 1);\n"
 		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0) * 1.1;\n"
 		"  uv = texCoord;\n"
 		"  gl_Position = worldViewProjection * pos;\n"
@@ -40,6 +45,7 @@ FpsGame::FpsGame() : Game("Fps")
 		"uniform sampler2D diffuse;\n"
 		"uniform float time;\n"
 		"in vec2 uv;\n"
+		"in float brightness;\n"
 		"in float height;\n"
 		"out vec4 color;\n"
 		"void main() {\n"
@@ -125,10 +131,10 @@ void FpsGame::CreatePlane(int subdivisions)
 	{
 		for (int y = 0; y < step; y++)
 		{
-			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y, 0.0f, levelWidth / step, levelHeight / step));
-			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y, 0.0f, 0.0f, levelHeight / step));
-			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y + stepHeight, 0.0f, 0.0f, 0.0f));
-			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y + stepHeight, 0.0f, levelWidth / step, 0.0f));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y, 0.0f, 0, 0, 1, levelWidth / step, levelHeight / step));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y, 0.0f, 0, 0, 1, 0.0f, levelHeight / step));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y + stepHeight, 0.0f, 0, 0, 1, 0.0f, 0.0f));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y + stepHeight, 0.0f, 0, 0, 1, levelWidth / step, 0.0f));
 		}
 	}
 }
@@ -194,6 +200,7 @@ void FpsGame::DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Textu
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
 	// Specify vertex attributes to be used (position and uv)
 	glGetAttribLocation(shader->GetHandle(), "vertexPosition_modelspace");
+	glGetAttribLocation(shader->GetHandle(), "normal");
 	glGetAttribLocation(shader->GetHandle(), "uv");
 
 	// Step 2: Setup uniforms
@@ -202,6 +209,8 @@ void FpsGame::DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Textu
 	glUniformMatrix4fv(worldViewProjectionLocation, 1, false, worldViewProjection.m);
 	auto timeLocation = glGetUniformLocation(shader->GetHandle(), "time");
 	glUniform1f(timeLocation, (float)time);
+	auto lightDirectionLocation = glGetUniformLocation(shader->GetHandle(), "lightDirection");
+	glUniform3f(lightDirectionLocation, lightDirection.x, lightDirection.y, lightDirection.z);
 	auto tileLocation = glGetUniformLocation(shader->GetHandle(), "tile");
 	glUniform1i(tileLocation, 1);
 
@@ -229,7 +238,9 @@ void FpsGame::DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Textu
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), 0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(sizeof(Vector3)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(VertexPositionUV), (void*)(3 * 4));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(6 * 4));
 
 	// Step 5: Finally render with shader and vertexbuffer
 	glDrawArrays(GL_QUADS, 0, numberOfVertices);
