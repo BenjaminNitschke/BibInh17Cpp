@@ -9,7 +9,7 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 	int levelWidth = 10;
 	int levelHeight = 10;
 
-	AddQuad(&groundVertices, -levelWidth / 2, -levelHeight / 2, 0, levelWidth, levelHeight);
+	AddQuad(&groundVertices, -levelWidth / 2, -levelHeight / 2, 0, levelWidth, levelHeight,10);
 
 	AddBox(0, 0);
 
@@ -56,12 +56,22 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 	glEnable(GL_TEXTURE_2D);
 }
 
-void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth, float resolution)
+void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth, int resolution)
 {
-	cache->push_back(VertexPositionUV(x + width, y + depth, z, width / 2, depth / 2));
-	cache->push_back(VertexPositionUV(x, y + depth, 0, 0, depth / 2));
-	cache->push_back(VertexPositionUV(x, y, 0, 0, 0));
-	cache->push_back(VertexPositionUV(x + width, y, 0, width / 2, 0));
+	auto spacingX = width / resolution;
+	auto spacingY = depth / resolution;
+	auto spacingUV = 1.0f / resolution;
+
+	for (int i = 0; i < resolution; i++)
+	{
+		for (int j = 0; j < resolution; j++)
+		{
+			cache->push_back(VertexPositionUV((i + 1) * spacingX, (j + 1) * spacingY, z, (i + 1) * spacingUV, (j + 1) * spacingUV));
+			cache->push_back(VertexPositionUV(i * spacingX, (j + 1) * spacingY, z, i * spacingUV, (j + 1) * spacingUV));
+			cache->push_back(VertexPositionUV(i * spacingX, j * spacingY, z, i * spacingUV, j * spacingUV));
+			cache->push_back(VertexPositionUV((i + 1) * spacingX, j * spacingY, z, (i + 1) * spacingUV, j * spacingUV));
+		}
+	}
 }
 
 void FpsGame::AddBox(int x, int y)
@@ -144,7 +154,7 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	glUniform2f(resolutionLocation, 1.0f / tex->width, 1.0f / tex->height);
 
 	auto radiusLocation = glGetUniformLocation(shader->program, "radius");
-	glUniform1f(radiusLocation, 10);
+	glUniform1f(radiusLocation, 0);
 
 	unsigned int vertexBuffer;
 
@@ -161,6 +171,7 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof VertexPositionUV, (void*)sizeof Vector3);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
 	glDrawArrays(GL_QUADS, 0, vertices.size());
 	glDisableVertexAttribArray(0);
 }

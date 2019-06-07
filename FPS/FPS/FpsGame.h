@@ -13,7 +13,7 @@ class FpsGame : public Game
 public:
 	FpsGame(int width, int height, const char* name);
 	void AddBox(int x, int y);
-	void AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth, float resolution = 1);
+	void AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth, int resolution = 1);
 	~FpsGame();
 	float Xrotation = 0;
 	float Yrotation = 0;
