@@ -54,6 +54,7 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 
 		"  color /= count;"
 		"  color = texture(diffuse, vec2(uv.x, uv.y));"
+		"  color.z = 1;"
 		"}");
 
 	glEnable(GL_TEXTURE_2D);
