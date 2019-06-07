@@ -50,12 +50,13 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		"  }"
 
 		"  color /= count;"
+		"  color = texture(diffuse, vec2(uv.x, uv.y));"
 		"}");
 
 	glEnable(GL_TEXTURE_2D);
 }
 
-void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth)
+void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, float z, float width, float depth, float resolution)
 {
 	cache->push_back(VertexPositionUV(x + width, y + depth, z, width / 2, depth / 2));
 	cache->push_back(VertexPositionUV(x, y + depth, 0, 0, depth / 2));
