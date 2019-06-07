@@ -5,7 +5,7 @@
 
 FpsGame::FpsGame() : Game("Fps")
 {
-	groundTexture = std::make_shared<Texture>("Ground.png");
+	groundTexture = std::make_shared<Texture>("water.png");
 	//groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0.0f, levelWidth / 2, levelHeight / 2));
 	//groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0.0f, 0.0f, levelHeight / 2));
 	//groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0.0f, 0.0f, 0.0f));
@@ -26,21 +26,24 @@ FpsGame::FpsGame() : Game("Fps")
 		"uniform mat4 worldViewProjection;\n"
 		"uniform float time;\n"
 		"uniform vec2 split;\n"
+		"out float height;\n"
 		"out vec2 uv;\n"
 		"void main(){\n"
 		"  vec4 pos = vertexPosition_modelspace;\n"
-		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0) * 2;\n"
+		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0) * 1.1;\n"
 		"  uv = texCoord;\n"
 		"  gl_Position = worldViewProjection * pos;\n"
+		"  height = pos.z;\n"
 		"}",
 		// Pixel Shader
 		"#version 330\n"
 		"uniform sampler2D diffuse;\n"
 		"uniform float time;\n"
 		"in vec2 uv;\n"
+		"in float height;\n"
 		"out vec4 color;\n"
 		"void main() {\n"
-		"  color = texture(diffuse, uv);\n"
+		"  color = texture(diffuse, uv) * (height * .5 + 1);\n"
 		"}");
 	wallShader = std::make_shared<Shader>(
 		// Vertex Shader

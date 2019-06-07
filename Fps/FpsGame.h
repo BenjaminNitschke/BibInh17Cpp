@@ -18,8 +18,8 @@ class FpsGame : public Game
 	std::shared_ptr<Shader> groundShader;
 	std::shared_ptr<Texture> wallTexture;
 	std::shared_ptr<Shader> wallShader;
-	float levelWidth = 20;
-	float levelHeight = 20;
+	float levelWidth = 64;
+	float levelHeight = 64;
 	Matrix projection;
 	Matrix view;
 	float Xrotation = 0;
