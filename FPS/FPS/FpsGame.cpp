@@ -9,7 +9,7 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 	int levelWidth = 10;
 	int levelHeight = 10;
 
-	AddQuad(&groundVertices, -levelWidth / 2, -levelHeight / 2, 0, levelWidth, levelHeight,10);
+	AddQuad(&groundVertices, -levelWidth / 2, -levelHeight / 2, 0, levelWidth, levelHeight, 10);
 
 	AddBox(0, 0);
 
@@ -21,9 +21,12 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		"out vec3 vertex;\n"
 		"out vec2 uv;\n"
 		"uniform mat4 worldViewPerspective;\n"
+		"uniform float time;\n"
 		"void main()"
 		"{"
-		"  gl_Position = worldViewPerspective * vertexposition_modelspace;"
+		"  vec4 pos = vertexposition_modelspace;"
+		"  pos.z += sin(time + pos.x / 7.0 + pos.y / 2.0);"
+		"  gl_Position = worldViewPerspective * pos;"
 		"  vertex = vertexposition_modelspace.xyz;"
 		"  uv = tex_coord;"
 		"}"
@@ -66,10 +69,10 @@ void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, fl
 	{
 		for (int j = 0; j < resolution; j++)
 		{
-			cache->push_back(VertexPositionUV((i + 1) * spacingX, (j + 1) * spacingY, z, (i + 1) * spacingUV, (j + 1) * spacingUV));
-			cache->push_back(VertexPositionUV(i * spacingX, (j + 1) * spacingY, z, i * spacingUV, (j + 1) * spacingUV));
-			cache->push_back(VertexPositionUV(i * spacingX, j * spacingY, z, i * spacingUV, j * spacingUV));
-			cache->push_back(VertexPositionUV((i + 1) * spacingX, j * spacingY, z, (i + 1) * spacingUV, j * spacingUV));
+			cache->push_back(VertexPositionUV((i + 1) * spacingX - width / 2, (j + 1) * spacingY - depth / 2, z, (i + 1) * spacingUV, (j + 1) * spacingUV));
+			cache->push_back(VertexPositionUV(i * spacingX - width / 2, (j + 1) * spacingY - depth / 2, z, i * spacingUV, (j + 1) * spacingUV));
+			cache->push_back(VertexPositionUV(i * spacingX - width / 2, j * spacingY - depth / 2, z, i * spacingUV, j * spacingUV));
+			cache->push_back(VertexPositionUV((i + 1) * spacingX - depth / 2, j * spacingY - depth / 2, z, (i + 1) * spacingUV, j * spacingUV));
 		}
 	}
 }
@@ -155,6 +158,9 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 
 	auto radiusLocation = glGetUniformLocation(shader->program, "radius");
 	glUniform1f(radiusLocation, 0);
+
+	auto timeLocation = glGetUniformLocation(shader->program, "time");
+	glUniform1f(timeLocation, time);
 
 	unsigned int vertexBuffer;
 
