@@ -80,10 +80,11 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		"in vec3 vertex;\n"
 		"in float brightness;\n"
 		"uniform sampler2D diffuse;\n"
+		"uniform sampler2D normal;\n"
 		"out vec4 color;"
 		"void main()"
 		"{"
-		"  color = texture(diffuse, vec2(uv.x, uv.y)) * brightness;"
+		"  color = texture(diffuse, uv) * texture(normal, uv) * brightness;"
 		"}");
 
 	texture = std::make_shared<Shader>(
@@ -107,7 +108,7 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		"out vec4 color;"
 		"void main()"
 		"{"
-		"  color = texture(diffuse, vec2(uv.x, uv.y));"
+		"  color = texture(diffuse, uv);"
 		"}");
 
 
@@ -190,7 +191,7 @@ void FpsGame::RunGame()
 			glDisable(GL_TEXTURE_2D);
 
 			DrawVertices(wallVertices, texture, wall->texture,nullptr);
-			DrawVertices(groundVertices, normal, ground->texture, nullptr);
+			DrawVertices(groundVertices, normal, ground->texture, normalMap->texture);
 
 			glEnable(GL_TEXTURE_2D);
 		});
@@ -208,6 +209,13 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	glBindTexture(GL_TEXTURE_2D, diffuse->handle);
 	auto textureLocation = glGetUniformLocation(shader->program, "diffuse");
 	glUniform1i(textureLocation, 0);
+
+	if (normal != nullptr) {
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, normal->handle);
+		auto normalMapLocation = glGetUniformLocation(shader->program, "normal");
+		glUniform1i(normalMapLocation, 1);
+	}
 
 	//blur and wave
 	//auto resolutionLocation = glGetUniformLocation(shader->program, "res");

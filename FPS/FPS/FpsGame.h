@@ -40,7 +40,7 @@ public:
 
 	std::shared_ptr<Sprite> ground = std::make_shared<Sprite>("ground.png", 640, 360);
 	std::shared_ptr<Sprite> wall = std::make_shared<Sprite>("wall.png", 640, 360);
-	//std::shared_ptr<Sprite> normalMap = std::make_shared<Sprite>("normal.png", 640, 360);
+	std::shared_ptr<Sprite> normalMap = std::make_shared<Sprite>("normal.png", 640, 360);
 
 	Matrix projection;
 	Matrix view;
