@@ -61,38 +61,40 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		// Vertex Shader
 		"#version 330\n"
 		"layout(location = 0) in vec4 vertexposition_modelspace;\n"
-		"layout(location = 1) in vec2 tex_coord;\n"
-		"layout(location = 2) in vec3 normal;\n"
+		"layout(location = 1) in vec3 vertex_normal;\n"
+		"layout(location = 2) in vec2 tex_coord;\n"
 		"uniform mat4 worldViewPerspective;\n"
-		"uniform vec3 lightDirection;\n"
 		"out vec2 uv;\n"
-		"out float brightness;\n"
+		"out vec3 normal;\n"
 		"void main()"
 		"{"
-		"  brightness = dot(lightDirection, normal);"
+		//moved to fragment shader "  brightness = dot(lightDirection, normal);"
 		"  uv = tex_coord;"
 		"  gl_Position = worldViewPerspective * vertexposition_modelspace;"
+		"  normal = vertex_normal;"
 		"}"
 		,
 		// Fragment Shader
 		"#version 330\n"
 		"in vec2 uv;\n"
 		"in vec3 vertex;\n"
-		"in float brightness;\n"
+		"in vec3 normal;\n"
 		"uniform sampler2D diffuse;\n"
-		"uniform sampler2D normal;\n"
+		"uniform sampler2D normalMap;\n"
+		"uniform vec3 lightDirection;\n"
 		"out vec4 color;"
 		"void main()"
 		"{"
-		"  color = texture(diffuse, uv) * texture(normal, uv) * brightness;"
+		"  float brightness = dot(lightDirection, normal);"
+		"  color = texture(diffuse, uv) * texture(normalMap, uv) * brightness;"
 		"}");
 
 	texture = std::make_shared<Shader>(
 		// Vertex Shader
 		"#version 330\n"
 		"uniform mat4 worldViewPerspective;\n"
-		"in vec4 vertexposition_modelspace;\n"
-		"in vec2 tex_coord;\n"
+		"layout(location=0) in vec4 vertexposition_modelspace;\n"
+		"layout(location=2) in vec2 tex_coord;\n"
 		"out vec2 uv;\n"
 		"void main()"
 		"{"
@@ -126,10 +128,10 @@ void FpsGame::AddQuad(std::vector<VertexPositionUV>* cache, float x, float y, fl
 	{
 		for (int j = 0; j < resolution; j++)
 		{
-			cache->push_back(VertexPositionUV((i + 1) * spacingX - width / 2, (j + 1) * spacingY - depth / 2, z, (i + 1) * spacingUV, (j + 1) * spacingUV));
-			cache->push_back(VertexPositionUV(i * spacingX - width / 2, (j + 1) * spacingY - depth / 2, z, i * spacingUV, (j + 1) * spacingUV));
-			cache->push_back(VertexPositionUV(i * spacingX - width / 2, j * spacingY - depth / 2, z, i * spacingUV, j * spacingUV));
-			cache->push_back(VertexPositionUV((i + 1) * spacingX - depth / 2, j * spacingY - depth / 2, z, (i + 1) * spacingUV, j * spacingUV));
+			cache->push_back(VertexPositionUV((i + 1) * spacingX - width / 2, (j + 1) * spacingY - depth / 2, z, 0, 0, 1, (i + 1) * spacingUV, (j + 1) * spacingUV));
+			cache->push_back(VertexPositionUV(i * spacingX - width / 2, (j + 1) * spacingY - depth / 2, z, 0, 0, 1, i * spacingUV, (j + 1) * spacingUV));
+			cache->push_back(VertexPositionUV(i * spacingX - width / 2, j * spacingY - depth / 2, z, 0, 0, 1, i * spacingUV, j * spacingUV));
+			cache->push_back(VertexPositionUV((i + 1) * spacingX - depth / 2, j * spacingY - depth / 2, z, 0, 0, 1, (i + 1) * spacingUV, j * spacingUV));
 		}
 	}
 }
@@ -143,25 +145,30 @@ void FpsGame::AddBox(int x, int y)
 	int y1 = (y + 1) * size;
 	int z0 = 0;
 	int z1 = size;
-	wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 1));
-	wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0, 1));
-	wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0, 0));
-	wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0));
 
-	wallVertices.push_back(VertexPositionUV(x0, y0, z1, 1, 1));
-	wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1));
-	wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 0));
-	wallVertices.push_back(VertexPositionUV(x0, y0, z0, 1, 0));
+	// front
+	wallVertices.push_back(VertexPositionUV(x1, y0, z1, 0, -1, 0, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0, -1, 0, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0, -1, 0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x1, y0, z0, 0, -1, 0, 1, 0));
 
-	wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1, 1));
-	wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1));
-	wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 0));
-	wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1, 0));
+	// left
+	wallVertices.push_back(VertexPositionUV(x0, y0, z1, -1, 0, 0, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z1, -1, 0, 0, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z0, -1, 0, 0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x0, y0, z0, -1, 0, 0, 1, 0));
 
-	wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 1));
-	wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0, 1));
-	wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0, 0));
-	wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0));
+	// back
+	wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0, 1, 0, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1, 0, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 1, 0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0, 1, 0, 1, 0));
+
+	// right
+	wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 0, 0, 1, 1));
+	wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1, 0, 0, 0, 1));
+	wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1, 0, 0, 0, 0));
+	wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0, 0, 1, 0));
 }
 
 FpsGame::~FpsGame()
@@ -197,7 +204,7 @@ void FpsGame::RunGame()
 		});
 }
 
-void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> normal)
+void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> normalMap)
 {
 	shader->Use();
 	glEnable(GL_TEXTURE_2D);
@@ -210,11 +217,11 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	auto textureLocation = glGetUniformLocation(shader->program, "diffuse");
 	glUniform1i(textureLocation, 0);
 
-	if (normal != nullptr)
+	if (normalMap != nullptr)
 	{
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, normal->handle);
-		auto normalMapLocation = glGetUniformLocation(shader->program, "normal");
+		glBindTexture(GL_TEXTURE_2D, normalMap->handle);
+		auto normalMapLocation = glGetUniformLocation(shader->program, "normalMap");
 		glUniform1i(normalMapLocation, 1);
 	}
 
@@ -228,7 +235,7 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	//auto timeLocation = glGetUniformLocation(shader->program, "time");
 	//glUniform1f(timeLocation, time);
 
-	//normal map
+	//normalMap map
 	auto lightDirectionLocation = glGetUniformLocation(shader->program, "lightDirection");
 	glUniform3f(lightDirectionLocation, lightDirection.x, lightDirection.y, lightDirection.z);
 
@@ -243,8 +250,12 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof VertexPositionUV, (void*)0);
 
 	glEnableVertexAttribArray(1);
+	glGetAttribLocation(shader->program, "vertex_normal");
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof VertexPositionUV, (void*)sizeof Vector3);
+
+	glEnableVertexAttribArray(2);
 	glGetAttribLocation(shader->program, "tex_coord");
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof VertexPositionUV, (void*)sizeof Vector3);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof VertexPositionUV, (void*)(sizeof Vector3 * 2));
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
