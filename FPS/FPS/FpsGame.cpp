@@ -13,7 +13,7 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 
 	AddBox(0, 0);
 
-	shader = std::make_shared<Shader>(
+	waveAndBlur = std::make_shared<Shader>(
 		// Vertex Shader
 		"#version 330\n"
 		"in vec4 vertexposition_modelspace;\n"
@@ -56,6 +56,61 @@ FpsGame::FpsGame(int width, int height, const char* name) : Game(width, height, 
 		"  color = texture(diffuse, vec2(uv.x, uv.y));"
 		"  color.z = 1;"
 		"}");
+
+	normal = std::make_shared<Shader>(
+		// Vertex Shader
+		"#version 330\n"
+		"layout(location = 0) in vec4 vertexposition_modelspace;\n"
+		"layout(location = 1) in vec2 tex_coord;\n"
+		"layout(location = 2) in vec3 normal;\n"
+		"uniform mat4 worldViewPerspective;\n"
+		"uniform vec3 lightDirection;\n"
+		"out vec2 uv;\n"
+		"out float brightness;\n"
+		"void main()"
+		"{"
+		"  brightness = dot(lightDirection, normal);"
+		"  uv = tex_coord;"
+		"  gl_Position = worldViewPerspective * vertexposition_modelspace;"
+		"}"
+		,
+		// Fragment Shader
+		"#version 330\n"
+		"in vec2 uv;\n"
+		"in vec3 vertex;\n"
+		"in float brightness;\n"
+		"uniform sampler2D diffuse;\n"
+		"out vec4 color;"
+		"void main()"
+		"{"
+		"  color = texture(diffuse, vec2(uv.x, uv.y)) * brightness;"
+		"}");
+
+	texture = std::make_shared<Shader>(
+		// Vertex Shader
+		"#version 330\n"
+		"uniform mat4 worldViewPerspective;\n"
+		"in vec4 vertexposition_modelspace;\n"
+		"in vec2 tex_coord;\n"
+		"out vec2 uv;\n"
+		"void main()"
+		"{"
+		"  gl_Position = worldViewPerspective * vertexposition_modelspace;"
+		"  uv = tex_coord;"
+		"}"
+		,
+		// Fragment Shader
+		"#version 330\n"
+		"uniform sampler2D diffuse;\n"
+		"in vec2 uv;\n"
+		"in vec3 vertex;\n"
+		"out vec4 color;"
+		"void main()"
+		"{"
+		"  color = texture(diffuse, vec2(uv.x, uv.y));"
+		"}");
+
+
 
 	glEnable(GL_TEXTURE_2D);
 }
@@ -134,14 +189,14 @@ void FpsGame::RunGame()
 			glLoadIdentity();
 			glDisable(GL_TEXTURE_2D);
 
-			DrawVertices(wallVertices, shader, wall->texture);
-			DrawVertices(groundVertices, shader, ground->texture);
+			DrawVertices(wallVertices, texture, wall->texture,nullptr);
+			DrawVertices(groundVertices, normal, ground->texture, nullptr);
 
 			glEnable(GL_TEXTURE_2D);
 		});
 }
 
-void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> tex)
+void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> normal)
 {
 	shader->Use();
 	glEnable(GL_TEXTURE_2D);
@@ -150,18 +205,23 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	glUniformMatrix4fv(matrixLocation, 1, false, (projection * view).m);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, tex->handle);
+	glBindTexture(GL_TEXTURE_2D, diffuse->handle);
 	auto textureLocation = glGetUniformLocation(shader->program, "diffuse");
 	glUniform1i(textureLocation, 0);
 
-	auto resolutionLocation = glGetUniformLocation(shader->program, "res");
-	glUniform2f(resolutionLocation, 1.0f / tex->width, 1.0f / tex->height);
+	//blur and wave
+	//auto resolutionLocation = glGetUniformLocation(shader->program, "res");
+	//glUniform2f(resolutionLocation, 1.0f / diffuse->width, 1.0f / diffuse->height);
 
-	auto radiusLocation = glGetUniformLocation(shader->program, "radius");
-	glUniform1f(radiusLocation, 0);
+	//auto radiusLocation = glGetUniformLocation(shader->program, "radius");
+	//glUniform1f(radiusLocation, 0);
 
-	auto timeLocation = glGetUniformLocation(shader->program, "time");
-	glUniform1f(timeLocation, time);
+	//auto timeLocation = glGetUniformLocation(shader->program, "time");
+	//glUniform1f(timeLocation, time);
+
+	//normal map
+	auto lightDirectionLocation = glGetUniformLocation(shader->program, "lightDirection");
+	glUniform3f(lightDirectionLocation, lightDirection.x, lightDirection.y, lightDirection.z);
 
 	unsigned int vertexBuffer;
 
