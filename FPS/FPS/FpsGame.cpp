@@ -190,7 +190,7 @@ void FpsGame::RunGame()
 			glLoadIdentity();
 			glDisable(GL_TEXTURE_2D);
 
-			DrawVertices(wallVertices, texture, wall->texture,nullptr);
+			DrawVertices(wallVertices, texture, wall->texture);
 			DrawVertices(groundVertices, normal, ground->texture, normalMap->texture);
 
 			glEnable(GL_TEXTURE_2D);
@@ -210,7 +210,8 @@ void FpsGame::DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_p
 	auto textureLocation = glGetUniformLocation(shader->program, "diffuse");
 	glUniform1i(textureLocation, 0);
 
-	if (normal != nullptr) {
+	if (normal != nullptr)
+	{
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, normal->handle);
 		auto normalMapLocation = glGetUniformLocation(shader->program, "normal");

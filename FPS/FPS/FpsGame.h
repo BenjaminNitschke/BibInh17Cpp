@@ -22,7 +22,7 @@ public:
 	float RotationSpeed = 0.1f;
 	void RunGame();
 	void DrawVertices(std::vector<VertexPositionUV> vertices, std::shared_ptr<Shader> shader,
-	                  std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> normal);
+	                  std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> normal = nullptr);
 	void SetupProjection() const;
 	void UpdateCamera() const;
 	void CalculateMovement(float angle);
