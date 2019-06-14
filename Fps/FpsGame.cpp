@@ -23,7 +23,7 @@ FpsGame::FpsGame() : Game("Fps")
 		// Vertex Shader
 		"#version 330\n"
 		"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
-		"layout(location = 1) in vec3 normal;\n"
+		"layout(location = 1) in vec3 vertexNormal;\n"
 		"layout(location = 2) in vec2 texCoord;\n"
 		"uniform mat4 worldViewProjection;\n"
 		"uniform float time;\n"
@@ -32,11 +32,13 @@ FpsGame::FpsGame() : Game("Fps")
 		"out float height;\n"
 		"out float brightness;\n"
 		"out vec2 uv;\n"
+		"out vec3 normal;\n"
 		"void main(){\n"
 		"  vec4 pos = vertexPosition_modelspace;\n"
-	//	"  brightness = 0.2f + 0.8f * clamp(dot(lightDirection, normal), 0, 1);\n"
-		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0) * 1.1;\n"
+		//	"  now done in fragment: brightness = 0.2f + 0.8f * clamp(dot(lightDirection, normal), 0, 1);\n"
+		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0) * 0.8;\n"
 		"  uv = texCoord;\n"
+		"  normal = vertexNormal;\n"
 		"  gl_Position = worldViewProjection * pos;\n"
 		"  height = pos.z;\n"
 		"}",
@@ -44,9 +46,11 @@ FpsGame::FpsGame() : Game("Fps")
 		"#version 330\n"
 		"uniform sampler2D diffuse;\n"
 		"uniform float time;\n"
+		"uniform vec3 lightDirection;\n"
 		"in vec2 uv;\n"
 		"in float brightness;\n"
 		"in float height;\n"
+		"in vec3 normal;\n"
 		"out vec4 color;\n"
 		"void main() {\n"
 		"  color = texture(diffuse, uv) * (height * .5 + 1);\n"
@@ -131,15 +135,14 @@ void FpsGame::CreatePlane(int subdivisions)
 	{
 		for (int y = 0; y < step; y++)
 		{
-			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y, 0.0f, 0, 0, 1, levelWidth / step, levelHeight / step));
-			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y, 0.0f, 0, 0, 1, 0.0f, levelHeight / step));
-			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y + stepHeight, 0.0f, 0, 0, 1, 0.0f, 0.0f));
-			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y + stepHeight, 0.0f, 0, 0, 1, levelWidth / step, 0.0f));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y, 0.0f, 0, 0, 1, 0, 1, 0, levelWidth / step, levelHeight / step));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y, 0.0f, 0, 0, 1, 0, 1, 0, 0.0f, levelHeight / step));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x + stepWidth, stepHeight * y + stepHeight, 0.0f, 0, 0, 1, 0, 1, 0, 0.0f, 0.0f));
+			groundVertices.push_back(VertexPositionUV(stepWidth * x, stepHeight * y + stepHeight, 0.0f, 0, 0, 1, 0, 1, 0, levelWidth / step, 0.0f));
 		}
 	}
-}
 
-void FpsGame::SetupProjection()
+}void FpsGame::SetupProjection()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -201,6 +204,7 @@ void FpsGame::DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Textu
 	// Specify vertex attributes to be used (position and uv)
 	glGetAttribLocation(shader->GetHandle(), "vertexPosition_modelspace");
 	glGetAttribLocation(shader->GetHandle(), "normal");
+	glGetAttribLocation(shader->GetHandle(), "tangent");
 	glGetAttribLocation(shader->GetHandle(), "uv");
 
 	// Step 2: Setup uniforms
@@ -236,11 +240,17 @@ void FpsGame::DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Textu
 
 	// Set Vertex Format
 	glEnableVertexAttribArray(0);
+	// Position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), 0);
 	glEnableVertexAttribArray(1);
+	// Normal
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(VertexPositionUV), (void*)(3 * 4));
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(6 * 4));
+	// Tangent
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(VertexPositionUV), (void*)(6 * 4));
+	glEnableVertexAttribArray(3);
+	// UV
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(9 * 4));
 
 	// Step 5: Finally render with shader and vertexbuffer
 	glDrawArrays(GL_QUADS, 0, numberOfVertices);

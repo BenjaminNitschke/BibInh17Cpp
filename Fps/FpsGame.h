@@ -53,25 +53,24 @@ public:
 		float z0 = 0;
 		float z1 = size;
 		// front
-		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 0, -1, 0, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0, -1, 0, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0, -1, 0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 0, -1, 0, 1.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 0, -1, 0, 1, 1, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y0, z1, 0, -1, 0, 1, 1, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y0, z0, 0, -1, 0, 1, 1, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 0, -1, 0, 1, 1, 0, 1.0f, 0.0f));
 		// left
-		wallVertices.push_back(VertexPositionUV(x0, y0, z1, -1, 0, 0, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z1, -1, 0, 0, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z0, -1, 0, 0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y0, z0, -1, 0, 0, 1.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y0, z1, -1, 0, 0, 0, 1, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z1, -1, 0, 0, 0, 1, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z0, -1, 0, 0, 0, 1, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y0, z0, -1, 0, 0, 0, 1, 0, 1.0f, 0.0f));
 		// back
-		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0, 1, 0, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1, 0, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 1, 0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0, 1, 0, 1.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 0, 1, 0, -1, 1, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z1, 0, 1, 0, -1, 1, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x0, y1, z0, 0, 1, 0, -1, 1, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 0, 1, 0, -1, 1, 0, 1.0f, 0.0f));
 		// right
-		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 0, 0, 1.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1, 0, 0, 0.0f, 1.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1, 0, 0, 0.0f, 0.0f));
-		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0, 0, 1.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y0, z1, 1, 0, 0, 0, -1, 0, 1.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y1, z1, 1, 0, 0, 0, -1, 0, 0.0f, 1.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y1, z0, 1, 0, 0, 0, -1, 0, 0.0f, 0.0f));
+		wallVertices.push_back(VertexPositionUV(x1, y0, z0, 1, 0, 0, 0, -1, 0, 1.0f, 0.0f));
 	}
 };
-
