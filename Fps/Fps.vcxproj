@@ -164,9 +164,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="glew32.dll" />
     <None Include="libpng16.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="glew32.lib" />
     <Library Include="libpng16.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

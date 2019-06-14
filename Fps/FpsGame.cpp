@@ -8,12 +8,31 @@ FpsGame::FpsGame() : Game("Fps")
 	groundTexture = std::make_shared<Texture>("Ground.png");
 	float levelWidth = 20;
 	float levelHeight = 20;
-	groundVertices.push_back(VertexPositionUV(levelWidth, levelHeight, 0.0f, levelWidth/2, levelHeight/2));
-	groundVertices.push_back(VertexPositionUV(-levelWidth, levelHeight, 0.0f, 0.0f, levelHeight/2));
-	groundVertices.push_back(VertexPositionUV(-levelWidth, -levelHeight, 0.0f, 0.0f, 0.0f));
-	groundVertices.push_back(VertexPositionUV(levelWidth, -levelHeight, 0.0f, levelWidth/2, 0.0f));
+	int uvTiles = 4;
+	groundVertices.push_back(VertexPositionUV(
+		levelWidth, levelHeight, 0.0f,//pos
+		0, 0, 1,//normal
+		//0, 1, 0,//binormal
+		1, 0, 0,//tangent
+		uvTiles, uvTiles));
+	groundVertices.push_back(VertexPositionUV(
+		-levelWidth, levelHeight, 0.0f,
+		0, 0, 1,//normal
+		1, 0, 0,//tangent
+		0.0f, uvTiles));
+	groundVertices.push_back(VertexPositionUV(
+		-levelWidth, -levelHeight, 0.0f,
+		0, 0, 1,//normal
+		1, 0, 0,//tangent
+		0.0f, 0.0f));
+	groundVertices.push_back(VertexPositionUV(
+		levelWidth, -levelHeight, 0.0f,
+		0, 0, 1,//normal
+		1, 0, 0,//tangent
+		uvTiles, 0.0f));
 
 	wallTexture = std::make_shared<Texture>("Wall.png");
+	normalTexture = std::make_shared<Texture>("NormalMap.png");
 	AddBox(0, 0);
 	AddBox(2, 1);
 
@@ -22,36 +41,53 @@ FpsGame::FpsGame() : Game("Fps")
 		// Vertex Shader
 		"#version 330\n"
 		"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
-		"layout(location = 1) in vec2 texCoord;\n"
+		"layout(location = 1) in vec3 vertexNormal;\n"
+		"layout(location = 2) in vec3 vertexTangent;\n"
+		"layout(location = 3) in vec2 texCoord;\n"
 		"uniform mat4 worldViewProjection;\n"
 		"uniform float time;\n"
+		"uniform vec3 lightDirection;\n"
+		"out vec3 tangentLightDirection;\n"
 		"out vec2 uv;\n"
+		//"out float brightness;\n"
 		"void main(){\n"
 		"  vec4 pos = vertexPosition_modelspace;\n"
-		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0);\n"
+		//"  pos.z += sin(time+pos.x/7.0+pos.y/5.0);\n"
 		"  uv = texCoord;\n"
+		"  mat3 TBN = transpose(mat3(vertexTangent, cross(vertexNormal, vertexTangent), vertexNormal));\n"
+		"  tangentLightDirection = TBN * lightDirection;\n"
 		"  gl_Position = worldViewProjection * pos;\n"
 		"}",
 		// Pixel Shader
 		"#version 330\n"
 		"uniform sampler2D diffuse;\n"
+		"uniform sampler2D normalMap;\n"
+		"in vec3 tangentLightDirection;\n"
 		"in vec2 uv;\n"
 		"out vec4 color;\n"
+		"uniform float time;\n"
 		"void main() {\n"
-		"  color = texture(diffuse, uv);\n"
+		"  vec3 normal = texture(normalMap, uv).xyz * 2 - 1;\n"
+		"  float brightness = 0.2f + 0.8f * clamp(dot(normal, tangentLightDirection), 0, 1);\n;"
+		"  color = texture(diffuse, uv) * brightness;\n"
 		"}");
 	wallShader = std::make_shared<Shader>(
 		// Vertex Shader
 		"#version 330\n"
 		"layout(location = 0) in vec4 vertexPosition_modelspace;\n"
-		"layout(location = 1) in vec2 texCoord;\n"
+		"layout(location = 1) in vec3 vertexNormal;\n"
+		"layout(location = 2) in vec3 vertexTangent;\n"
+		"layout(location = 3) in vec2 texCoord;\n"
 		"uniform mat4 worldViewProjection;\n"
 		"uniform float time;\n"
+		"uniform vec3 lightDirection;\n"
 		"out vec2 uv;\n"
+		"out float brightness;\n"
 		"out float height;\n"
 		"void main(){\n"
 		"  vec4 pos = vertexPosition_modelspace;\n"
-		"  pos.z += sin(time+pos.x/7.0+pos.y/5.0);\n"
+		//"  pos.z += sin(time+pos.x/7.0+pos.y/5.0);\n"
+		"  brightness = 0.2f + 0.8f * clamp(dot(lightDirection, vertexNormal), 0, 1);\n"
 		"  height = pos.z;\n"
 		"  uv = texCoord;\n"
 		"  gl_Position = worldViewProjection * pos;\n"
@@ -59,26 +95,15 @@ FpsGame::FpsGame() : Game("Fps")
 		// Pixel Shader
 		"#version 330\n"
 		"uniform sampler2D diffuse;\n"
+		"uniform sampler2D normalMap;\n"
 		"in vec2 uv;\n"
+		"in float brightness;\n"
 		"in float height;\n"
 		"out vec4 color;\n"
 		"void main() {\n"
 		"  vec4 simpleColor = vec4(0.1+height/4.0, 0.8, 0.6, 1);\n"
-		"  color = texture(diffuse, uv)*simpleColor;\n"
+		"  color = texture(normalMap, uv)*simpleColor * brightness;\n"
 		"}");
-/*tst
-Vector3 data[] = {
-  Vector3(-1.0f, -1.0f, 0.0f),
-  Vector3(1.0f, -1.0f, 0.0f),
-  Vector3(1.0f,  1.0f, 0.0f),
-  Vector3(-1.0f,  1.0f, 0.0f),
-};
-glGenBuffers(1, &vertexbuffer);
-glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3)*std::size(data), data, GL_STATIC_DRAW);
-
-//sizeof(VertexPositionUV)*groundVertices.size(), groundVertices.data(), GL_STATIC_DRAW);
-*/
 		glGenBuffers(1, &groundVertexBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, groundVertexBuffer);
 		auto sizeInBytes = sizeof(VertexPositionUV)*std::size(groundVertices);
@@ -152,30 +177,49 @@ void FpsGame::DrawVertices(std::shared_ptr<Shader> shader, std::shared_ptr<Textu
 	shader->Use();
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture->handle);
-	// Specify vertex attributes to be used (position and uv)
-	glGetAttribLocation(groundShader->GetHandle(), "vertexPosition_modelspace");
-	glGetAttribLocation(groundShader->GetHandle(), "uv");
+	// Specify vertex attributes to be used (position and uv), not really used, just for future use
+	glGetAttribLocation(shader->GetHandle(), "vertexPosition_modelspace");
+	glGetAttribLocation(shader->GetHandle(), "vertexNormal");
+	glGetAttribLocation(shader->GetHandle(), "vertexTangent");
+	glGetAttribLocation(shader->GetHandle(), "uv");
 	
 	// Step 2: Setup uniforms
 	Matrix worldViewProjection = projection * view;
-	auto worldViewProjectionLocation = glGetUniformLocation(groundShader->GetHandle(), "worldViewProjection");
+	auto worldViewProjectionLocation = glGetUniformLocation(shader->GetHandle(), "worldViewProjection");
 	glUniformMatrix4fv(worldViewProjectionLocation,	1, false, worldViewProjection.m);
-	auto timeLocation = glGetUniformLocation(groundShader->GetHandle(), "time");
+	auto timeLocation = glGetUniformLocation(shader->GetHandle(), "time");
 	glUniform1f(timeLocation, (float)time);
+	auto lightDirectionLocation = glGetUniformLocation(shader->GetHandle(), "lightDirection");
+	glUniform3f(lightDirectionLocation, lightDirection.x, lightDirection.y, lightDirection.z);
 
 	glActiveTexture(GL_TEXTURE0);
-	auto diffuseLocation = glGetUniformLocation(groundShader->GetHandle(), "diffuse");
+	auto diffuseLocation = glGetUniformLocation(shader->GetHandle(), "diffuse");
 	glUniform1i(diffuseLocation, 0);
+	
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, normalTexture->handle);
+	auto normalMapLocation = glGetUniformLocation(shader->GetHandle(), "normalMap");
+	glUniform1i(normalMapLocation, 1);
+
+	glActiveTexture(GL_TEXTURE0);
 
 	// Step 4: Assign vertexbuffer and location offsets
 	//glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	
 		// Set Vertex Format
+		//position
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), 0);
+		//normal
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(sizeof(Vector3)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(3*4));
+		//tangent
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(6*4));
+		//uv
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPositionUV), (void*)(9*4));
 
 	// Step 5: Finally render with shader and vertexbuffer
 	glDrawArrays(GL_QUADS, 0, numberOfVertices);
@@ -193,7 +237,7 @@ void FpsGame::RunGame()
 		SetupProjection();
 		UpdateCamera();
 		DrawVertices(groundShader, groundTexture, groundVertexBuffer, groundVertices.size());
-		DrawVertices(wallShader, wallTexture, wallVertexBuffer, wallVertices.size());
+		DrawVertices(groundShader, wallTexture, wallVertexBuffer, wallVertices.size());
 		DrawCrosshair();
 	});
 }

@@ -26,6 +26,7 @@ int Shader::CreateShader(GLuint type, const char * &vertexOrFragmentShaderCode)
 	glCompileShader(vertexOrFragmentShader);
 	GLint status;
 	glGetShaderiv(vertexOrFragmentShader, GL_COMPILE_STATUS, &status);
+		//TODO: add better error handling, wallShader was crashing with no error
 	if (status == false)
 	{
 		char buffer[1000];
