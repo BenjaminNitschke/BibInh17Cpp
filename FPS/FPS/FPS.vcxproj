@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\lpng1617;F:\BIB\MIM\CPP\BibInh17Cpp\glew-2.1.0\include;..\..\glfw-3.2.1.bin.WIN32\include;..\..\CppGameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\lpng1617;..\..\glew-2.1.0\include;..\..\glfw-3.2.1.bin.WIN32\include;..\..\CppGameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
